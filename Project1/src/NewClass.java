@@ -7,8 +7,8 @@
  *
  * @author billw
  */
-public class Hotel {
+public class NewClass {
     public static void main(String[] args) {
-        System.out.println("The Start of Project 1");
+        System.out.println("ok");
     }
 }
