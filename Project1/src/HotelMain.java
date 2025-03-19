@@ -7,8 +7,8 @@
  *
  * @author billw
  */
-public class willtestclass {
+public class HotelMain {
     public static void main(String[] args) {
-        System.out.println("git setup");
+        System.out.println("The Start of Project 1");
     }
 }
