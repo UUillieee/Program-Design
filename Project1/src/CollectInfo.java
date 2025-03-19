@@ -26,8 +26,6 @@ public class CollectInfo {
         System.out.println("What day of the month would you like stay? (1-30)");
         time = scanner.nextInt();
         System.out.println("What time of the day would you like to arrive? (8am - 7pm))");
-        people = 
-        
         
     }
 }
