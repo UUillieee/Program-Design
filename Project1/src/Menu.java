@@ -24,6 +24,16 @@ public class Menu {
         //Fix this class before running
         //CollectInfo collectInfo = new CollectInfo();
         
+        
+        /*
+        
+                    Testing Functions 
+                    Can Delete After 
+                    Need to Put it into its own method 
+                    e.g ListsRooms, List Hotels
+        
+        */
+        /* 
         //Read hotels and store into HashMap
         System.out.println("\nTesting Hotel Locations:\n");
         HashMap<String, Hotel> hotels = readHotels();
@@ -34,11 +44,12 @@ public class Menu {
         for(String key : hotels.keySet()){
             System.out.println(key);
         }
+*/
         //Test Rooms
         System.out.println("\nTesting Room Names:\n");
            HashMap<String, Room> rooms = readRooms();
         //Test accessing information from hotel objects stored in the hashmap
-        System.out.println(rooms.get("Penthouse").getName());
+        //System.out.println(rooms.get("Penthouse").getType());
         
         //Print all names of hotels, because hashmap key is hotel name
         for(String key : rooms.keySet()){
@@ -48,6 +59,8 @@ public class Menu {
         
     }
 
+    
+    
     public static HashMap readHotels() {
         // Read File Hotels.txt stored in the resources folder
         // Splits data by each line and splits line by character "-"
@@ -85,6 +98,8 @@ public class Menu {
         }
         return hotels;
     }
+    
+    
      public static HashMap readRooms() {
        //Adapt the readHotels function to read the different room types
        
@@ -93,19 +108,22 @@ public class Menu {
             FileReader fr = new FileReader("./resources/Rooms.txt");
             BufferedReader inStream = new BufferedReader(fr);
             String line = null;
+            int roomCount = 0;
             while ((line = inStream.readLine()) != null) {
                 String str[] = line.split("-");
                 //Get variables from string array if str split properly
                 if (str.length <= 4) {
-                    String name = str[0];
+                    int idNumber = roomCount;
+                    roomCount++;
+                    String type = str[0];
                     int price = Integer.parseInt(str[1]);
                     //Convert string to integer for rooms availabe
-                    int available = Integer.parseInt(str[2]);
+                    boolean available = Boolean.parseBoolean(str[2]);
                     int maxGuests = Integer.parseInt(str[3]);
                     //Create new room object with read data to store a list
-                    Room r = new Room(name,price,available,maxGuests);
+                    Room r = new Room(idNumber,type,price,available,maxGuests);
                     //Add hotel object to hashmap where the key is the name, and the value is the hotel object
-                    rooms.put(name, r);
+                    rooms.put(type, r);
                 }
                 /* test string splitting
                 System.out.print("Hotel: " + str[0]);

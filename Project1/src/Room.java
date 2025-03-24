@@ -9,24 +9,34 @@
  */
 public class Room {
 
-    private String name;
+    private int roomNumber;
+    private String type;
     private double price;
-    private int availability;
+    private boolean available;
     private int maxGuests;
-
-    public Room(String name,double price,int availability,int maxGuests){
-        this.name = name;
+    //Constructor
+    public Room(int roomNumber,String type, double price, boolean available, int maxGuests) {
+        this.roomNumber = roomNumber;
+        this.type = type;
         this.price = price;
-        this.availability = availability;
+        this.available = available;
         this.maxGuests = maxGuests;
     }
     
-    public String getName() {
-        return name;
+    public int getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public double getPrice() {
@@ -37,14 +47,14 @@ public class Room {
         this.price = price;
     }
 
-    public int getAvailability() {
-        return availability;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
-    public void setAvailability(int availability) {
-        this.availability = availability;
+    public boolean isAvailable() {
+        return available;
     }
-
+    
     public int getMaxGuests() {
         return maxGuests;
     }
@@ -52,5 +62,9 @@ public class Room {
     public void setMaxGuests(int maxGuests) {
         this.maxGuests = maxGuests;
     }
-
+    public String toString(){
+        return "Room: "+roomNumber + ": "+type + ", Price: $"+price
+                + ", Available: "+available
+                + ", Max Guests: "+maxGuests;
+    }
 }

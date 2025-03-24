@@ -3,7 +3,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,15 +22,20 @@ public class Hotel {
 
     private String name;
     private String location;
+    private ArrayList<Room> rooms;
     private int roomsAvail;
 
     //Constructor
-    public Hotel(String n, String l, int rooms) {
+    public Hotel(String n, String l, int roomsAvail) {
         this.name = n;
         this.location = l;
-        this.roomsAvail = rooms;
+        this.roomsAvail = roomsAvail;
+        this.rooms = new ArrayList<>();
     }
-
+    public void addRoom(Room room){
+        rooms.add(room);
+    }
+    
     public String getName() {
         return name;
     }
