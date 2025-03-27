@@ -19,6 +19,7 @@ public class CollectInfo {
     private int people;
     
     public CollectInfo(){
+        //Reads input before asking question
         Scanner scanner = new Scanner(System.in);
         month = scanner.nextInt();
         System.out.println("What month would you like to stay? (1-12)");
