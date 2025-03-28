@@ -20,6 +20,8 @@ public class Menu {
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
+        
+        DateCollector dateCollector = new DateCollector();
 
         //Fix this class before running
         //CollectInfo collectInfo = new CollectInfo();
