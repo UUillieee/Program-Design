@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author gcoll
  */
-public class Hotel_Interface {
+public class HotelManager {
     public static void main(String[] args) {
         
         //Read hotels and store into HashMap
@@ -44,7 +44,7 @@ public class Hotel_Interface {
             while ((line = inStream.readLine()) != null) {
                 String str[] = line.split("-");
                 //Get variables from string array if str split properly
-                if (str.length <= 3) {
+                if (str.length == 3) {
                     String name = str[0];
                     String location = str[1];
                     //Convert string to integer for rooms availabe
