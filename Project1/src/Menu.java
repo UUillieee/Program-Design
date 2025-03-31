@@ -22,11 +22,6 @@ public class Menu {
         Scanner s = new Scanner(System.in);
         
         
-
-        //Fix this class before running
-        //CollectInfo collectInfo = new CollectInfo();
-        
-        
         /*
         
                     Testing Functions 
@@ -35,7 +30,7 @@ public class Menu {
                     e.g ListsRooms, List Hotels
         
         */
-        /* 
+        
         //Read hotels and store into HashMap
         System.out.println("\nTesting Hotel Locations:\n");
         HashMap<String, Hotel> hotels = readHotels();
@@ -46,7 +41,7 @@ public class Menu {
         for(String key : hotels.keySet()){
             System.out.println(key);
         }
-*/
+
         //Test Rooms
         System.out.println("\nWhat Room would you like to choose\n");
            HashMap<String, Room> rooms = readRooms();
