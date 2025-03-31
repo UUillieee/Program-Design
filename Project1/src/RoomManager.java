@@ -63,7 +63,7 @@ public class RoomManager {
             }
             inStream.close();
         } catch (FileNotFoundException e) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(RoomManager.class.getName()).log(Level.SEVERE, null, e);
         } catch (IOException e) {
             System.out.println("IO Exception");
         }

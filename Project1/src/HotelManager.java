@@ -63,7 +63,7 @@ public class HotelManager {
             }
             inStream.close();
         } catch (FileNotFoundException e) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(HotelManager.class.getName()).log(Level.SEVERE, null, e);
         } catch (IOException e) {
             System.out.println("IO Exception");
         }
