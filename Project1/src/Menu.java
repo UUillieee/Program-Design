@@ -20,30 +20,10 @@ public class Menu {
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
-
-        //Fix this class before running
-        //CollectInfo collectInfo = new CollectInfo();
-        
-        
         /*
-        
-                    Testing Functions 
-                    Can Delete After 
-                    Need to Put it into its own method 
-                    e.g ListsRooms, List Hotels
-        
+        Main Menu Method, Call Room and Hotel manager to load rooms and hotels,
+        Call Booking Manager .
         */
-         
-        
-
-       
-        
-        
     }
-
     
-    
-    
-    
-     
 }
