@@ -21,7 +21,7 @@ public class Menu {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         
-        DateCollector dateCollector = new DateCollector();
+        
 
         //Fix this class before running
         //CollectInfo collectInfo = new CollectInfo();
@@ -48,7 +48,7 @@ public class Menu {
         }
 */
         //Test Rooms
-        System.out.println("\nTesting Room Names:\n");
+        System.out.println("\nWhat Room would you like to choose\n");
            HashMap<String, Room> rooms = readRooms();
         //Test accessing information from hotel objects stored in the hashmap
         //System.out.println(rooms.get("Penthouse").getType());
@@ -56,8 +56,12 @@ public class Menu {
         //Print all names of hotels, because hashmap key is hotel name
         for(String key : rooms.keySet()){
             System.out.println(key);
+            
         }
         
+        System.out.println("\n");
+        
+        DateCollector dateCollector = new DateCollector();
         
     }
 

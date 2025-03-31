@@ -22,6 +22,7 @@ public class DateCollector {
     private int month;
     private int endDay;
     private int endMonth;
+    private String name;
     
     private static final String FILE_NAME = "./resources/CustomerInfo.txt";
     private final Map<String, Date> userInfo = new HashMap<>();
@@ -71,7 +72,7 @@ public class DateCollector {
         } while (duration < 1);
 
         do {
-            System.out.println("What time of the day would you like to arrive? (24hr Time, representing 8AM - 7PM)");
+            System.out.println("What time of the day would you like to arrive? (24hr Time, between 8:00-19:00)");
             time = scanner.nextInt();
         } while (time < 8 || time > 19);
 
@@ -86,9 +87,15 @@ public class DateCollector {
                 endMonth = 1;
             }
         }
-        userInfo.put("Date", new Date(time, day, month, endDay, endMonth));
+        do{
+            System.out.println("What is the name you would like the room to be under?\n");
+            name = scanner.nextLine().trim();
+        } while (!name.matches("^[a-zA-Z]+(?: [a-zA-Z]+)*$"));
         
-        System.out.println("Your booking information is: " + userInfo.get("Date"));
+        
+        userInfo.put(name, new Date(time, day, month, endDay, endMonth));
+        
+        System.out.println("Your booking information is: " + userInfo.get(name));
         
         saveDate();
         
