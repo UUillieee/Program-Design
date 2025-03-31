@@ -61,7 +61,6 @@ public class Menu {
     }
 
     
-    
     public static HashMap readHotels() {
         // Read File Hotels.txt stored in the resources folder
         // Splits data by each line and splits line by character "-"
