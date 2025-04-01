@@ -23,23 +23,7 @@ public class HotelManager {
      */
     public static void main(String[] args) {
 
-        //Read hotels and store into HashMap
-        System.out.println("\nTesting Hotel Locations:\n");
-        HashMap<String, Hotel> hotels = readHotels();
-        //Test accessing information from hotel objects stored in the hashmap
-        // System.out.println(hotels.get("SkyCity").getLocation());
-        HotelManager.displayInfo(hotels);
-
-    }
-
-    //Display info about all available hotels
-    public static void displayInfo(HashMap<String, Hotel> hotels) {
-        for (String hotelName : hotels.keySet()) {
-            System.out.print("Name: " + hotels.get(hotelName).getName());
-            System.out.print("    Location: " + hotels.get(hotelName).getLocation());
-            
-        }
-
+    
     }
 
     public static HashMap readHotels() {
