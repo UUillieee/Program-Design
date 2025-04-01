@@ -11,27 +11,37 @@ import java.util.logging.Logger;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author gcoll
  */
 public class HotelManager {
+
+    /*
+    Add Methods in here for working with hotels
+    e.g display info, so you dont have to make the main method complex
+     */
     public static void main(String[] args) {
-        
+
         //Read hotels and store into HashMap
         System.out.println("\nTesting Hotel Locations:\n");
         HashMap<String, Hotel> hotels = readHotels();
         //Test accessing information from hotel objects stored in the hashmap
-        System.out.println(hotels.get("SkyCity").getLocation());
-        
-        //Print all names of hotels, because hashmap key is hotel name
-        for(String key : hotels.keySet()){
-            System.out.println(key);
-        }
-        
+        // System.out.println(hotels.get("SkyCity").getLocation());
+        HotelManager.displayInfo(hotels);
+
     }
-    
+
+    //Display info about all available hotels
+    public static void displayInfo(HashMap<String, Hotel> hotels) {
+        for (String hotelName : hotels.keySet()) {
+            System.out.print("Name: " + hotels.get(hotelName).getName());
+            System.out.print("    Location: " + hotels.get(hotelName).getLocation());
+            
+        }
+
+    }
+
     public static HashMap readHotels() {
         // Read File Hotels.txt stored in the resources folder
         // Splits data by each line and splits line by character "-"
@@ -44,13 +54,12 @@ public class HotelManager {
             while ((line = inStream.readLine()) != null) {
                 String str[] = line.split("-");
                 //Get variables from string array if str split properly
-                if (str.length == 3) {
+                if (str.length == 2) {
                     String name = str[0];
                     String location = str[1];
                     //Convert string to integer for rooms availabe
-                    int available = Integer.parseInt(str[2]);
                     //Create new hotel object with read data to store a list
-                    Hotel h = new Hotel(name, location, available);
+                    Hotel h = new Hotel(name, location);
                     //Add hotel object to hashmap where the key is the name, and the value is the hotel object
                     hotels.put(name, h);
                 }
@@ -58,8 +67,8 @@ public class HotelManager {
                 System.out.print("Hotel: " + str[0]);
                 System.out.print(" Location: " + str[1]);
                 System.out.print(" Rooms Available: " + str[2] + "\n");
-                */
-                
+                 */
+
             }
             inStream.close();
         } catch (FileNotFoundException e) {
@@ -69,5 +78,5 @@ public class HotelManager {
         }
         return hotels;
     }
-    
+
 }

@@ -1,4 +1,4 @@
-Azure-Auckland-50
-Celestial-Taupo-30
-The Crown-Wellington-20
-SkyCity-Auckland-80
+Azure-Auckland
+Celestial-Taupo
+The Crown-Wellington
+SkyCity-Auckland
