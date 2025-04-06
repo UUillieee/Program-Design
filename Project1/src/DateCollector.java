@@ -50,7 +50,7 @@ public class DateCollector {
         loadExistingData();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter your name:");
+        System.out.println("\nEnter your name:");
         name = scanner.nextLine().trim();
         
         if (userInfo.containsKey(name)) {

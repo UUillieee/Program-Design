@@ -21,40 +21,38 @@ public class Menu {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         
-        
         /*
-        
                     Testing Functions 
                     Can Delete After 
                     Need to Put it into its own method 
                     e.g ListsRooms, List Hotels
-        
         */
         
         //Read hotels and store into HashMap
-        System.out.println("\nTesting Hotel Locations:\n");
+        System.out.println("\nHotel Locations:");
         HashMap<String, Hotel> hotels = readHotels();
-        //Test accessing information from hotel objects stored in the hashmap
-        System.out.println(hotels.get("SkyCity").getLocation());
-        
-        //Print all names of hotels, because hashmap key is hotel name
-        for(String key : hotels.keySet()){
-            System.out.println(key);
-        }
+        System.out.println("\nWhere would you like to stay?:\n");
+//        Test accessing information from hotel objects stored in the hashmap
+//        System.out.println(hotels.get("SkyCity").getLocation());
+//        
+//        //Print all names of hotels, because hashmap key is hotel name
+//        for(String key : hotels.keySet()){
+//            System.out.println(key);
+//        }
 
-        //Test Rooms
-        System.out.println("\nWhat Room would you like to choose\n");
-           HashMap<String, Room> rooms = readRooms();
+        //Print Rooms
+        System.out.println("\nRoom Types:");
+        HashMap<String, Room> rooms = readRooms();
+        System.out.println("\nWhat room would you like to choose?:\n");
         //Test accessing information from hotel objects stored in the hashmap
         //System.out.println(rooms.get("Penthouse").getType());
         
         //Print all names of hotels, because hashmap key is hotel name
-        for(String key : rooms.keySet()){
-            System.out.println(key);
-            
-        }
-        
-        System.out.println("\n");
+//        for(String key : rooms.keySet()){
+//            System.out.println(key);
+//            
+//        }
+//        System.out.println("\n");
         
         DateCollector dateCollector = new DateCollector();
         
@@ -83,11 +81,11 @@ public class Menu {
                     //Add hotel object to hashmap where the key is the name, and the value is the hotel object
                     hotels.put(name, h);
                 }
-                /* test string splitting
-                System.out.print("Hotel: " + str[0]);
-                System.out.print(" Location: " + str[1]);
-                System.out.print(" Rooms Available: " + str[2] + "\n");
-                */
+                // test string splitting
+                System.out.print("Hotel: " + str[0]+ ".");
+                System.out.print(" Location: " + str[1] + ".");
+                System.out.print(" Rooms Available: " + str[2] + ".\n");
+                
                 
             }
             inStream.close();
@@ -125,11 +123,10 @@ public class Menu {
                     //Add hotel object to hashmap where the key is the name, and the value is the hotel object
                     rooms.put(type, r);
                 }
-                /* test string splitting
-                System.out.print("Hotel: " + str[0]);
-                System.out.print(" Location: " + str[1]);
-                System.out.print(" Rooms Available: " + str[2] + "\n");
-                */
+                // test string splitting
+                System.out.print("Room Type: " + str[0]+ ".");
+                System.out.print(" Cost per Night: " + str[1]+ ".");
+                System.out.print(" Rooms Available: " + str[2] + ".\n"); 
                 
             }
             inStream.close();
