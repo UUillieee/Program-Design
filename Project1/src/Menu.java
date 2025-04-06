@@ -21,6 +21,7 @@ public class Menu {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         
+WillsBranch
         /*
                     Testing Functions 
                     Can Delete After 
@@ -54,11 +55,13 @@ public class Menu {
 //        }
 //        System.out.println("\n");
         
+
         DateCollector dateCollector = new DateCollector();
         
     }
 
     
+WillsBranch
     public static HashMap readHotels() {
         // Read File Hotels.txt stored in the resources folder
         // Splits data by each line and splits line by character "-"
@@ -137,5 +140,6 @@ public class Menu {
         }
         return rooms;
     }
+
      
 }
