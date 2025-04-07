@@ -22,7 +22,14 @@ public class Menu {
         Scanner s = new Scanner(System.in);
         //Write Menu Here, call all methods to read in data
         
+
+        
+
+        DateCollector dateCollector = new DateCollector();
         
     }
+
+  
+
      
 }

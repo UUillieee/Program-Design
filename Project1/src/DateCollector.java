@@ -1,4 +1,6 @@
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,15 +8,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Map;
 
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
- 
 /**
- *
- * @author billw
+ * DateCollector class for managing room booking details.
  */
 public class DateCollector {
     private int time;
@@ -29,14 +24,14 @@ public class DateCollector {
     
     private static final int[] DAYS_IN_MONTH = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     
-    class Date{
+    class Date {
         Integer time;
         Integer day;
         Integer month;
         Integer endDay;
         Integer endMonth;
     
-        Date(Integer time, Integer day, Integer month, Integer endDay, Integer endMonth){
+        Date(Integer time, Integer day, Integer month, Integer endDay, Integer endMonth) {
             this.time = time;
             this.day = day;
             this.month = month;
@@ -51,10 +46,25 @@ public class DateCollector {
         }
     }
     
-    public DateCollector(){
-        
+    public DateCollector() {
+        loadExistingData();
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("\nEnter your name:");
+        name = scanner.nextLine().trim();
+        
+        if (userInfo.containsKey(name)) {
+            System.out.println("Welcome back, " + name + "! Here is your booking:");
+            System.out.println(userInfo.get(name));
+        } else {
+            collectBookingDetails(scanner);
+            userInfo.put(name, new Date(time, day, month, endDay, endMonth));
+            saveDate();
+            System.out.println("Your booking has been saved: " + userInfo.get(name));
+        }
+    }
+    
+    private void collectBookingDetails(Scanner scanner) {
         do {
             System.out.println("What month would you like to stay? (1-12)");
             month = scanner.nextInt();
@@ -82,36 +92,43 @@ public class DateCollector {
         while (endDay > DAYS_IN_MONTH[endMonth]) {
             endDay -= DAYS_IN_MONTH[endMonth];
             endMonth++;
-            //December rolls over to January
             if (endMonth > 12) { 
                 endMonth = 1;
             }
         }
-        do{
-            System.out.println("What is the name you would like the room to be under?\n");
-            name = scanner.nextLine().trim();
-        } while (!name.matches("^[a-zA-Z]+(?: [a-zA-Z]+)*$"));
-        
-        
-        userInfo.put(name, new Date(time, day, month, endDay, endMonth));
-        
-        System.out.println("Your booking information is: " + userInfo.get(name));
-        
-        saveDate();
-        
-        scanner.close();
     }
-    private void saveDate() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME))) {
-            for (Map.Entry<String, Date> entry : userInfo.entrySet()) {
-                writer.println(entry.getKey() + ": " + entry.getValue());
+    
+    private void loadExistingData() {
+    File file = new File(FILE_NAME);
+    if (!file.exists()) return;
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(": ");
+            if (parts.length == 2) {
+                String[] data = parts[1].split(",");
+                if (data.length == 5) {
+                    userInfo.put(parts[0], new Date(
+                        Integer.parseInt(data[0]), Integer.parseInt(data[1]),
+                        Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4])
+                    ));
+                }
             }
-            System.out.println("Booking information saved successfully.");
-        } catch (IOException e) {
-            System.out.println("Error saving date records: " + e.getMessage());
         }
+    } catch (IOException e) {
+        System.out.println("Error loading existing data: " + e.getMessage());
+    }
+    }
+    
+    private void saveDate() {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME, true))) {
+        Date date = userInfo.get(name);
+        writer.println(name + ": " + date.time + "," + date.day + "," + date.month + "," + date.endDay + "," + date.endMonth);
+        System.out.println("Booking information saved successfully.");
+    } catch (IOException e) {
+        System.out.println("Error saving date records: " + e.getMessage());
     }
 }
 
-
-
+}

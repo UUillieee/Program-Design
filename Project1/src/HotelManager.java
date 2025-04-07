@@ -23,6 +23,7 @@ public class HotelManager {
      */
     public static void main(String[] args) {
 
+
     
     }
 
@@ -61,6 +62,14 @@ public class HotelManager {
             System.out.println("IO Exception");
         }
         return hotels;
+    }
+
+        
+        /*
+        Class where command line interface will run from
+        Call all the seperate methods from here, user input from here
+        
+        */
     }
 
 }
