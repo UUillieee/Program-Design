@@ -23,10 +23,11 @@ public class RoomManager {
     RoomType-Price-
      */
     public static void main(String[] args) {
-        //Read hotel
+    
+    }
+    public static void displayHotelRooms(){
         HashMap<String, Hotel> hotels = HotelManager.readHotels();
-        //Test Rooms
-        System.out.println("\nTesting Hotel List:\n");
+       
         HashMap<String, Room> rooms = readRooms(hotels);
         //Test accessing information from hotel objects stored in the hashmap
         //System.out.println(rooms.get("Penthouse").getType());
@@ -36,7 +37,6 @@ public class RoomManager {
             hotel.displayRooms();
             System.out.println("");
         }
-        System.out.println(hotels.get("The Crown").getRoomsAvail());  
     }
     
     public static HashMap readRooms(HashMap<String, Hotel> hotels) {

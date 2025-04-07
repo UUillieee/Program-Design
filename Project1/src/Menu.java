@@ -45,6 +45,7 @@ public class Menu {
                 case 2:
                     System.out.println("Viewing rooms");
                     //Call Method
+                    RoomManager.displayHotelRooms();
                     break;
                 case 3:
                     System.out.println("Make a booking");
