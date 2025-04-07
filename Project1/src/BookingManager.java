@@ -36,7 +36,7 @@ public class BookingManager {
                         bookings.put(parts[0], new Booking(
                                 Integer.parseInt(data[0]), Integer.parseInt(data[1]),
                                 Integer.parseInt(data[2]), Integer.parseInt(data[3]),
-                                Integer.parseInt(data[4])
+                                Integer.parseInt(data[4]) 
                         ));
                     }
                 }

@@ -13,8 +13,8 @@ public class Booking {
     private final int month;
     private final int endDay;
     private final int endMonth;
-    private final int roomNumber;
-
+    private int roomNumber = 0;
+// Maybe make constructor without roomNumber too
     public Booking(int time, int day, int month, int endDay, int endMonth,int roomNumber) {
         this.time = time;
         this.day = day;
@@ -22,6 +22,13 @@ public class Booking {
         this.endDay = endDay;
         this.endMonth = endMonth;
         this.roomNumber = roomNumber;
+    }
+    public Booking(int time, int day, int month, int endDay, int endMonth) {
+        this.time = time;
+        this.day = day;
+        this.month = month;
+        this.endDay = endDay;
+        this.endMonth = endMonth;
     }
 
     @Override
