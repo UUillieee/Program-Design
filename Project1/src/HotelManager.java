@@ -23,8 +23,6 @@ public class HotelManager {
      */
     public static void main(String[] args) {
 
-
-    
     }
 
     public static HashMap readHotels() {
@@ -64,12 +62,10 @@ public class HotelManager {
         return hotels;
     }
 
-        
-        /*
+    /*
         Class where command line interface will run from
         Call all the seperate methods from here, user input from here
         
-        */
-    }
-
+     */
 }
+
