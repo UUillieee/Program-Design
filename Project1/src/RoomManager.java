@@ -11,55 +11,79 @@ import java.util.logging.Logger;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author gcoll
  */
 public class RoomManager {
+
+    /*
+    Room.txt Format
+    RoomType-Price-
+     */
     public static void main(String[] args) {
-         //Test Rooms
-        System.out.println("\nTesting Room Names:\n");
-           HashMap<String, Room> rooms = readRooms();
+        //Read hotel
+        HashMap<String, Hotel> hotels = HotelManager.readHotels();
+        //Test Rooms
+        System.out.println("\nTesting Hotel List:\n");
+        HashMap<String, Room> rooms = readRooms(hotels);
         //Test accessing information from hotel objects stored in the hashmap
         //System.out.println(rooms.get("Penthouse").getType());
-        
-        //Print all names of hotels, because hashmap key is hotel name
-        for(String key : rooms.keySet()){
-            System.out.println(key);
+
+        //Display all hotels and their rooms
+        for (Hotel hotel : hotels.values()) {
+            hotel.displayRooms();
+            System.out.println("");
         }
+        System.out.println(hotels.get("The Crown").getRoomsAvail());
     }
-    public static HashMap readRooms() {
-       //Adapt the readHotels function to read the different room types
-       
+
+    
+    public static HashMap readRooms(HashMap<String, Hotel> hotels) {
+        //Adapt the readHotels function to read the different room types
+
         HashMap<String, Room> rooms = new HashMap<>();
         try {
             FileReader fr = new FileReader("./resources/Rooms.txt");
             BufferedReader inStream = new BufferedReader(fr);
             String line = null;
-            int roomCount = 0;
+            
             while ((line = inStream.readLine()) != null) {
+                int idNumber = 1;
                 String str[] = line.split("-");
                 //Get variables from string array if str split properly
-                if (str.length <= 4) {
-                    int idNumber = roomCount;
-                    roomCount++;
-                    String type = str[0];
-                    int price = Integer.parseInt(str[1]);
-                    //Convert string to integer for rooms availabe
-                    boolean available = Boolean.parseBoolean(str[2]);
+                if (str.length == 5) {
+                    String hotelName = str[0];
+                    String type = str[1];
+                    int price = Integer.parseInt(str[2]);
                     int maxGuests = Integer.parseInt(str[3]);
-                    //Create new room object with read data to store a list
-                    Room r = new Room(idNumber,type,price,available,maxGuests);
-                    //Add hotel object to hashmap where the key is the name, and the value is the hotel object
-                    rooms.put(type, r);
+                    int availableRooms = Integer.parseInt(str[4]);
+                    
+
+                    // Create the Room objects with the amount of available rooms
+                    for (int i = 0; i < availableRooms; i++) {
+                        
+                        //Room Number- Type- price - available? - maxGuests
+                        Room room = new Room(idNumber, type, price, true, maxGuests);
+                        //Add room to rooms hashmap
+                        rooms.put(type + "-" + idNumber, room);
+                        // Add to the corresponding hotel's ArrayList of rooms
+                       
+                        if (hotels.containsKey(hotelName)) {
+                            hotels.get(hotelName).addRoom(room);
+                        } else {
+                            System.out.println("Warning: Hotel " + hotelName + " not found for room type " + type);
+                        }
+                        idNumber++;
+                    }
+
                 }
                 /* test string splitting
                 System.out.print("Hotel: " + str[0]);
                 System.out.print(" Location: " + str[1]);
                 System.out.print(" Rooms Available: " + str[2] + "\n");
-                */
-                
+                 */
+
             }
             inStream.close();
         } catch (FileNotFoundException e) {
@@ -69,5 +93,5 @@ public class RoomManager {
         }
         return rooms;
     }
-     
+
 }

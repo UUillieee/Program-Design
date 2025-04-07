@@ -26,14 +26,18 @@ public class Hotel {
     private int roomsAvail;
 
     //Constructor
-    public Hotel(String n, String l, int roomsAvail) {
+    public Hotel(String n, String l) {
         this.name = n;
         this.location = l;
-        this.roomsAvail = roomsAvail;
+        this.roomsAvail = 0; 
         this.rooms = new ArrayList<>();
     }
-    public void addRoom(Room room){
-        rooms.add(room);
+   public void addRoom(Room room) {
+        this.rooms.add(room);
+        this.roomsAvail++;  // increment when room gets added.
+    }
+     public ArrayList<Room> getRooms() {
+        return this.rooms;
     }
     
     public String getName() {
@@ -59,5 +63,15 @@ public class Hotel {
     public void setRoomsAvail(int roomsAvail) {
         this.roomsAvail = roomsAvail;
     }
+    
+    public void displayRooms() {
+        System.out.println("Rooms in Hotel: " + this.name);
+        System.out.println("Total Available: "+this.getRoomsAvail());
+        for (Room room : rooms) {
+            System.out.println("Room "+ room.getRoomNumber()+ ") "+room.getType() + " - Price: $" 
+                    +room.getPrice() + " - Max Guests: " + room.getMaxGuests());
+        }
+    }
+    
 
 }
