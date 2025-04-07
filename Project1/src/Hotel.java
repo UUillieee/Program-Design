@@ -69,7 +69,7 @@ public class Hotel {
         System.out.println("Total Available: "+this.getRoomsAvail());
         for (Room room : rooms) {
             System.out.println("Room "+ room.getRoomNumber()+ ") "+room.getType() + " - Price: $" 
-                    +room.getPrice() + " - Max Guests: " + room.getMaxGuests());
+                    +room.getPrice() + " - Max Guests: " + room.getMaxGuests() + " Available? " + room.isAvailable());
         }
     }
     

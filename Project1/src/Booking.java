@@ -13,14 +13,15 @@ public class Booking {
     private final int month;
     private final int endDay;
     private final int endMonth;
-    private Room room;
+    private final int roomNumber;
 
-    public Booking(int time, int day, int month, int endDay, int endMonth) {
+    public Booking(int time, int day, int month, int endDay, int endMonth,int roomNumber) {
         this.time = time;
         this.day = day;
         this.month = month;
         this.endDay = endDay;
         this.endMonth = endMonth;
+        this.roomNumber = roomNumber;
     }
 
     @Override
@@ -30,6 +31,6 @@ public class Booking {
     }
 
     public String toFileString() {
-        return time + "," + day + "," + month + "," + endDay + "," + endMonth;
+        return time + "," + day + "," + month + "," + endDay + "," + endMonth + "," + roomNumber;
     }
 }
