@@ -38,7 +38,7 @@ public class RoomManager {
         }
         System.out.println(hotels.get("The Crown").getRoomsAvail());  
     }
-
+    
     public static HashMap readRooms(HashMap<String, Hotel> hotels) {
         //Adapt the readHotels function to read the different room types
 
