@@ -19,11 +19,11 @@ public class Menu {
         int input = 0;
         
         do {
-            System.out.println("Welcome to the hotel booking system.");
+            System.out.println("\nWelcome to the hotel booking system.");
             System.out.println("1) View Hotels");
             System.out.println("2) View Rooms");
-            System.out.println("3) Make a Booking");
-            System.out.println("5) Exit");
+            System.out.println("3) Make a booking or view your Booking");
+            System.out.println("4) Exit");
             
             //If not a number
               while (!s.hasNextInt()) {
@@ -33,17 +33,17 @@ public class Menu {
               input = s.nextInt();
             switch (input){
                 case 1:
-                    System.out.println("Viewing hotels");
+                    System.out.println("\nViewing hotels");
                     //Call method
                     HotelManager.displayHotels();
                     break;
                 case 2:
-                    System.out.println("Viewing rooms");
+                    System.out.println("\nViewing rooms");
                     //Call Method
                     RoomManager.displayHotelRooms();
                     break;
                 case 3:
-                    System.out.println("Make a booking");
+                    System.out.println("\nMake a booking or view your Booking");
                     //Call method
                     //Booking.makeBooking();
                     DateService ds = new DateService();
@@ -52,15 +52,14 @@ public class Menu {
                     controller.run();
                     break;
                 case 4:
-                    System.out.println("View booking");
+                    System.out.println("\nView booking");
                     //Call Method
-                    //Booking.viewBooking();
                     break;
                 case 5:
-                    System.out.println("Exiting, Thanks!");
+                    System.out.println("\nExiting, Thanks!");
                     break;
             }
-        }while(input != 5);
+        }while(input != 4);
         s.close();
 
         
