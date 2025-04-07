@@ -25,7 +25,7 @@ public class Menu {
 
         
 
-        DateCollector dateCollector = new DateCollector();
+       DateCollector dateCollector = new DateCollector();
         
     }
 

@@ -22,7 +22,7 @@ public class HotelManager {
     e.g display info, so you dont have to make the main method complex
      */
     public static void main(String[] args) {
-
+        //For Testing 
     }
 
     public static HashMap readHotels() {
@@ -46,11 +46,6 @@ public class HotelManager {
                     //Add hotel object to hashmap where the key is the name, and the value is the hotel object
                     hotels.put(name, h);
                 }
-                /* test string splitting
-                System.out.print("Hotel: " + str[0]);
-                System.out.print(" Location: " + str[1]);
-                System.out.print(" Rooms Available: " + str[2] + "\n");
-                 */
 
             }
             inStream.close();
@@ -62,10 +57,6 @@ public class HotelManager {
         return hotels;
     }
 
-    /*
-        Class where command line interface will run from
-        Call all the seperate methods from here, user input from here
-        
-     */
+   
 }
 

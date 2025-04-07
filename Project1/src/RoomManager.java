@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,10 +36,9 @@ public class RoomManager {
             hotel.displayRooms();
             System.out.println("");
         }
-        System.out.println(hotels.get("The Crown").getRoomsAvail());
+        System.out.println(hotels.get("The Crown").getRoomsAvail());  
     }
 
-    
     public static HashMap readRooms(HashMap<String, Hotel> hotels) {
         //Adapt the readHotels function to read the different room types
 
@@ -47,9 +47,8 @@ public class RoomManager {
             FileReader fr = new FileReader("./resources/Rooms.txt");
             BufferedReader inStream = new BufferedReader(fr);
             String line = null;
-            
+            int idNumber = 1;
             while ((line = inStream.readLine()) != null) {
-                int idNumber = 1;
                 String str[] = line.split("-");
                 //Get variables from string array if str split properly
                 if (str.length == 5) {
@@ -58,17 +57,16 @@ public class RoomManager {
                     int price = Integer.parseInt(str[2]);
                     int maxGuests = Integer.parseInt(str[3]);
                     int availableRooms = Integer.parseInt(str[4]);
-                    
 
                     // Create the Room objects with the amount of available rooms
                     for (int i = 0; i < availableRooms; i++) {
-                        
+
                         //Room Number- Type- price - available? - maxGuests
                         Room room = new Room(idNumber, type, price, true, maxGuests);
                         //Add room to rooms hashmap
                         rooms.put(type + "-" + idNumber, room);
                         // Add to the corresponding hotel's ArrayList of rooms
-                       
+
                         if (hotels.containsKey(hotelName)) {
                             hotels.get(hotelName).addRoom(room);
                         } else {
