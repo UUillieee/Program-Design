@@ -9,8 +9,10 @@ import java.util.Scanner;
 import java.util.Map;
 
 /**
- * DateCollector class for managing room booking details.
+ *
+ * @author William Bindon
  */
+
 public class DateCollector {
     private int time;
     private int day;
