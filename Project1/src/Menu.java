@@ -45,10 +45,16 @@ public class Menu {
                 case 3:
                     System.out.println("Make a booking");
                     //Call method
+                    //Booking.makeBooking();
+                    DateService ds = new DateService();
+                    BookingManager bm = new BookingManager("./resources/CustomerInfo.txt");
+                    BookingController controller = new BookingController(bm,ds);
+                    controller.run();
                     break;
                 case 4:
                     System.out.println("View booking");
                     //Call Method
+                    //Booking.viewBooking();
                     break;
                 case 5:
                     System.out.println("Exiting, Thanks!");
@@ -59,7 +65,7 @@ public class Menu {
 
         
 
-       DateCollector dateCollector = new DateCollector();
+       //DateCollector dateCollector = new DateCollector();
         
     }
 
