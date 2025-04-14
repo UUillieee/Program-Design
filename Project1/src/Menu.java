@@ -48,7 +48,7 @@ public class Menu {
                     //Booking.makeBooking();
                     DateService ds = new DateService();
                     BookingManager bm = new BookingManager("./resources/CustomerInfo.txt");
-                    BookingController controller = new BookingController(bm,ds);
+                    BookingController controller = new BookingController(bm,ds, HotelManager.getHotels());
                     controller.run();
                     break;
                 case 4:

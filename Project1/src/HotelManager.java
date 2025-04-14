@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author gcoll
+ * @author William Bindon
  */
 public class HotelManager {
 
@@ -66,7 +67,10 @@ public class HotelManager {
         }
         return hotels;
     }
-
+    
+    public static HashMap<String, Hotel> getHotels() {
+        return readHotels();
+    }
    
 }
 

@@ -6,6 +6,7 @@
 /**
  *
  * @author gcoll
+ * @author William Bindon
  */
 import java.io.*;
 import java.util.HashMap;
@@ -32,11 +33,11 @@ public class BookingManager {
                 String[] parts = line.split(": ");
                 if (parts.length == 2) {
                     String[] data = parts[1].split(",");
-                    if (data.length == 5) {
+                    if (data.length == 6) {
                         bookings.put(parts[0], new Booking(
                                 Integer.parseInt(data[0]), Integer.parseInt(data[1]),
                                 Integer.parseInt(data[2]), Integer.parseInt(data[3]),
-                                Integer.parseInt(data[4]) 
+                                Integer.parseInt(data[4]), Integer.parseInt(data[5])
                         ));
                     }
                 }

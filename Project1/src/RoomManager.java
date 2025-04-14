@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author gcoll
+ * @author William Bindon
  */
 public class RoomManager {
 
