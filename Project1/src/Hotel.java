@@ -29,17 +29,19 @@ public class Hotel {
     public Hotel(String n, String l) {
         this.name = n;
         this.location = l;
-        this.roomsAvail = 0; 
+        this.roomsAvail = 0;
         this.rooms = new ArrayList<>();
     }
-   public void addRoom(Room room) {
+
+    public void addRoom(Room room) {
         this.rooms.add(room);
         this.roomsAvail++;  // increment when room gets added.
     }
-     public ArrayList<Room> getRooms() {
+
+    public ArrayList<Room> getRooms() {
         return this.rooms;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -63,15 +65,27 @@ public class Hotel {
     public void setRoomsAvail(int roomsAvail) {
         this.roomsAvail = roomsAvail;
     }
-    
-    public void displayRooms() {
+
+    public void displayRooms() { // Display only available rooms
         System.out.println("Rooms in Hotel: " + this.name);
-        System.out.println("Total Available: "+this.getRoomsAvail());
+        System.out.println("Total Available: " + this.getRoomsAvail());
+         int availableCount = 0;
         for (Room room : rooms) {
-            System.out.println("Room "+ room.getRoomNumber()+ ") "+room.getType() + " - Price: $" 
-                    +room.getPrice() + " - Max Guests: " + room.getMaxGuests() + " Available? " + room.isAvailable());
+            if (room.isAvailable()) {
+                System.out.println("Room " + room.getRoomNumber() + ") " + room.getType() + " - Price: $"
+                        + room.getPrice() + " - Max Guests: " + room.getMaxGuests());
+                availableCount++;
+            }
         }
     }
-    
+
+    Room getRoom(int roomNumber) { // Return room with specific room number
+        for(Room room : rooms){
+            if(room.getRoomNumber() == roomNumber){
+                return room;
+            }
+        }
+        return null;
+    }
 
 }

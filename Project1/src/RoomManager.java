@@ -24,22 +24,23 @@ public class RoomManager {
     RoomType-Price-
      */
     public static void main(String[] args) {
-    
+        displayHotelRooms();
     }
-    public static void displayHotelRooms(){
+
+    public static void displayHotelRooms() {
         HashMap<String, Hotel> hotels = HotelManager.readHotels();
-       
+
         HashMap<String, Room> rooms = readRooms(hotels);
         //Test accessing information from hotel objects stored in the hashmap
         //System.out.println(rooms.get("Penthouse").getType());
-
+        System.out.println("Displaying all available rooms.\n");
         //Display all hotels and their rooms
         for (Hotel hotel : hotels.values()) {
             hotel.displayRooms();
             System.out.println("");
         }
     }
-    
+
     public static HashMap readRooms(HashMap<String, Hotel> hotels) {
         //Adapt the readHotels function to read the different room types
 
@@ -85,12 +86,26 @@ public class RoomManager {
 
             }
             inStream.close();
-        } catch (FileNotFoundException e) {
+
+            BookingManager bookingManager = new BookingManager("./resources/CustomerInfo.txt");
+            var bookings = bookingManager.loadBookings(hotels); 
+
+            for (Booking booking : bookings.values()) {
+                int bookedRoomNumber = booking.getRoomNumber();
+
+                for (Hotel hotel : hotels.values()) {
+                    Room r = hotel.getRoom(bookedRoomNumber);
+                    if (r != null) {
+                        r.setAvailable(false);
+                    }
+                }
+            }
+            }catch (FileNotFoundException e) {
             Logger.getLogger(RoomManager.class.getName()).log(Level.SEVERE, null, e);
-        } catch (IOException e) {
+        }catch (IOException e) {
             System.out.println("IO Exception");
         }
-        return rooms;
-    }
+            return rooms;
+        }
 
-}
+    }

@@ -19,9 +19,12 @@ public class BookingController {
     public BookingController(BookingManager bookingManager, DateService dateService, Map<String, Hotel> hotels) {
         this.bookingManager = bookingManager;
         this.dateService = dateService;
-        this.bookings = bookingManager.loadBookings();
+        this.bookings = bookingManager.loadBookings(hotels); // pass hotels to booking manager to set rooms to booked
         this.hotels = hotels;
     }
+    
+    //FOR TESTING
+   
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
