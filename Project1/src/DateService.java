@@ -5,8 +5,9 @@
 
 /**
  *
- * @author will
+ * @author William Bindon
  */
+
 import java.util.Scanner;
 
 public class DateService {

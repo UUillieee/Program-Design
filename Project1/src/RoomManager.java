@@ -78,13 +78,8 @@ public class RoomManager {
                     }
 
                 }
-                /* test string splitting
-                System.out.print("Hotel: " + str[0]);
-                System.out.print(" Location: " + str[1]);
-                System.out.print(" Rooms Available: " + str[2] + "\n");
-                 */
-
             }
+            
             inStream.close();
 
             BookingManager bookingManager = new BookingManager("./resources/CustomerInfo.txt");

@@ -11,6 +11,7 @@ import java.util.Scanner;
  *
  * @author George
  */
+
 public class Menu {
 
     public static void main(String[] args) {
@@ -23,7 +24,7 @@ public class Menu {
             System.out.println("1) View Hotels");
             System.out.println("2) View Rooms");
             System.out.println("3) Make a booking or view your Booking");
-            System.out.println("5) Exit");
+            System.out.println("4) Exit");
 
             //If not a number
             while (!s.hasNextInt()) {
@@ -55,14 +56,10 @@ public class Menu {
                     controller.run();
                     break;
                 case 4:
-                    System.out.println("\nView booking");
-                    //Call Method
-                    break;
-                case 5:
                     System.out.println("\nExiting, Thanks!");
                     break;
             }
-        } while (input != 5);
+        } while (input != 4);
         s.close();
 
         //DateCollector dateCollector = new DateCollector();

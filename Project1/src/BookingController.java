@@ -7,6 +7,7 @@
  *
  * @author gcoll
  */
+
 import java.util.Map;
 import java.util.Scanner;
 
@@ -22,10 +23,7 @@ public class BookingController {
         this.bookings = bookingManager.loadBookings(hotels); // pass hotels to booking manager to set rooms to booked
         this.hotels = hotels;
     }
-    
-    //FOR TESTING
    
-
     public void run() {
         Scanner scanner = new Scanner(System.in);
 
@@ -37,16 +35,18 @@ public class BookingController {
             System.out.println("Welcome back, " + name + "! Your booking at:");
             System.out.println(booking);
             
-            
             int roomNumber = booking.getRoomNumber();
             Room foundRoom = null;
+            Hotel foundHotel = null;
+
 
             // Search through hotels and rooms to find the matching room
             for (Hotel hotel : hotels.values()) {
                 for (Room room : hotel.getRooms()) {
                     if (room.getRoomNumber() == roomNumber) {
                         foundRoom = room;
-                        System.out.println("Room: " + room.getType() + " (Room #" + room.getRoomNumber() + ")");
+                        foundHotel = hotel;
+                        System.out.println("Room: "+ foundHotel.getName() +" "+ room.getType() + " (Room #" + room.getRoomNumber() + ")");
                         break;
                     }
                 }
@@ -58,6 +58,7 @@ public class BookingController {
             }
         }
         
+        //if name not found then save details to the txt
         else {
             Booking booking = dateService.collectBookingDetails(scanner);
             bookings.put(name, booking);

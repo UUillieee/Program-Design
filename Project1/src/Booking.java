@@ -15,7 +15,8 @@ public class Booking {
     private final int endMonth;
     private int roomNumber = 0;
     
-// Maybe make constructor without roomNumber too
+   
+    
     public Booking(int time, int day, int month, int endDay, int endMonth,int roomNumber) {
         this.time = time;
         this.day = day;
@@ -24,13 +25,6 @@ public class Booking {
         this.endMonth = endMonth;
         this.roomNumber = roomNumber;
     }
-//    public Booking(int time, int day, int month, int endDay, int endMonth) {
-//        this.time = time;
-//        this.day = day;
-//        this.month = month;
-//        this.endDay = endDay;
-//        this.endMonth = endMonth;
-//    }
     
     public int getRoomNumber() {
         return roomNumber;
@@ -38,10 +32,11 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "Check-in Time: " + time + ":00, Start Date: " + month + "/" + day +
-                ", End Date: " + endMonth + "/" + endDay + "\n" + "Room:" + roomNumber;
+        return "Check-in Time: " + time + ":00, Start Date: " + day + "/" + month +
+                ", End Date: " + endDay + "/" + endMonth;
     }
 
+    //puts details in file
     public String toFileString() {
         return time + "," + day + "," + month + "," + endDay + "," + endMonth + "," + roomNumber;
     }
