@@ -72,7 +72,7 @@ public class Hotel {
          int availableCount = 0;
         for (Room room : rooms) {
             if (room.isAvailable()) {
-                System.out.println("Room " + room.getRoomNumber() + ") " + room.getType() + " - Price: $"
+                System.out.println("Room #" + room.getRoomNumber() + ": " + room.getType() + " - Price: $"
                         + room.getPrice() + " - Max Guests: " + room.getMaxGuests());
                 availableCount++;
             }

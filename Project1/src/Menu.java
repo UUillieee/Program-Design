@@ -1,5 +1,6 @@
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -44,7 +45,7 @@ public class Menu {
                     RoomManager.displayHotelRooms();
                     break;
                 case 3:
-                    System.out.println("\nMake a booking or view your Booking");
+                    System.out.println("\nEnter Booking Details");
 
                     //Get Required Arguments for Booking Controller
                     HashMap<String, Hotel> hotels = HotelManager.readHotels(); // Create list of hotels
@@ -53,11 +54,18 @@ public class Menu {
                     BookingManager bm = new BookingManager("./resources/CustomerInfo.txt"); // Load BookingManager
                     BookingController controller = new BookingController(bm, ds, hotels); // Pass DateService, Booking Manager and Populated Hotel list into the controller
                     //Call method
-                    controller.run();
+                    try {
+                        controller.run();
+                    }catch(InputMismatchException e){
+                        System.out.println("Input Not Correct");
+                    }
+                    
                     break;
                 case 4:
                     System.out.println("\nExiting, Thanks!");
                     break;
+                default:
+                    System.out.println("Invalid Input. Try Again.");
             }
         } while (input != 4);
         s.close();

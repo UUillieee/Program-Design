@@ -14,11 +14,11 @@ public class DateService {
     private static final int[] DAYS_IN_MONTH = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     public Booking collectBookingDetails(Scanner scanner) {
-        int month, day, time, duration,roomNumber;
+        int month, day, time, duration,roomNumber,guests;
         
         do {
             RoomManager.displayHotelRooms();
-            System.out.println("What Room Would you like to book?");
+            System.out.println("What Room Would you like to book?\nEnter Room #");
             roomNumber = scanner.nextInt();
         }while (roomNumber < 0 || roomNumber > 100);
         //Set room to not available after room chosen
@@ -52,7 +52,12 @@ public class DateService {
             if (endMonth > 12) endMonth = 1;
         }
 
-        return new Booking(time, day, month, endDay, endMonth,roomNumber);
+        do {
+            System.out.println("How many guests?");
+            guests = scanner.nextInt();
+        }while (guests < 0 || guests >= 5);
+        
+        return new Booking(time, day, month, endDay, endMonth,roomNumber,guests);
     }
 }
 

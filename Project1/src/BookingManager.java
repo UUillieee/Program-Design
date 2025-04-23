@@ -34,15 +34,16 @@ public class BookingManager {
                 if (parts.length == 2) {
                     String customerName = parts[0]; // save customer name in variable
                     String[] data = parts[1].split(",");
-                    if (data.length == 6) {
+                    if (data.length == 7) {
                         Booking booking = new Booking(
                                 Integer.parseInt(data[0]), Integer.parseInt(data[1]),
                                 Integer.parseInt(data[2]), Integer.parseInt(data[3]),
-                                Integer.parseInt(data[4]), Integer.parseInt(data[5])
+                                Integer.parseInt(data[4]), Integer.parseInt(data[5]),
+                                Integer.parseInt(data[6])
                         );
 
                         bookings.put(customerName, booking); // create booking seperately
-                        markRoomAsUnavailable(hotels,booking); // In List of rooms in the hotels map, mark room as taken
+                        markRoom(hotels,booking.getRoomNumber(),false); // In List of rooms in the hotels map, mark room as taken ( false)
                     }
                 }
             }
@@ -54,6 +55,7 @@ public class BookingManager {
         return bookings;
     }
 
+    //Save singular booking
     public void saveBooking(String name, Booking booking) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
             writer.println(name + ": " + booking.toFileString());
@@ -61,15 +63,36 @@ public class BookingManager {
             System.out.println("Error writing to file: " + e.getMessage());
         }
     }
-
-    private void markRoomAsUnavailable(Map<String, Hotel> hotels, Booking booking) {
-        int roomNumber = booking.getRoomNumber();
+    // Function to mark availability of a room
+    private void markRoom(Map<String, Hotel> hotels, int roomNumber,boolean availability) {
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null) {
-                room.setAvailable(false);
+                room.setAvailable(availability);
                 break;
             }
+        }
+    }
+    
+    // Update / Remove Booking function
+    public void removeBooking(String name,int roomNumber, Map<String, Hotel> hotels){
+        Map<String, Booking> newBookings = loadBookings(hotels); // Load ist of bookings
+        
+        markRoom(hotels,roomNumber,true); // update room to available 
+       
+        newBookings.remove(name);   //Remove booking
+    
+        saveAllBookings(newBookings);     //Save full list of Bookings 
+    }
+    
+    // Save all of the bookings
+    public void saveAllBookings(Map<String, Booking> currentBookings){
+         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+            for (Map.Entry<String, Booking> entry : currentBookings.entrySet()) {
+                writer.println(entry.getKey() + ": " + entry.getValue().toFileString());
+            }
+        } catch (IOException e) {
+            System.out.println("Error updating file: " + e.getMessage());
         }
     }
 }
