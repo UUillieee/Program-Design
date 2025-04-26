@@ -11,6 +11,7 @@ import java.util.Scanner;
 /**
  *
  * @author George
+ * @author William Bindon
  */
 
 public class Menu {
@@ -70,7 +71,6 @@ public class Menu {
         } while (input != 4);
         s.close();
 
-        //DateCollector dateCollector = new DateCollector();
     }
 
 }

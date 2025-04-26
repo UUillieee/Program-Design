@@ -35,7 +35,7 @@ public class Booking {
     @Override
     public String toString() {
         return "Check-in Time: " + time + ":00, Start Date: " + day + "/" + month +
-                ", End Date: " + endDay + "/" + endMonth + "/" + "Guests: " + guests;
+                ", End Date: " + endDay + "/" + endMonth + ", Guests: " + guests;
     }
 
     //puts details in file
