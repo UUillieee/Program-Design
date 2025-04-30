@@ -23,4 +23,18 @@ public class RoomAvailabilityManager {
             }
         }
     }
+    public static void updateRoomAvailabilityFromBookings(Map<String, Hotel> hotels, String bookingsFilePath) {
+        BookingManager bookingManager = new BookingManager(bookingsFilePath);
+        var bookings = bookingManager.loadBookings(hotels);
+
+        for (Booking booking : bookings.values()) {
+            int bookedRoomNumber = booking.getRoomNumber();
+            for (Hotel hotel : hotels.values()) {
+                Room room = hotel.getRoom(bookedRoomNumber);
+                if (room != null) {
+                    room.setAvailable(false); // Mark room as unavailable
+                }
+            }
+        }
+    }
 }

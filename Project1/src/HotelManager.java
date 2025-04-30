@@ -24,16 +24,17 @@ public class HotelManager {
      */
     public static void main(String[] args) {
         //For Testing 
+     
     }
-    
-     public static void displayHotels(){
-         HashMap<String, Hotel> hotels = HotelManager.readHotels();
-         
-         for(Hotel hotel : hotels.values()){
-              System.out.print("Hotel: "+hotel.getName());
-              System.out.println("| Location: "+hotel.getLocation());
-             
-         }
+
+    public static void displayHotels() {
+        HashMap<String, Hotel> hotels = HotelManager.readHotels();
+
+        for (Hotel hotel : hotels.values()) {
+            System.out.print("Hotel: " + hotel.getName());
+            System.out.println("| Location: " + hotel.getLocation());
+
+        }
     }
 
     public static HashMap readHotels() {
@@ -67,10 +68,9 @@ public class HotelManager {
         }
         return hotels;
     }
-    
+
     public static HashMap<String, Hotel> getHotels() {
         return readHotels();
     }
-   
-}
 
+}
