@@ -7,7 +7,7 @@
  *
  * @author William Bindon
  */
-import java.util.InputMismatchException;
+
 import java.util.Scanner;
 
 public class DateService {
@@ -30,16 +30,21 @@ public class DateService {
     private int getValidRoomNumber(Scanner scanner) {
         int roomNumber = -1;
         int maxRoomNumber = RoomManager.getMaxRoomNumber();
-        System.out.println("Max rooms "+maxRoomNumber);
+        System.out.println("Max rooms " + maxRoomNumber);
         RoomManager.displayHotelRooms();
         do {
             System.out.println("What Room Would you like to book? Enter Room #");
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Booking proccess cancelled by user.");
+                System.exit(0);
+            }
             //Catch invalid input
-            try{
-                roomNumber = scanner.nextInt();
-            }   catch(InputMismatchException e){
-                System.out.println("Invalid room number. Try again.");
-                scanner.next(); // clear scanner to prevent infinite loop
+            try {
+                roomNumber = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a number or 'q' to quit. Try again.");
+                //scanner.next(); // clear scanner to prevent infinite loop
                 continue;
             }
             //Check roomnumber is in bounds
@@ -52,53 +57,99 @@ public class DateService {
                 System.out.println("This room is not available. Choose another.");
                 continue;
             }
+
             break;
         } while (true); // fix double booking
         return roomNumber;
     }
 
     private int getValidMonth(Scanner scanner) {
-        int month;
+        int month = -1;
         do {
             System.out.println("What month would you like to stay? (1 - 12)");
-            month = scanner.nextInt();
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Booking proccess cancelled by user.");
+                System.exit(0);
+            }
+            try {
+                month = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a number or 'q' to quit.");
+            }
         } while (month < 1 || month > 12);
         return month;
     }
 
     private int getValidDay(Scanner scanner, int month) {
-        int day;
+        int day = -1;
         do {
             System.out.println("What day of the month? (1–" + DAYS_IN_MONTH[month] + ")");
-            day = scanner.nextInt();
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Booking proccess cancelled by user.");
+                System.exit(0);
+            }
+            try {
+                day = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a number or 'q' to quit.");
+            }
         } while (day < 1 || day > DAYS_IN_MONTH[month]);
         return day;
     }
 
     private int getValidDuration(Scanner scanner) {
-        int duration;
+        int duration = -1;
         do {
             System.out.println("How many days would you like to stay?");
-            duration = scanner.nextInt();
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Booking proccess cancelled by user.");
+                System.exit(0);
+            }
+            try {
+                duration = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a number or 'q' to quit.");
+            }
         } while (duration < 1);
         return duration;
     }
 
     private int getValidArrivalTime(Scanner scanner) {
-        int time;
+        int time = -1;
         do {
             System.out.println("Arrival time (24hr format, between 8:00–19:00):");
-            time = scanner.nextInt();
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Booking proccess cancelled by user.");
+                System.exit(0);
+            }
+            try {
+                time = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a number or 'q' to quit.");
+            }
         } while (time < 8 || time > 19);
         return time;
     }
 
     private int getValidGuests(Scanner scanner, int roomNumber) {
-        int guests;
+        int guests = -1;
         int maxGuests = RoomManager.getMaxGuestsForRoom(roomNumber); // Dynamic Variable to update according to max guests in each individual room
         do {
             System.out.println("How many guests?");
-            guests = scanner.nextInt();
+            String input = scanner.nextLine().trim();
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("Booking proccess cancelled by user.");
+                System.exit(0);
+            }
+            try {
+                guests = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Enter a number or 'q' to quit.");
+            }
         } while (guests < 1 || guests >= maxGuests);
         return guests;
     }

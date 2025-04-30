@@ -28,7 +28,7 @@ public class RoomManager {
     }
 
     public static void displayHotelRooms() {
-        HashMap<String, Hotel> hotels = HotelManager.readHotels();
+        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
 
         HashMap<String, Room> rooms = readRooms(hotels);
         //Test accessing information from hotel objects stored in the hashmap
@@ -42,7 +42,7 @@ public class RoomManager {
     }
 
     public static boolean isRoomAvailable(int roomNumber) {
-        HashMap<String, Hotel> hotels = HotelManager.readHotels();
+        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null && room.isAvailable()) {
@@ -105,7 +105,7 @@ public class RoomManager {
 
     public static int getMaxRoomNumber() {
         // Load Hotels - they dont have rooms in them
-        HashMap<String, Hotel> hotels = HotelManager.readHotels();
+        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
         //Load Rooms 
         HashMap<String, Room> rooms = readRooms(hotels);
         int max = 0;
@@ -120,7 +120,7 @@ public class RoomManager {
     }
 
     public static int getMaxGuestsForRoom(int roomNumber) { // get maximum number of guests a specific room if you only have the roomNumber.
-        HashMap<String, Hotel> hotels = HotelManager.readHotels();
+        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null) {

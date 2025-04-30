@@ -26,7 +26,6 @@ public class Menu {
             System.out.println("1) View Hotels");
             System.out.println("2) View Rooms");
             System.out.println("3) Make a booking or view your Booking");
-            System.out.println("4) Exit");
 
             //If not a number
             while (!s.hasNextLine()) {
@@ -71,13 +70,13 @@ public class Menu {
                     }
                     
                     break;
-                case "4":
+                case "q":
                     System.out.println("\nExiting, Thanks!");
                     break;
                 default:
                     System.out.println("Invalid Input. Try Again.");
             }
-        } while (input.equalsIgnoreCase("4"));
+        } while (!input.equalsIgnoreCase("q"));
         s.close();
 
     }
