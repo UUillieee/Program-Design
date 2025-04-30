@@ -43,7 +43,7 @@ public class BookingManager {
                         );
 
                         bookings.put(customerName, booking); // create booking seperately
-                        markRoom(hotels,booking.getRoomNumber(),false); // In List of rooms in the hotels map, mark room as taken ( false)
+                        RoomAvailabilityManager.updateRoomAvailability(hotels,booking.getRoomNumber(),false); // In List of rooms in the hotels map, mark room as taken ( false)
                     }
                 }
             }
@@ -63,22 +63,13 @@ public class BookingManager {
             System.out.println("Error writing to file: " + e.getMessage());
         }
     }
-    // Function to mark availability of a room
-    private void markRoom(Map<String, Hotel> hotels, int roomNumber,boolean availability) {
-        for (Hotel hotel : hotels.values()) {
-            Room room = hotel.getRoom(roomNumber);
-            if (room != null) {
-                room.setAvailable(availability);
-                break;
-            }
-        }
-    }
+
     
     // Update / Remove Booking function
     public void removeBooking(String name,int roomNumber, Map<String, Hotel> hotels){
         Map<String, Booking> newBookings = loadBookings(hotels); // Load ist of bookings
         
-        markRoom(hotels,roomNumber,true); // update room to available 
+        RoomAvailabilityManager.updateRoomAvailability(hotels,roomNumber,true); // update room to available 
        
         newBookings.remove(name);   //Remove booking
     
