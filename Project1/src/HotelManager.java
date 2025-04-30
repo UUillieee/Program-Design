@@ -16,61 +16,26 @@ import java.util.logging.Logger;
  * @author gcoll
  * @author William Bindon
  */
+
 public class HotelManager {
 
-    /*
-    Add Methods in here for working with hotels
-    e.g display info, so you dont have to make the main method complex
-     */
-    public static void main(String[] args) {
-        //For Testing 
-     
+    private HashMap<String, Hotel> hotels;
+
+    // Constructor: Initialize the hotels collection by reading from the file
+    public HotelManager() {
+        this.hotels = HotelFileReader.readHotels(); // Read hotels using HotelFileReader
     }
 
-    public static void displayHotels() {
-        HashMap<String, Hotel> hotels = HotelManager.readHotels();
-
-        for (Hotel hotel : hotels.values()) {
-            System.out.print("Hotel: " + hotel.getName());
-            System.out.println("| Location: " + hotel.getLocation());
-
-        }
-    }
-
-    public static HashMap readHotels() {
-        // Read File Hotels.txt stored in the resources folder
-        // Splits data by each line and splits line by character "-"
-        // Prints data for each hotel from file, currently storing the data in a hashMap
-        HashMap<String, Hotel> hotels = new HashMap<>();
-        try {
-            FileReader fr = new FileReader("./resources/Hotels.txt");
-            BufferedReader inStream = new BufferedReader(fr);
-            String line = null;
-            while ((line = inStream.readLine()) != null) {
-                String str[] = line.split("-");
-                //Get variables from string array if str split properly
-                if (str.length == 2) {
-                    String name = str[0];
-                    String location = str[1];
-                    //Convert string to integer for rooms availabe
-                    //Create new hotel object with read data to store a list
-                    Hotel h = new Hotel(name, location);
-                    //Add hotel object to hashmap where the key is the name, and the value is the hotel object
-                    hotels.put(name, h);
-                }
-
-            }
-            inStream.close();
-        } catch (FileNotFoundException e) {
-            Logger.getLogger(HotelManager.class.getName()).log(Level.SEVERE, null, e);
-        } catch (IOException e) {
-            System.out.println("IO Exception");
-        }
+    // Method to get all hotels
+    public HashMap<String, Hotel> getHotels() {
         return hotels;
     }
 
-    public static HashMap<String, Hotel> getHotels() {
-        return readHotels();
+    // Method to add a hotel (if needed in future)
+    public void addHotel(Hotel hotel) {
+        hotels.put(hotel.getName(), hotel);
     }
 
 }
+
+

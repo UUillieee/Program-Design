@@ -38,7 +38,16 @@ public class Menu {
                 case "1":
                     System.out.println("\nViewing hotels");
                     //Call method
-                    HotelManager.displayHotels();
+//                    HotelManager.displayHotels();
+                    
+                    // Initialize HotelManager
+                    HotelManager hotelManager = new HotelManager();
+        
+                    // Initialize HotelDisplay to handle the display logic
+                    HotelDisplay hotelDisplay = new HotelDisplay();
+        
+                    // Display hotels using the HotelDisplay class
+                    hotelDisplay.displayHotels(hotelManager.getHotels());
                     break;
                 case "2":
                     System.out.println("\nViewing rooms");
@@ -49,7 +58,7 @@ public class Menu {
                     System.out.println("\nEnter Booking Details");
 
                     //Get Required Arguments for Booking Controller
-                    HashMap<String, Hotel> hotels = HotelManager.readHotels(); // Create list of hotels
+                    HashMap<String, Hotel> hotels = HotelFileReader.readHotels(); // Create list of hotels
                     RoomManager.readRooms(hotels); // Create rooms in hotels
                     DateService ds = new DateService(); // Load Date Service
                     BookingManager bm = new BookingManager("./resources/CustomerInfo.txt"); // Load BookingManager
