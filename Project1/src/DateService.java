@@ -7,14 +7,13 @@
  *
  * @author William Bindon
  */
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DateService {
 
     private static final int[] DAYS_IN_MONTH = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private static final int MAX_GUESTS = 5;
-    private static final int MAX_ROOM_NUMBER = 100;
 
     public Booking collectBookingDetails(Scanner scanner) {
         int roomNumber = getValidRoomNumber(scanner);
@@ -22,19 +21,39 @@ public class DateService {
         int day = getValidDay(scanner, month);
         int duration = getValidDuration(scanner);
         int time = getValidArrivalTime(scanner);
-        int guests = getValidGuests(scanner);
+        int guests = getValidGuests(scanner, roomNumber);
         int[] endDate = calculateEndDate(day, month, duration);
 
         return new Booking(time, day, month, endDate[0], endDate[1], roomNumber, guests);
     }
 
     private int getValidRoomNumber(Scanner scanner) {
-        int roomNumber;
+        int roomNumber = -1;
+        int maxRoomNumber = RoomManager.getMaxRoomNumber();
+        System.out.println("Max rooms "+maxRoomNumber);
+        RoomManager.displayHotelRooms();
         do {
-            RoomManager.displayHotelRooms();
             System.out.println("What Room Would you like to book? Enter Room #");
-            roomNumber = scanner.nextInt();
-        } while (roomNumber < 0 || roomNumber > MAX_ROOM_NUMBER);
+            //Catch invalid input
+            try{
+                roomNumber = scanner.nextInt();
+            }   catch(InputMismatchException e){
+                System.out.println("Invalid room number. Try again.");
+                scanner.next(); // clear scanner to prevent infinite loop
+                continue;
+            }
+            //Check roomnumber is in bounds
+            if (roomNumber < 0 || roomNumber > maxRoomNumber) {
+                System.out.println("Invalid room number. Try again.");
+                continue;
+            }
+            //Condition to check availabiity of room
+            if (RoomManager.isRoomAvailable(roomNumber)) {
+                System.out.println("This room is not available. Choose another.");
+                continue;
+            }
+            break;
+        } while (true); // fix double booking
         return roomNumber;
     }
 
@@ -74,12 +93,13 @@ public class DateService {
         return time;
     }
 
-    private int getValidGuests(Scanner scanner) {
+    private int getValidGuests(Scanner scanner, int roomNumber) {
         int guests;
+        int maxGuests = RoomManager.getMaxGuestsForRoom(roomNumber); // Dynamic Variable to update according to max guests in each individual room
         do {
             System.out.println("How many guests?");
             guests = scanner.nextInt();
-        } while (guests < 1 || guests >= MAX_GUESTS);
+        } while (guests < 1 || guests >= maxGuests);
         return guests;
     }
 

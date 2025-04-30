@@ -8,6 +8,7 @@
  * @author gcoll
  */
 public class Booking {
+
     private final int time;
     private final int day;
     private final int month;
@@ -15,10 +16,10 @@ public class Booking {
     private final int endMonth;
     private int roomNumber = 0;
     private int guests;
-    
-   
-    
-    public Booking(int time, int day, int month, int endDay, int endMonth,int roomNumber,int guests) {
+    private int totalPrice;
+    // Maybe add a total price by taking amount of nights and then price per night 
+
+    public Booking(int time, int day, int month, int endDay, int endMonth, int roomNumber, int guests) {
         this.time = time;
         this.day = day;
         this.month = month;
@@ -27,15 +28,23 @@ public class Booking {
         this.roomNumber = roomNumber;
         this.guests = guests;
     }
-    
+
     public int getRoomNumber() {
         return roomNumber;
     }
 
     @Override
     public String toString() {
-        return "Check-in Time: " + time + ":00, Start Date: " + day + "/" + month +
-                ", End Date: " + endDay + "/" + endMonth + ", Guests: " + guests;
+        return "Check-in Time: " + time + ":00, Start Date: " + day + "/" + month
+                + ", End Date: " + endDay + "/" + endMonth + ", Guests: " + guests;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     //puts details in file
