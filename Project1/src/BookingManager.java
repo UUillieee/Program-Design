@@ -6,7 +6,7 @@
 /**
  * Handles loading, saving, updating, and removing bookings from the CustomerInfo txt file text file
  * updates room availability in the hotel data based on booking changes
- * 
+ *
  * @author gcoll
  * @author William Bindon
  */
@@ -22,7 +22,7 @@ public class BookingManager {
     public BookingManager(String filePath) {
         this.filePath = filePath;
     }
-    
+
     //Loads all bookings from the file and updates hotel room availability.
     public Map<String, Booking> loadBookings(Map<String, Hotel> hotels) {
         Map<String, Booking> bookings = new HashMap<>();
@@ -40,19 +40,19 @@ public class BookingManager {
                     String[] data = parts[1].split(",");
 
                     if (data.length == 8) {
-                      //Parse booking details and create Booking object
+                        //Parse booking details and create Booking object
                         Booking booking = new Booking(
                                 Integer.parseInt(data[0]), Integer.parseInt(data[1]),
                                 Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                                 Integer.parseInt(data[4]), Integer.parseInt(data[5]),
-                                Integer.parseInt(data[6]),Double.parseDouble(data[7])
+                                Integer.parseInt(data[6]), Double.parseDouble(data[7])
                         );
                         //Add booking to map
                         bookings.put(customerName, booking);
 
                         //update room availability in hotel data
                         RoomAvailabilityManager.updateRoomAvailability(
-                            hotels, booking.getRoomNumber(), false
+                                hotels, booking.getRoomNumber(), false
                         );
                     }
                 }
@@ -64,17 +64,13 @@ public class BookingManager {
         return bookings;
     }
 
-    
     //Saves the booking by appending it to the file.
     public void saveBooking(String name, Booking booking) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
-            writer.println(name + ": " + booking.toFileString()); // Append booking
-        } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
-        }
+        Map<String, Booking> allBookings = loadBookings(new HashMap<>()); // load without needing hotel room updates
+        allBookings.put(name, booking); // replace or add booking
+        saveAllBookings(allBookings);  // overwrite entire file
     }
 
-    
     public void removeBooking(String name, int roomNumber, Map<String, Hotel> hotels) {
         //Reload all bookings into memory
         Map<String, Booking> newBookings = loadBookings(hotels);
@@ -86,7 +82,6 @@ public class BookingManager {
         saveAllBookings(newBookings);
     }
 
-    
     //Saves the full list of bookings to the file (overwrites existing file).
     public void saveAllBookings(Map<String, Booking> currentBookings) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
@@ -97,4 +92,5 @@ public class BookingManager {
             System.out.println("Error updating file: " + e.getMessage());
         }
     }
+
 }

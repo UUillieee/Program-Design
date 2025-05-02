@@ -103,7 +103,7 @@ public class DateService {
     private int getValidDay(Scanner scanner, int month) {
         int day = -1;
         do {
-            System.out.println("What day of the month? (1–" + DAYS_IN_MONTH[month] + ")");
+            System.out.println("What day of the month? (1 – " + DAYS_IN_MONTH[month] + ")");
             String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("q")) {
@@ -145,7 +145,7 @@ public class DateService {
     private int getValidArrivalTime(Scanner scanner) {
         int time = -1;
         do {
-            System.out.println("Arrival time (24hr format, between 8:00–19:00):");
+            System.out.println("Arrival time (24hr format, between 8:00 – 19:00):");
             String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("q")) {
@@ -167,7 +167,7 @@ public class DateService {
         int guests = -1;
         int maxGuests = RoomManager.getMaxGuestsForRoom(roomNumber); // Get max allowed guests for the selected room
         do {
-            System.out.println("How many guests?");
+            System.out.println("How many guests? Max for Room  #"+roomNumber+": "+maxGuests+" guests.");
             String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("q")) {
@@ -180,7 +180,7 @@ public class DateService {
                 System.out.println("Invalid input. Enter a number or 'q' to quit.");
             }
         //Ensure guests are within valid range
-        } while (guests < 1 || guests >= maxGuests); 
+        } while (guests < 1 || guests > maxGuests); 
 
         return guests;
     }
