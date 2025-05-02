@@ -147,16 +147,24 @@ public class DateService {
             System.out.println("Arrival time (24hr format, between 8:00–19:00):");
             String input = scanner.nextLine().trim();
 
-            if (input.equalsIgnoreCase("q")) {
-                throw new BookingCancelledException("Booking cancelled by user.");
-            }
-
             try {
+            //split HH:00 so can read hours
+            if (input.contains(":")) {
+                String[] parts = input.split(":");
+                if (parts.length == 2 && parts[1].equals("00")) {
+                    time = Integer.parseInt(parts[0]);
+                } else {
+                    System.out.println("Please enter time in HH:00 format.");
+                }
+            } else {
                 time = Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Enter a number or 'q' to quit.");
             }
-        } while (time < 8 || time > 19);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Enter a number or time in HH:00 format.");
+        }
+
+    } while (time < 8 || time > 19);
+
 
         return time;
     }
