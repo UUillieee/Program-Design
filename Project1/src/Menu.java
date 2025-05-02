@@ -14,8 +14,6 @@ import java.util.Scanner;
  * @author William Bindon
  */
 
-public class Menu {
-
 //This is the main class and should be the file that is run
 //This class contains method calls and initializations of 
 

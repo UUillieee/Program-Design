@@ -47,12 +47,12 @@ public class Booking {
     }
 
     //Returns total price of the booking
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
     //Sets total price of the booking
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
   
