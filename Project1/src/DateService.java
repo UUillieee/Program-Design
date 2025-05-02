@@ -9,6 +9,7 @@
  * @author William Bindon
  * 
  */
+import java.util.Map;
 import java.util.Scanner;
 
 public class DateService {
@@ -19,8 +20,8 @@ public class DateService {
 
 
     //main method to collect all booking details from the user
-    public Booking collectBookingDetails(Scanner scanner) throws BookingCancelledException{
-        int roomNumber = getValidRoomNumber(scanner);//Validate room selection
+    public Booking collectBookingDetails(Scanner scanner,Map<String, Hotel> hotels) throws BookingCancelledException{
+        int roomNumber = getValidRoomNumber(scanner,hotels);//Validate room selection
         int month = getValidMonth(scanner);//Validate month
         int day = getValidDay(scanner, month);//Validate day in the selected month
         int duration = getValidDuration(scanner);//Validate duration of stay
@@ -33,7 +34,7 @@ public class DateService {
     }
 
     //returns a correct room number
-    private int getValidRoomNumber(Scanner scanner) {
+    private int getValidRoomNumber(Scanner scanner,Map<String, Hotel> hotels) {
         int roomNumber = -1;
         int maxRoomNumber = RoomManager.getMaxRoomNumber();
         System.out.println("Max rooms " + maxRoomNumber);
@@ -63,7 +64,7 @@ public class DateService {
             }
 
             //check if room is available
-            if (RoomManager.isRoomAvailable(roomNumber)) {
+            if (!RoomManager.isRoomAvailable(roomNumber,hotels)) {
 
                 System.out.println("This room is not available. Choose another.");
                 continue;
