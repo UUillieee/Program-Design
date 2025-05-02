@@ -82,7 +82,7 @@ public class BookingManager {
         saveAllBookings(newBookings);
     }
 
-    //Saves the full list of bookings to the file (overwrites existing file).
+    //Saves a full list of bookings to the file (overwrites existing file).
     public void saveAllBookings(Map<String, Booking> currentBookings) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             for (Map.Entry<String, Booking> entry : currentBookings.entrySet()) {

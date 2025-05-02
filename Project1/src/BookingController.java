@@ -35,7 +35,7 @@ public class BookingController {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         //ask user for name
-        System.out.println("\nEnter your name:");
+        System.out.println("\nEnter your name: (Case insensitive)");
       
         String name = scanner.nextLine().trim().toLowerCase();
         //Exit program
