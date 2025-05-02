@@ -147,7 +147,9 @@ public class DateService {
         do {
             System.out.println("Arrival time (24hr format, between 8:00 – 19:00):");
             String input = scanner.nextLine().trim();
-
+               if (input.equalsIgnoreCase("q")) {
+                throw new BookingCancelledException("Booking cancelled by user.");
+            }
             try {
             //split HH:00 so can read hours
             if (input.contains(":")) {
