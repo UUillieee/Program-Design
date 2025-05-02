@@ -11,91 +11,87 @@ import java.util.logging.Logger;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * 
+ * @author: gcoll
+ * @author: William Bindon
  */
-/**
- *
- * @author gcoll
- * @author William Bindon
- */
-public class RoomManager {
 
-    /*
-    Room.txt Format
-    RoomType-Price-
-     */
+ //loading room data from a file, checking availability, displaying all rooms
+public class RoomManager {
+    //Expected format for each line in Rooms.txt:
+    //HotelName-RoomType-Price-MaxGuests-AvailableRoomsCount
+
+    //method to test/display hotel rooms
     public static void main(String[] args) {
         //displayHotelRooms();
         System.out.println("Total price for room 30 for 4 days = "+RoomManager.calculateTotalPrice(30, 4));
     }
 
+    //Reads hotel and room data and displays rooms grouped by hotels
     public static void displayHotelRooms() {
-        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
+        //load hotels from file
+        HashMap<String, Hotel> hotels = HotelFileReader.readHotels(); 
+        //load rooms and assign them to hotels
+        HashMap<String, Room> rooms = readRooms(hotels);              
 
-        HashMap<String, Room> rooms = readRooms(hotels);
-        //Test accessing information from hotel objects stored in the hashmap
-        //System.out.println(rooms.get("Penthouse").getType());
         System.out.println("Displaying all available rooms.\n");
-        //Display all hotels and their rooms
+
+        //iterate through each hotel and display its rooms
         for (Hotel hotel : hotels.values()) {
             hotel.displayRooms();
             System.out.println("");
         }
     }
 
+    //Checks if a room with the room number is available
     public static boolean isRoomAvailable(int roomNumber) {
         HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null && room.isAvailable()) {
-                return true;  // Room is available
+                return true;
             }
         }
-        return false;  // Room is not available
+        return false;
     }
 
-    public static HashMap readRooms(HashMap<String, Hotel> hotels) {
-        //Adapt the readHotels function to read the different room types
-
+    //Reads from Rooms.txt, creates Room objects, and assigns them with hotels
+    public static HashMap<String, Room> readRooms(HashMap<String, Hotel> hotels) {
         HashMap<String, Room> rooms = new HashMap<>();
         try {
             FileReader fr = new FileReader("./resources/Rooms.txt");
             BufferedReader inStream = new BufferedReader(fr);
-            String line = null;
-            int idNumber = 1;
+            String line;
+            //room number counter
+            int idNumber = 1; 
             while ((line = inStream.readLine()) != null) {
-                String str[] = line.split("-");
-                //Get variables from string array if str split properly
+                String[] str = line.split("-");
+                //expect 5 fields per line
                 if (str.length == 5) {
                     String hotelName = str[0];
                     String type = str[1];
                     double price = Double.parseDouble(str[2]);
                     int maxGuests = Integer.parseInt(str[3]);
                     int availableRooms = Integer.parseInt(str[4]);
-
-                    // Create the Room objects with the amount of available rooms
+                    //Create the number of rooms and assign to hotel
                     for (int i = 0; i < availableRooms; i++) {
-
-                        //Room Number- Type- price - available? - maxGuests
                         Room room = new Room(idNumber, type, price, true, maxGuests);
-                        //Add room to rooms hashmap
                         rooms.put(type + "-" + idNumber, room);
-                        // Add to the corresponding hotel's ArrayList of rooms
-
                         if (hotels.containsKey(hotelName)) {
-                            hotels.get(hotelName).addRoom(room);
+                            //Link room to hotel
+                            hotels.get(hotelName).addRoom(room); 
                         } else {
                             System.out.println("Warning: Hotel " + hotelName + " not found for room type " + type);
                         }
-                        idNumber++;
+                        //room ID +1
+                        idNumber++; 
                     }
-
                 }
             }
-
             inStream.close();
-            // Set room availability from the list of bookings.
+            //after loading rooms, update their availability based from bookings
             RoomAvailabilityManager.updateRoomAvailabilityFromBookings(hotels, "./resources/CustomerInfo.txt");
-
+            
         } catch (FileNotFoundException e) {
             Logger.getLogger(RoomManager.class.getName()).log(Level.SEVERE, null, e);
         } catch (IOException e) {
@@ -103,33 +99,33 @@ public class RoomManager {
         }
         return rooms;
     }
-
+    
+    //Retrieves the highest room number currently assigned.
     public static int getMaxRoomNumber() {
-        // Load Hotels - they dont have rooms in them
         HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
-        //Load Rooms 
         HashMap<String, Room> rooms = readRooms(hotels);
-        int max = 0;
 
+        int max = 0;
         for (Room room : rooms.values()) {
             if (room.getRoomNumber() > max) {
                 max = room.getRoomNumber();
             }
         }
-
         return max;
     }
-
-    public static int getMaxGuestsForRoom(int roomNumber) { // get maximum number of guests a specific room if you only have the roomNumber.
+    
+    //Gets the maximum number of guests allowed for a specific room by its number.
+    public static int getMaxGuestsForRoom(int roomNumber) {
         HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
-        HashMap<String, Room> rooms = readRooms(hotels);
+        HashMap<String, Room> rooms = readRooms(hotels); 
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null) {
                 return room.getMaxGuests();
             }
         }
-        return -1; // if room not found return -1
+        //room not found
+        return -1; 
     }
 
     public static double calculateTotalPrice(int roomNumber, int duration) {
@@ -153,4 +149,5 @@ public class RoomManager {
         }
         return null;
     }
+
 }

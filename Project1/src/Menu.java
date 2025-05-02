@@ -13,8 +13,13 @@ import java.util.Scanner;
  * @author George
  * @author William Bindon
  */
+
 public class Menu {
 
+//This is the main class and should be the file that is run
+//This class contains method calls and initializations of 
+
+public class Menu {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         //Write Menu Here, call all methods to read in data
@@ -25,43 +30,41 @@ public class Menu {
             System.out.println("1) View Hotels");
             System.out.println("2) View Rooms");
             System.out.println("3) Make a booking or view your Booking");
-
             //If not a number
             while (!s.hasNextLine()) {
                 System.out.print("Invalid input. Please enter a number: ");
-                s.next(); // discard invalid input
+                s.next(); //discard invalid input
             }
             input = s.nextLine();
             switch (input) {
                 case "1":
                     System.out.println("\nViewing hotels");
-                    //Call method
-//                    HotelManager.displayHotels();
-
-                    // Initialize HotelManager
+                    //initialize HotelManager
                     HotelManager hotelManager = new HotelManager();
-
-                    // Initialize HotelDisplay to handle the display logic
+                    //initialize HotelDisplay to handle display
                     HotelDisplay hotelDisplay = new HotelDisplay();
-
-                    // Display hotels using the HotelDisplay class
+                    //display hotels with HotelDisplay class
                     hotelDisplay.displayHotels(hotelManager.getHotels());
                     break;
                 case "2":
                     System.out.println("\nViewing rooms");
-                    //Call Method
+                    //call Method
                     RoomManager.displayHotelRooms();
                     break;
                 case "3":
                     System.out.println("\nEnter Booking Details");
-
-                    //Get Required Arguments for Booking Controller
-                    HashMap<String, Hotel> hotels = HotelFileReader.readHotels(); // Create list of hotels
-                    RoomManager.readRooms(hotels); // Create rooms in hotels
-                    DateService ds = new DateService(); // Load Date Service
-                    BookingManager bm = new BookingManager("./resources/CustomerInfo.txt"); // Load BookingManager
-                    BookingController controller = new BookingController(bm, ds, hotels); // Pass DateService, Booking Manager and Populated Hotel list into the controller
-                    //Call method
+                    //get required arguments for booking controller
+                    //create list of hotels
+                    HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
+                    //create rooms in hotels
+                    RoomManager.readRooms(hotels); 
+                    //load date service
+                    DateService ds = new DateService(); 
+                    //load Booking Manager
+                    BookingManager bm = new BookingManager("./resources/CustomerInfo.txt"); 
+                    //pass dateservice, bookingmanager and hotel list into the controller
+                    BookingController controller = new BookingController(bm, ds, hotels);
+                    //run the controller
                     try {
                         controller.run();
                     } catch (InputMismatchException e) {
@@ -71,7 +74,8 @@ public class Menu {
                     } catch (Exception e) {
                         System.out.println("Something went wrong: " + e.getMessage());
                     }
-                    break;  
+                    break;
+                //if input == q, quti program
                 case "q":
                     System.out.println("\nExiting, Thanks!");
                     break;
@@ -82,7 +86,5 @@ public class Menu {
         } while (!input.equalsIgnoreCase(
                 "q"));
         s.close();
-
     }
-
 }
