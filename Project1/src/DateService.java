@@ -51,7 +51,7 @@ public class DateService {
                 continue;
             }
             //Condition to check availabiity of room
-            if (RoomManager.isRoomAvailable(roomNumber)) {
+            if (!RoomManager.isRoomAvailable(roomNumber)) {
                 System.out.println("This room is not available. Choose another.");
                 continue;
             }

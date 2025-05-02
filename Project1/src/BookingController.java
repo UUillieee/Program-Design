@@ -61,11 +61,11 @@ public class BookingController {
                 System.out.println("Would you like to?\n1) Cancel Booking\n2) Update Booking\n3)Exit");
                 String input = "";
                 do {
-                    input = scanner.nextLine();
+                    input = scanner.nextLine().trim();
                     if (input.equalsIgnoreCase("q")) {
                         throw new BookingCancelledException("'q' entered.");
                     }
-                } while (!input.equals("1") || !input.equals("2") || !input.equals("3"));
+                } while (!input.equals("1") && !input.equals("2") && !input.equals("3"));
 
                 switch (input) {
                     case "1":
