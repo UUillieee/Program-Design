@@ -35,7 +35,7 @@ public class BookingController {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         //ask user for name
-        System.out.println("\nEnter your name:");
+        System.out.println("\nEnter your name: (Case insensitive)");
       
         String name = scanner.nextLine().trim().toLowerCase();
         //Exit program
@@ -91,7 +91,7 @@ public class BookingController {
                     case "2":
                         try {
                             //Update Booking , Collect Details Again
-                            Booking updatedBooking = dateService.collectBookingDetails(scanner);
+                            Booking updatedBooking = dateService.collectBookingDetails(scanner,hotels); // pass in final copy of hotels
                             int duration = updatedBooking.getEndDay() - updatedBooking.getDay(); // Calculate length of stay
                             double totalPrice = RoomManager.calculateTotalPrice(updatedBooking.getRoomNumber(), duration); // Calculate total price of stay
                             updatedBooking.setTotalPrice(totalPrice); // Set total price 
@@ -122,7 +122,7 @@ public class BookingController {
         else {
 
             try {
-                Booking booking = dateService.collectBookingDetails(scanner);
+                Booking booking = dateService.collectBookingDetails(scanner,hotels); // pass in final copy of hotels
                 //Calc total price
                 int duration = booking.getEndDay() - booking.getDay(); // Duration of stay
                 double totalPrice = RoomManager.calculateTotalPrice(booking.getRoomNumber(), duration); // Calculate total price

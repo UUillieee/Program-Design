@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,8 +45,7 @@ public class RoomManager {
     }
 
     //Checks if a room with the room number is available
-    public static boolean isRoomAvailable(int roomNumber) {
-        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
+    public static boolean isRoomAvailable(int roomNumber,Map<String, Hotel> hotels) {
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null && room.isAvailable()) {
