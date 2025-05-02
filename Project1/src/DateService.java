@@ -16,7 +16,6 @@ public class DateService {
 
     //days in each month (0-index unused to match month numbers 1–12)
     private static final int[] DAYS_IN_MONTH = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private static final int MAX_GUESTS = 5;
 
 
     //main method to collect all booking details from the user
