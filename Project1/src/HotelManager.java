@@ -23,7 +23,7 @@ public class HotelManager {
 
     // Constructor: Initialize the hotels collection by reading from the file
     public HotelManager() {
-        this.hotels = HotelFileReader.readHotels(); // Read hotels using HotelFileReader
+        this.hotels = HotelFileReader.readHotels(); // Read hotels 
     }
 
     // Method to get all hotels
