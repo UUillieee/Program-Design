@@ -10,6 +10,8 @@
  * @author gcoll
  */
 public class Booking {
+
+   
     private final int time; //time of check-in (24hr time)
     private final int day;//start day of booking
     private final int month;//Start month of booking
@@ -17,10 +19,11 @@ public class Booking {
     private final int endMonth;//End month of booking
     private int roomNumber = 0;//Room number assigned to the booking
     private int guests;//Number of guests for the booking
-    private int totalPrice;//Total price for the booking
+    private double totalPrice = 0;//Total price for the booking
 
     //constructor to initialize all details
-    public Booking(int time, int day, int month, int endDay, int endMonth, int roomNumber, int guests) {
+    public Booking(int time, int day, int month, int endDay, int endMonth, int roomNumber, int guests,double totalPrice) {
+
         this.time = time;
         this.day = day;
         this.month = month;
@@ -28,6 +31,7 @@ public class Booking {
         this.endMonth = endMonth;
         this.roomNumber = roomNumber;
         this.guests = guests;
+        this.totalPrice = totalPrice;
     }
 
     //Returns the room number
@@ -38,8 +42,8 @@ public class Booking {
     //Returns a string of the booking details 
     @Override
     public String toString() {
-        return "Check-in Time: " + time + ":00, Start Date: " + day + "/" + month
-                + ", End Date: " + endDay + "/" + endMonth + ", Guests: " + guests;
+        return "Check-in Time: " + time + ":00, Start Date: " + getDay() + "/" + month
+                + ", End Date: " + getEndDay() + "/" + endMonth + ", Guests: " + guests + "\nTotal Price: $" + totalPrice;
     }
 
     //Returns total price of the booking
@@ -51,9 +55,17 @@ public class Booking {
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
+  
+    public int getDay() {
+        return day;
+    }
 
+    public int getEndDay() {
+        return endDay;
+    }
     //Returns a string suitable for saving to a file
+
     public String toFileString() {
-        return time + "," + day + "," + month + "," + endDay + "," + endMonth + "," + roomNumber + "," + guests;
+        return time + "," + getDay() + "," + month + "," + getEndDay() + "," + endMonth + "," + roomNumber + "," + guests + "," + totalPrice;
     }
 }

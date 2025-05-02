@@ -23,7 +23,8 @@ public class RoomManager {
 
     //method to test/display hotel rooms
     public static void main(String[] args) {
-        displayHotelRooms();
+        //displayHotelRooms();
+        System.out.println("Total price for room 30 for 4 days = "+RoomManager.calculateTotalPrice(30, 4));
     }
 
     //Reads hotel and room data and displays rooms grouped by hotels
@@ -69,7 +70,7 @@ public class RoomManager {
                 if (str.length == 5) {
                     String hotelName = str[0];
                     String type = str[1];
-                    int price = Integer.parseInt(str[2]);
+                    double price = Double.parseDouble(str[2]);
                     int maxGuests = Integer.parseInt(str[3]);
                     int availableRooms = Integer.parseInt(str[4]);
                     //Create the number of rooms and assign to hotel
@@ -116,7 +117,7 @@ public class RoomManager {
     //Gets the maximum number of guests allowed for a specific room by its number.
     public static int getMaxGuestsForRoom(int roomNumber) {
         HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
-
+        HashMap<String, Room> rooms = readRooms(hotels); 
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null) {
@@ -126,4 +127,27 @@ public class RoomManager {
         //room not found
         return -1; 
     }
+
+    public static double calculateTotalPrice(int roomNumber, int duration) {
+        Room room = getRoomByNumber(roomNumber);
+        if (room != null) {
+            return duration * room.getPrice();
+        } else {
+            throw new IllegalArgumentException("Room not found: " + roomNumber);
+        }
+    }
+
+    public static Room getRoomByNumber(int roomNumber) {
+        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
+        HashMap<String, Room> rooms = RoomManager.readRooms(hotels);
+        for (Hotel hotel : hotels.values()) {
+            for (Room room : hotel.getRooms()) {
+                if (room.getRoomNumber() == roomNumber) {
+                    return room;
+                }
+            }
+        }
+        return null;
+    }
+
 }

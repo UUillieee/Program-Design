@@ -14,6 +14,8 @@ import java.util.Scanner;
  * @author William Bindon
  */
 
+public class Menu {
+
 //This is the main class and should be the file that is run
 //This class contains method calls and initializations of 
 
@@ -65,8 +67,12 @@ public class Menu {
                     //run the controller
                     try {
                         controller.run();
-                    }catch(InputMismatchException e){
+                    } catch (InputMismatchException e) {
                         System.out.println("Input Not Correct");
+                    } catch (BookingCancelledException e) {
+                        System.out.println("Booking was cancelled: " + e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong: " + e.getMessage());
                     }
                     break;
                 //if input == q, quti program
@@ -76,7 +82,9 @@ public class Menu {
                 default:
                     System.out.println("Invalid Input. Try Again.");
             }
-        } while (!input.equalsIgnoreCase("q"));
+
+        } while (!input.equalsIgnoreCase(
+                "q"));
         s.close();
     }
 }
