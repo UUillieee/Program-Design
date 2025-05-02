@@ -13,7 +13,6 @@ import java.util.Scanner;
  * @author George
  * @author William Bindon
  */
-
 public class Menu {
 
     public static void main(String[] args) {
@@ -38,13 +37,13 @@ public class Menu {
                     System.out.println("\nViewing hotels");
                     //Call method
 //                    HotelManager.displayHotels();
-                    
+
                     // Initialize HotelManager
                     HotelManager hotelManager = new HotelManager();
-        
+
                     // Initialize HotelDisplay to handle the display logic
                     HotelDisplay hotelDisplay = new HotelDisplay();
-        
+
                     // Display hotels using the HotelDisplay class
                     hotelDisplay.displayHotels(hotelManager.getHotels());
                     break;
@@ -65,18 +64,23 @@ public class Menu {
                     //Call method
                     try {
                         controller.run();
-                    }catch(InputMismatchException e){
+                    } catch (InputMismatchException e) {
                         System.out.println("Input Not Correct");
+                    } catch (BookingCancelledException e) {
+                        System.out.println("Booking was cancelled: " + e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong: " + e.getMessage());
                     }
-                    
-                    break;
+                    break;  
                 case "q":
                     System.out.println("\nExiting, Thanks!");
                     break;
                 default:
                     System.out.println("Invalid Input. Try Again.");
             }
-        } while (!input.equalsIgnoreCase("q"));
+
+        } while (!input.equalsIgnoreCase(
+                "q"));
         s.close();
 
     }

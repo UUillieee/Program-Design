@@ -29,7 +29,11 @@ public class BookingController {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("\nEnter your name:");
-        String name = scanner.nextLine().trim();
+        String name = scanner.nextLine().trim().toLowerCase();
+        //Exit program
+        if (name.equalsIgnoreCase("q")) {
+            throw new BookingCancelledException("Booking cancelled by user.");
+        }
 
         if (bookings.containsKey(name)) {
             Booking booking = bookings.get(name);
@@ -51,47 +55,69 @@ public class BookingController {
                     }
                 }
             }
-            
+
             // Update or cancel existing booking
             if (foundRoom != null) {
-                System.out.println("Would you like to?\n1) Cancel Booking\n2) Update Booking");
-                int input = 0;
-                
-                try {
-                    input = scanner.nextInt();
-                    scanner.nextLine(); // clear newline
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. Please enter a number.");
-                    scanner.nextLine(); // clear scanner buffer
-                    return;
-                }
+                System.out.println("Would you like to?\n1) Cancel Booking\n2) Update Booking\n3)Exit");
+                String input = "";
+                do {
+                    input = scanner.nextLine();
+                    if (input.equalsIgnoreCase("q")) {
+                        throw new BookingCancelledException("'q' entered.");
+                    }
+                } while (!input.equals("1") || !input.equals("2") || !input.equals("3"));
+
                 switch (input) {
-                    case 1:
+                    case "1":
                         // Add actual cancellation logic
                         bookings.remove(name);
-                        bookingManager.removeBooking(name,booking.getRoomNumber(),hotels); // remove booking , with hotels to make room available again
+                        bookingManager.removeBooking(name, booking.getRoomNumber(), hotels); // remove booking , with hotels to make room available again
                         System.out.println("Booking Cancelled.");
                         break;
-                    case 2:
-                        Booking updatedBooking = dateService.collectBookingDetails(scanner);
-                        bookings.put(name, updatedBooking);
-                        bookingManager.saveBooking(name, updatedBooking); // overwrite old booking
-                        System.out.println("Booking Updated: " + updatedBooking);
+                    case "2":
+                        try {
+                            //Update Booking , Collect Details Again
+                            Booking updatedBooking = dateService.collectBookingDetails(scanner);
+                            int duration = updatedBooking.getEndDay() - updatedBooking.getDay(); // Calculate length of stay
+                            double totalPrice = RoomManager.calculateTotalPrice(updatedBooking.getRoomNumber(), duration); // Calculate total price of stay
+                            updatedBooking.setTotalPrice(totalPrice);
+                            bookings.put(name, updatedBooking);
+                            bookingManager.saveBooking(name, updatedBooking); // overwrite old booking
+                            System.out.println("Booking Updated: " + updatedBooking);
+                        } catch (BookingCancelledException e) {
+                            System.out.println(e.getMessage());
+                            return; // Return to Menu class gracefully
+                        }
+                        break;
+                    case "3":
+                        System.out.println("Exiting, Thanks!");
                         break;
                     default:
                         System.out.println("Invalid input. Returning to main menu.");
                 }
             }
-            
+
             if (foundRoom == null) {
                 System.out.println("Room details not found.");
             }
-        } //if name not found then save new booking details to the txt file
+        } //if name found then prompt other options for booking
+        //if name not found then save new booking details to the txt file
         else {
-            Booking booking = dateService.collectBookingDetails(scanner);
-            bookings.put(name, booking);
-            bookingManager.saveBooking(name, booking);
-            System.out.println("Booking saved: " + booking);
+
+            try {
+                Booking booking = dateService.collectBookingDetails(scanner);
+                //Calc total price
+                int duration = booking.getEndDay() - booking.getDay(); // Duration of stay
+                double totalPrice = RoomManager.calculateTotalPrice(booking.getRoomNumber(), duration); // Calculate total price
+                booking.setTotalPrice(totalPrice);  // Set the total price for the booking
+                bookings.put(name, booking); // Save booking in bookings hashmap
+                bookingManager.saveBooking(name, booking);
+                System.out.println("Booking saved: " + booking);
+            } catch (BookingCancelledException e) { // if booking is cancelled anywhere in the collect booking class.
+                System.out.println(e.getMessage());
+                return; // return to menu class gracefully
+            }
+
         }
     }
 }

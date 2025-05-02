@@ -34,12 +34,12 @@ public class BookingManager {
                 if (parts.length == 2) {
                     String customerName = parts[0]; // save customer name in variable
                     String[] data = parts[1].split(",");
-                    if (data.length == 7) {
+                    if (data.length == 8) {
                         Booking booking = new Booking(
                                 Integer.parseInt(data[0]), Integer.parseInt(data[1]),
                                 Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                                 Integer.parseInt(data[4]), Integer.parseInt(data[5]),
-                                Integer.parseInt(data[6])
+                                Integer.parseInt(data[6]),Double.parseDouble(data[7])
                         );
 
                         bookings.put(customerName, booking); // create booking seperately

@@ -7,7 +7,6 @@
  *
  * @author William Bindon
  */
-
 import java.util.Scanner;
 
 public class DateService {
@@ -15,7 +14,7 @@ public class DateService {
     private static final int[] DAYS_IN_MONTH = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private static final int MAX_GUESTS = 5;
 
-    public Booking collectBookingDetails(Scanner scanner) {
+    public Booking collectBookingDetails(Scanner scanner) throws BookingCancelledException {
         int roomNumber = getValidRoomNumber(scanner);
         int month = getValidMonth(scanner);
         int day = getValidDay(scanner, month);
@@ -24,7 +23,7 @@ public class DateService {
         int guests = getValidGuests(scanner, roomNumber);
         int[] endDate = calculateEndDate(day, month, duration);
 
-        return new Booking(time, day, month, endDate[0], endDate[1], roomNumber, guests);
+        return new Booking(time, day, month, endDate[0], endDate[1], roomNumber, guests,0);
     }
 
     private int getValidRoomNumber(Scanner scanner) {
@@ -36,8 +35,7 @@ public class DateService {
             System.out.println("What Room Would you like to book? Enter Room #");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
-                System.out.println("Booking proccess cancelled by user.");
-                System.exit(0);
+                throw new BookingCancelledException("Booking cancelled by user.");
             }
             //Catch invalid input
             try {
@@ -69,8 +67,7 @@ public class DateService {
             System.out.println("What month would you like to stay? (1 - 12)");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
-                System.out.println("Booking proccess cancelled by user.");
-                System.exit(0);
+                throw new BookingCancelledException("Booking cancelled by user.");
             }
             try {
                 month = Integer.parseInt(input);
@@ -87,8 +84,7 @@ public class DateService {
             System.out.println("What day of the month? (1–" + DAYS_IN_MONTH[month] + ")");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
-                System.out.println("Booking proccess cancelled by user.");
-                System.exit(0);
+                throw new BookingCancelledException("Booking cancelled by user.");
             }
             try {
                 day = Integer.parseInt(input);
@@ -105,8 +101,7 @@ public class DateService {
             System.out.println("How many days would you like to stay?");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
-                System.out.println("Booking proccess cancelled by user.");
-                System.exit(0);
+                throw new BookingCancelledException("Booking cancelled by user.");
             }
             try {
                 duration = Integer.parseInt(input);
@@ -123,8 +118,7 @@ public class DateService {
             System.out.println("Arrival time (24hr format, between 8:00–19:00):");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
-                System.out.println("Booking proccess cancelled by user.");
-                System.exit(0);
+                throw new BookingCancelledException("Booking cancelled by user.");
             }
             try {
                 time = Integer.parseInt(input);
@@ -135,15 +129,14 @@ public class DateService {
         return time;
     }
 
-    private int getValidGuests(Scanner scanner, int roomNumber) {
-        int guests = -1;
+    private int getValidGuests(Scanner scanner, int roomNumber) throws BookingCancelledException {
+        int guests = 1;
         int maxGuests = RoomManager.getMaxGuestsForRoom(roomNumber); // Dynamic Variable to update according to max guests in each individual room
         do {
             System.out.println("How many guests?");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("q")) {
-                System.out.println("Booking proccess cancelled by user.");
-                System.exit(0);
+                throw new BookingCancelledException("Booking cancelled by user.");
             }
             try {
                 guests = Integer.parseInt(input);

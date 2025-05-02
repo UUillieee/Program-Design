@@ -24,7 +24,8 @@ public class RoomManager {
     RoomType-Price-
      */
     public static void main(String[] args) {
-        displayHotelRooms();
+        //displayHotelRooms();
+        System.out.println("Total price for room 30 for 4 days = "+RoomManager.calculateTotalPrice(30, 4));
     }
 
     public static void displayHotelRooms() {
@@ -67,7 +68,7 @@ public class RoomManager {
                 if (str.length == 5) {
                     String hotelName = str[0];
                     String type = str[1];
-                    int price = Integer.parseInt(str[2]);
+                    double price = Double.parseDouble(str[2]);
                     int maxGuests = Integer.parseInt(str[3]);
                     int availableRooms = Integer.parseInt(str[4]);
 
@@ -121,6 +122,7 @@ public class RoomManager {
 
     public static int getMaxGuestsForRoom(int roomNumber) { // get maximum number of guests a specific room if you only have the roomNumber.
         HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
+        HashMap<String, Room> rooms = readRooms(hotels);
         for (Hotel hotel : hotels.values()) {
             Room room = hotel.getRoom(roomNumber);
             if (room != null) {
@@ -130,4 +132,25 @@ public class RoomManager {
         return -1; // if room not found return -1
     }
 
+    public static double calculateTotalPrice(int roomNumber, int duration) {
+        Room room = getRoomByNumber(roomNumber);
+        if (room != null) {
+            return duration * room.getPrice();
+        } else {
+            throw new IllegalArgumentException("Room not found: " + roomNumber);
+        }
+    }
+
+    public static Room getRoomByNumber(int roomNumber) {
+        HashMap<String, Hotel> hotels = HotelFileReader.readHotels();
+        HashMap<String, Room> rooms = RoomManager.readRooms(hotels);
+        for (Hotel hotel : hotels.values()) {
+            for (Room room : hotel.getRooms()) {
+                if (room.getRoomNumber() == roomNumber) {
+                    return room;
+                }
+            }
+        }
+        return null;
+    }
 }
