@@ -17,6 +17,9 @@ import java.util.logging.Logger;
  * @author William Bindon
  */
 
+
+//This class manages a collection of hotels
+//it loads hotel data using the HotelileReader class
 public class HotelManager {
 
     private HashMap<String, Hotel> hotels;
