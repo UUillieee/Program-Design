@@ -29,6 +29,7 @@ public class DatabaseManager {
         DatabaseManager dbManager = new DatabaseManager();
         dbManager.insertTables();
         
+        
         //CHAT GPT - RUN METHOD IF TESTING TO SEE DATABASE TABLE CONTENT
         dbManager.printHotels();
         dbManager.printRooms();
