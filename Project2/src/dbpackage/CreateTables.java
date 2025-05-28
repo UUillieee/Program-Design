@@ -91,7 +91,7 @@ public class CreateTables {
                 time INT,
                 month INT,
                 endMonth INT,
-                roomNumberBooked INT,
+                roomNumber INT,
                 guests INT,
                 totalPrice INT,
                 hotelId INT,

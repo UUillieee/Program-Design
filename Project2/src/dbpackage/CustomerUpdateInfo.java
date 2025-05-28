@@ -1,0 +1,54 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package dbpackage;
+
+import java.sql.*;
+
+/**
+ *
+ * @author billw
+ */
+public class CustomerUpdateInfo {
+
+    public void insertBooking(int id, int time, int month, int endMonth, int roomNumber,
+                              int guests, int totalPrice, int hotelId, boolean isBooked) {
+        String sql = "INSERT INTO Bookings (id, time, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            if (conn == null) {
+                System.out.println("Error: No valid database connection.");
+                return;
+            }
+
+            pstmt.setInt(1, id);
+            pstmt.setInt(2, time);
+            pstmt.setInt(3, month);
+            pstmt.setInt(4, endMonth);
+            pstmt.setInt(5, roomNumber);
+            pstmt.setInt(6, guests);
+            pstmt.setInt(7, totalPrice);
+            pstmt.setInt(8, hotelId);
+            pstmt.setBoolean(9, isBooked);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Booking inserted successfully.");
+            } else {
+                System.out.println("Booking insert failed.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error inserting booking: " + e.getMessage());
+        }
+    }
+
+    //test method
+    public void insertUpdate(){
+        CustomerUpdateInfo inserter = new CustomerUpdateInfo();
+        inserter.insertBooking(1, 18, 9, 9, 6, 2, 300, 2, true);
+    }
+}

@@ -15,7 +15,7 @@ import java.sql.*;
  * @author billw
  */
 //CHATGPT DEBUGING - to view room table contents for testing
-public class RoomCollect {
+public class RoomTablePrint {
     public void printAllRooms() {
         Connection conn = DatabaseConnection.getConnection();
         if (conn == null) {

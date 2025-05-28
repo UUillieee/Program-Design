@@ -73,18 +73,18 @@ public class HotelDataInserter {
         
         //Each sub-array has: {hotelName, roomType, cost, maxGuests, quantity availible} 
         String[][] roomData = {
-            {"Azure", "Penthouse", "500", "5", "1"},
-            {"Azure", "Suite", "300", "4", "3"},
-            {"Azure", "Single", "150", "5", "30"},
-            {"SkyCity", "Penthouse", "500", "5", "10"},
-            {"SkyCity", "Suite", "300", "4", "2"},
-            {"SkyCity", "Single", "150", "5", "10"},
-            {"The Crown", "Penthouse", "500", "5", "4"},
-            {"The Crown", "Suite", "300", "5", "3"},
-            {"The Crown", "Single", "150", "5", "6"},
-            {"Celestial", "Penthouse", "500", "5", "4"},
-            {"Celestial", "Suite", "300", "5", "3"},
-            {"Celestial", "Single", "150", "5", "7"}
+            {"Azure", "Penthouse", "500", "5", "1", "false"},
+            {"Azure", "Suite", "300", "4", "3", "false"},
+            {"Azure", "Single", "150", "5", "30", "false"},
+            {"SkyCity", "Penthouse", "500", "5", "10", "false"},
+            {"SkyCity", "Suite", "300", "4", "2", "false"},
+            {"SkyCity", "Single", "150", "5", "10", "false"},
+            {"The Crown", "Penthouse", "500", "5", "4", "false"},
+            {"The Crown", "Suite", "300", "5", "3", "false"},
+            {"The Crown", "Single", "150", "5", "6", "false"},
+            {"Celestial", "Penthouse", "500", "5", "4", "false"},
+            {"Celestial", "Suite", "300", "5", "3", "false"},
+            {"Celestial", "Single", "150", "5", "7", "false"}
         };
         
         //insert each room into the rooms table 
@@ -97,11 +97,12 @@ public class HotelDataInserter {
             int maxGuests = Integer.parseInt(row[3]);
             //insert this number of rooms into the table
             int amount = Integer.parseInt(row[4]); 
+            boolean availible = false;
             
             //insert "amount" of rooms of each type into the table
             for (int i = 0; i < amount; i++) {
                 stmt.executeUpdate(String.format(
-                    "INSERT INTO Rooms VALUES (%d, %d, '%s', %d, %d, false)", roomId++, hotelId, type, cost, maxGuests));
+                    "INSERT INTO Rooms VALUES (%d, %d, '%s', %d, %d, %s)", roomId++, hotelId, type, cost, maxGuests, availible));
             }
         }
         System.out.println("Rooms inserted.");

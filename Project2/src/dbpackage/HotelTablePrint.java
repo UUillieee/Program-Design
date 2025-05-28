@@ -16,7 +16,7 @@ import java.sql.*;
  */
 
 //CHATGPT DEBUGING - to view hotel table contents for testing
-public class HotelCollect {
+public class HotelTablePrint {
     public void printAllHotels() {
         Connection conn = DatabaseConnection.getConnection();
         if (conn == null) {

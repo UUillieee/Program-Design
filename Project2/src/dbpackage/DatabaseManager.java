@@ -19,8 +19,12 @@ public class DatabaseManager {
     public static void main(String[] args) {
         new CreateTables().insertTables();
         new HotelDataInserter().insert();
-        new HotelCollect().printAllHotels();
-        new RoomCollect().printAllRooms();
+        new HotelTablePrint().printAllHotels();
+        new RoomTablePrint().printAllRooms();
+        new CustomerUpdateInfo().insertUpdate();
+        new BookingsTablePrint().printBookings();
+        new CustomerTablePrint().printCustomer();
+        
     } 
 }
 
