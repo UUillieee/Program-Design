@@ -51,10 +51,10 @@ public class HotelSelectionPanel extends JPanel {
 
         String[] columnNames = {"Hotel", "Location"};
         //Create table that displays hotels and location
-        JTable table = new JTable(hotels, columnNames);
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        JScrollPane scrollPane = new JScrollPane(table);
+        JTable hotelTable = new JTable(hotels, columnNames);
+        hotelTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        hotelTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        JScrollPane scrollPane = new JScrollPane(hotelTable);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
@@ -76,7 +76,9 @@ public class HotelSelectionPanel extends JPanel {
         JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "Welcome", "RoomSelection");
         gbc.gridwidth = 3;
         add(backNextPanel, gbc);
-        
+
+      
+
     }
 
     public static void main(String[] args) {

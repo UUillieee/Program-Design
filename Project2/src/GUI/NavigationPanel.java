@@ -58,10 +58,7 @@ public class NavigationPanel {
         return navigationPanel;
     }
 
-    public static JPanel createBookingProccessButtons(
-            ActionListener controller,
-            String backTarget,
-            String nextTarget)
+    public static JPanel createBookingProccessButtons(ActionListener controller,String backTarget,String nextTarget)
     {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         panel.setBackground(Color.WHITE);
@@ -78,6 +75,7 @@ public class NavigationPanel {
         JButton nextBtn = new JButton("Next");
         nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
         nextBtn.addActionListener(controller);
+        nextBtn.setEnabled(false); // disable initially so user has to select something before moving on
         nextBtn.putClientProperty("targetPanel", nextTarget);
         StyleButtons.styleNavigationButton(nextBtn, new Color(30, 144, 255)); // Blue 
         panel.add(nextBtn);

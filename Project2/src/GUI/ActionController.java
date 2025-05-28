@@ -52,7 +52,7 @@ public class ActionController implements ActionListener {
                     mainFrame.showPanel("BookingPanel"); //del this
                     break;
                 case EXIT:
-                     System.exit(0);
+                    System.exit(0);
                     break;
                 // Add more cases as needed
                 default:
