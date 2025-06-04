@@ -4,29 +4,29 @@
  */
 package GUI;
 
+import static GUI.Command.CREATE_USER;
+import static GUI.Command.EXIT;
+import static GUI.Command.LOGIN;
+import static GUI.Command.LOGOUT;
+import static GUI.Command.SWITCH_PANEL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-
 /**
  *
  * @author George
  */
 //Class to monitor all the buttons on the GUI, shows next panel on press, provides login button actions etc etc
 public class ActionController implements ActionListener {
-
     private HotelFrame mainFrame;
-
     public ActionController(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
             Command command = Command.valueOf(e.getActionCommand()); //use enum to Get what action event e.g whether to exit, switch panel or login
-
             switch (command) {
                 case SWITCH_PANEL: //To
                     //Target panel is passed to action controller - use that to switch to the desired panel
@@ -38,7 +38,6 @@ public class ActionController implements ActionListener {
                             System.out.println("No target panel set for this button."); // error
                         }
                     }
-
                     break;
                 case LOGIN:
                     //Call database logic
@@ -50,7 +49,21 @@ public class ActionController implements ActionListener {
                 case CREATE_USER:
                     //Call Database logic 
                     //Create new user with username and password in login panel
-                    mainFrame.showPanel("BookingPanel"); //del this
+                    LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
+                    String username = loginPanel.getUsername();
+                    String password = loginPanel.getPassword();
+
+                    //check if fields are empty
+                    if (username.isEmpty() || password.isEmpty()) {
+                        System.out.println("Username or password cannot be empty.");
+                        return;
+                    }
+
+                    //insert the username and password into the database
+                    new dbpackage.CustomerUpdateInfo().insertCustomer(username, password);
+
+                    //switch to the next panel
+                    mainFrame.showPanel("Booking");
                     break;
                 case EXIT:
                     System.exit(0);
