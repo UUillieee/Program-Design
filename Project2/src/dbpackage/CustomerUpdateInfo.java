@@ -12,9 +12,9 @@ import java.sql.*;
  */
 public class CustomerUpdateInfo {
 
-    public void insertBooking(int id, int time, int month, int endMonth, int roomNumber,
+    public void insertBooking(int id, int time, int day, int month, int endMonth, int roomNumber,
                               int guests, int totalPrice, int hotelId, boolean isBooked) {
-        String sql = "INSERT INTO Bookings (id, time, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Bookings (id, time, day, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -26,13 +26,14 @@ public class CustomerUpdateInfo {
 
             pstmt.setInt(1, id);
             pstmt.setInt(2, time);
-            pstmt.setInt(3, month);
-            pstmt.setInt(4, endMonth);
-            pstmt.setInt(5, roomNumber);
-            pstmt.setInt(6, guests);
-            pstmt.setInt(7, totalPrice);
-            pstmt.setInt(8, hotelId);
-            pstmt.setBoolean(9, isBooked);
+            pstmt.setInt(3, day);
+            pstmt.setInt(4, month);
+            pstmt.setInt(5, endMonth);
+            pstmt.setInt(6, roomNumber);
+            pstmt.setInt(7, guests);
+            pstmt.setInt(8, totalPrice);
+            pstmt.setInt(9, hotelId);
+            pstmt.setBoolean(10, isBooked);
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -49,6 +50,6 @@ public class CustomerUpdateInfo {
     //test method
     public void insertUpdate(){
         CustomerUpdateInfo inserter = new CustomerUpdateInfo();
-        inserter.insertBooking(1, 18, 9, 9, 6, 2, 300, 2, true);
+        inserter.insertBooking(1, 3, 18, 9, 9, 6, 2, 300, 2, true);
     }
 }
