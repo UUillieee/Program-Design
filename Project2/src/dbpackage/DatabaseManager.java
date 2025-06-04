@@ -21,7 +21,7 @@ public class DatabaseManager {
         new HotelDataInserter().insert();
         new HotelTablePrint().printAllHotels();
         new RoomTablePrint().printAllRooms();
-        new CustomerUpdateInfo().insertUpdate();
+        new BookingUpdateInfo().insertUpdate();
         new BookingsTablePrint().printBookings();
         new CustomerTablePrint().printCustomer();
         

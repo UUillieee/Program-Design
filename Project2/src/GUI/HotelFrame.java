@@ -94,4 +94,9 @@ public class HotelFrame extends JFrame implements BookingListener {
         updateBookingPanels();
     }
 
+    @Override
+    public void updateBookingInfo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
