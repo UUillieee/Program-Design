@@ -89,6 +89,7 @@ public class CreateTables {
             CREATE TABLE Bookings (
                 id INT PRIMARY KEY,
                 time INT,
+                day INT,           
                 month INT,
                 endMonth INT,
                 roomNumber INT,

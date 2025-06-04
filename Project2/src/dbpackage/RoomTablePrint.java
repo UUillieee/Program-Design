@@ -28,7 +28,7 @@ public class RoomTablePrint {
             System.out.println("Rooms:");
             while (rs.next()) {
                 System.out.printf("ID: %d, Hotel ID: %d, Type: %s, Cost: %d, Max Guests: %d, Booked: %b%n",
-                    rs.getInt("id"), rs.getInt("hotelId"), rs.getString("type"),
+                    rs.getInt("id"), rs.getInt("hotelID"), rs.getString("type"),
                     rs.getInt("cost"), rs.getInt("maxGuests"), rs.getBoolean("isBooked"));
             }
         } catch (SQLException e) {
