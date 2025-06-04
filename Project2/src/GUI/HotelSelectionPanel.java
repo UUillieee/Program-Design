@@ -2,23 +2,30 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import dbpackage.RetrieveHotels;
+
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import Model.Hotel;
+
 
 public class HotelSelectionPanel extends JPanel {
 
     private HotelFrame mainFrame;
     //private NavigationPanel navigationPanel;
     // Hotel selectedHotel;
+    private BookingListener bookingListener;
+
+    public void setBookingListener(BookingListener listener) {
+        this.bookingListener = listener;
+    }
 
     public HotelSelectionPanel(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
         ActionListener controller = new ActionController(mainFrame);
         //this.navigationPanel = new NavigationPanel(mainFrame, controller);
-        initUI(controller);
-
     }
 
     // test
@@ -28,7 +35,7 @@ public class HotelSelectionPanel extends JPanel {
 
     }
 
-    private void initUI(ActionListener controller) {
+    protected void initUI(ActionListener controller) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -41,15 +48,20 @@ public class HotelSelectionPanel extends JPanel {
         gbc.gridwidth = 2;
         add(title, gbc);
 
+
         // Hotel options retrieving from database
         String[][] hotels = new RetrieveHotels().getAllHotels();
 
-        String[] columnNames = {"Hotel", "Location"};
+
+        String[] columnNames = {"ID", "Hotel", "Location"};
         //Create table that displays hotels and location
         JTable hotelTable = new JTable(hotels, columnNames);
-        hotelTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        hotelTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         hotelTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        hotelTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        hotelTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only select one at a time
         JScrollPane scrollPane = new JScrollPane(hotelTable);
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
@@ -72,8 +84,41 @@ public class HotelSelectionPanel extends JPanel {
         gbc.gridwidth = 3;
         add(backNextPanel, gbc);
 
-      
+        //Get hotel from selected one and give to room selection to display rooms in that hotel.
+        JButton nextButton = getNextButtonFromBackNextPanel(backNextPanel);
+        nextButton.setEnabled(false); // initially disabled
 
+        hotelTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = hotelTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String hotelName = (String) hotelTable.getValueAt(selectedRow, 1);
+                        String hotelLocation = (String) hotelTable.getValueAt(selectedRow, 2);
+                        Hotel selectedHotel = new Hotel(hotelName, hotelLocation); // create your Hotel object
+                        mainFrame.getBookingBuilder().setHotel(selectedHotel);
+                        System.out.println("Hotel: set" + mainFrame.getBookingBuilder().getHotel().getName());
+                        nextButton.setEnabled(true); // enable navigation after valid selection
+                        //Notify listeners
+                        if (bookingListener != null) {
+                            bookingListener.onHotelSelected(selectedHotel);
+                        }
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private JButton getNextButtonFromBackNextPanel(JPanel panel) {
+        for (Component comp : panel.getComponents()) {
+            if (comp instanceof JButton btn && "Next".equals(btn.getText())) {
+                return btn;
+            }
+        }
+        return null;
     }
 
     public static void main(String[] args) {

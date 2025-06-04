@@ -1,7 +1,11 @@
+package Model;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+import Model.Room;
+import Model.Booking;
 import java.util.Map;
 
 //Manages room availability updates across hotels

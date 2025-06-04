@@ -38,6 +38,7 @@ public class ActionController implements ActionListener {
                             System.out.println("No target panel set for this button."); // error
                         }
                     }
+
                     break;
                 case LOGIN:
                     //Call database logic

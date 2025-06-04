@@ -75,7 +75,7 @@ public class NavigationPanel {
         JButton nextBtn = new JButton("Next");
         nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
         nextBtn.addActionListener(controller);
-        nextBtn.setEnabled(false); // disable initially so user has to select something before moving on
+        nextBtn.setEnabled(true); // disable initially so user has to select something before moving on
         nextBtn.putClientProperty("targetPanel", nextTarget);
         StyleButtons.styleNavigationButton(nextBtn, new Color(30, 144, 255)); // Blue 
         panel.add(nextBtn);

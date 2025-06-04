@@ -1,31 +1,31 @@
 package GUI;
 
+import Model.Hotel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RoomSelectionPanel extends JPanel {
+public class RoomSelectionPanel extends JPanel  implements BookingListener {
 
     private HotelFrame mainFrame;
     NavigationPanel navigationPanel;
+    private String hotelName;
+    private JLabel title; // <-- Add this line so we can update it later
 
     public RoomSelectionPanel(HotelFrame mainFrame) {
-        ActionListener controller = new ActionController(mainFrame);
-       this.navigationPanel = new NavigationPanel(mainFrame, controller);
-        initUI(controller);
         this.mainFrame = mainFrame;
-
+        this.hotelName = "No hotel selected";
     }
 
-    private void initUI(ActionListener controller) {
+    protected void initUI(ActionListener controller) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         this.setBackground(Color.WHITE);
 
         //Update label to include selected hotel
-        JLabel title = new JLabel("Select a Room:");
+        title = new JLabel("Please Select from Rooms in Hotel: " + hotelName);
         title.setFont(new Font("Arial", Font.BOLD, 18));
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -40,10 +40,8 @@ public class RoomSelectionPanel extends JPanel {
             {"Azure", "Single", "150", "5", "30"},
             {"SkyCity", "Penthouse", "500", "5", "10"}
         };
-        String[] columnNames = {"Hotel","Room Type","Cost","MaxGuests","Availability"};
-                
+        String[] columnNames = {"Hotel", "Room Type", "Cost", "MaxGuests", "Availability"};
 
-        
         //Create table that displays hotels and location
         JTable table = new JTable(rooms, columnNames);
         table.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -58,7 +56,7 @@ public class RoomSelectionPanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH; // expand horizontally not vertically- so no empty space
         this.add(scrollPane, gbc);
 
-         // settings for backnext panel
+        // settings for backnext panel
         gbc.gridy = rooms.length + 1;
         gbc.gridwidth = 1;
         gbc.weightx = 0;
@@ -71,4 +69,16 @@ public class RoomSelectionPanel extends JPanel {
         gbc.gridwidth = 3;
         add(backNextPanel, gbc);
     }
+    
+    @Override
+    public void updateBookingInfo() {
+        Hotel selectedHotel = mainFrame.getBookingBuilder().getHotel();
+        if (selectedHotel != null && title != null) {
+            hotelName = selectedHotel.getName(); // update field (optional)
+            title.setText("Please Select from Rooms in Hotel: " + hotelName);
+            revalidate();
+            repaint();
+        }
+    }
+
 }
