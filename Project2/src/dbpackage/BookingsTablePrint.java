@@ -19,9 +19,10 @@ public class BookingsTablePrint {
             System.out.println("=== Bookings Table ===");
             while (rs.next()) {
                 System.out.printf(
-                    "ID: %d, Time: %d, Month: %d, EndMonth: %d, Room: %d, Guests: %d, Total Price: %d, Hotel ID: %d, Is Booked: %b%n",
+                    "ID: %d, Time: %d, Day: %d, Month: %d, EndMonth: %d, Room: %d, Guests: %d, Total Price: %d, Hotel ID: %d, Is Booked: %b%n",
                     rs.getInt("id"),
                     rs.getInt("time"),
+                    rs.getInt("day"),
                     rs.getInt("month"),
                     rs.getInt("endMonth"),
                     rs.getInt("roomNumber"),

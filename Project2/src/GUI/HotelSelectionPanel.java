@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
+import dbpackage.RetrieveHotels;
 
 public class HotelSelectionPanel extends JPanel {
 
@@ -40,14 +41,8 @@ public class HotelSelectionPanel extends JPanel {
         gbc.gridwidth = 2;
         add(title, gbc);
 
-        // Hotel options - Need to load from database
-        String[][] hotels = {
-            {"Azure", "Auckland"},
-            {"Celestial", "Taupo"},
-            {"The Crown", "Wellington"},
-            {"SkyCity", "Auckland"},
-            {"Skyline Suites", "Rotorua"}
-        };
+        // Hotel options retrieving from database
+        String[][] hotels = new RetrieveHotels().getAllHotels();
 
         String[] columnNames = {"Hotel", "Location"};
         //Create table that displays hotels and location
