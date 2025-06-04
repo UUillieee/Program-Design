@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Wed Jun 04 14:44:09 NZST 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0197-38d3-1f94-00000f7f1f40 
-on database directory /Users/willbindon/2025/Programing Design/Program-Design/Project2/myDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1369b299 
-Loaded from file:/Users/willbindon/2025/Programing%20Design/Program-Design/Project2/lib/derby.jar
+Wed Jun 04 15:09:47 NZST 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0197-38ea-977c-00001f709758 
+on database directory C:\Users\billw\2025\Program Design and Constuction\Program-Design\Project2\myDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
+Loaded from file:/C:/Users/billw/2025/Program%20Design%20and%20Constuction/Program-Design/Project2/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=24+36-3646
-user.dir=/Users/willbindon/2025/Programing Design/Program-Design/Project2
-os.name=Mac OS X
-os.arch=aarch64
-os.version=15.5
+java.runtime.version=23.0.2+7-58
+user.dir=C:\Users\billw\2025\Program Design and Constuction\Program-Design\Project2
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
