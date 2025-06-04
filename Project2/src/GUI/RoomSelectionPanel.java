@@ -5,11 +5,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 
-public class RoomSelectionPanel extends JPanel  implements BookingListener {
+public class RoomSelectionPanel extends JPanel implements BookingListener {
 
     private HotelFrame mainFrame;
     NavigationPanel navigationPanel;
+
     private String hotelName;
     private JLabel title; // <-- Add this line so we can update it later
 
@@ -43,10 +45,18 @@ public class RoomSelectionPanel extends JPanel  implements BookingListener {
         String[] columnNames = {"Hotel", "Room Type", "Cost", "MaxGuests", "Availability"};
 
         //Create table that displays hotels and location
-        JTable table = new JTable(rooms, columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel(rooms, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table read-only
+            }
+        };
+        JTable table = new JTable(tableModel);
         table.getColumnModel().getColumn(0).setPreferredWidth(100);
         table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only select one at a time
         JScrollPane scrollPane = new JScrollPane(table);
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
@@ -69,7 +79,7 @@ public class RoomSelectionPanel extends JPanel  implements BookingListener {
         gbc.gridwidth = 3;
         add(backNextPanel, gbc);
     }
-    
+
     @Override
     public void updateBookingInfo() {
         Hotel selectedHotel = mainFrame.getBookingBuilder().getHotel();

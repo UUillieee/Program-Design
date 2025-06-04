@@ -36,12 +36,14 @@ public class HotelFrame extends JFrame implements BookingListener {
         mainPanel.add(new BookingPanel(this), "Booking");
 
         roomPanel = new RoomSelectionPanel(this);
+        
         roomPanel.initUI(controller);
         mainPanel.add(roomPanel, "RoomSelection");
 
 
 
         HotelSelectionPanel hotelPanel = new HotelSelectionPanel(this);
+        hotelPanel.setBookingListener(this);
         hotelPanel.initUI(controller);
         //hotelPanel.setBookingListener(this);
         mainPanel.add(hotelPanel, "HotelSelection");
@@ -79,6 +81,8 @@ public class HotelFrame extends JFrame implements BookingListener {
         return roomPanel;
     }
 
+    
+    
     public void updateBookingPanels() {
         // For example, you can do:
         for (Component comp : mainPanel.getComponents()) {
@@ -92,6 +96,11 @@ public class HotelFrame extends JFrame implements BookingListener {
     public void onHotelSelected(Hotel hotel) {
         bookingBuilder.setHotel(hotel);
         updateBookingPanels();
+    }
+
+    @Override //Dont need for this frame, only needed for panels
+    public void updateBookingInfo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

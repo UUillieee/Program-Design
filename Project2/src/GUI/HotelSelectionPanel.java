@@ -10,7 +10,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import Model.Hotel;
 
-
 public class HotelSelectionPanel extends JPanel {
 
     private HotelFrame mainFrame;
@@ -48,14 +47,20 @@ public class HotelSelectionPanel extends JPanel {
         gbc.gridwidth = 2;
         add(title, gbc);
 
-
         // Hotel options retrieving from database
         String[][] hotels = new RetrieveHotels().getAllHotels();
 
-
         String[] columnNames = {"ID", "Hotel", "Location"};
         //Create table that displays hotels and location
-        JTable hotelTable = new JTable(hotels, columnNames);
+
+        DefaultTableModel tableModel = new DefaultTableModel(hotels, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table read-only
+            }
+        };
+        JTable hotelTable = new JTable(tableModel);
+
         hotelTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         hotelTable.getColumnModel().getColumn(1).setPreferredWidth(100);
         hotelTable.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -88,6 +93,8 @@ public class HotelSelectionPanel extends JPanel {
         JButton nextButton = getNextButtonFromBackNextPanel(backNextPanel);
         nextButton.setEnabled(false); // initially disabled
 
+        //Doesnt move on until valid hotel is selected - so room panel can display rooms in that hotel
+        //Figure out how to move this code elsewhere
         hotelTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {

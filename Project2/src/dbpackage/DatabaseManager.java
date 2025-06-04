@@ -24,7 +24,6 @@ public class DatabaseManager {
         new CustomerUpdateInfo().insertUpdate();
         new BookingsTablePrint().printBookings();
         new CustomerTablePrint().printCustomer();
-        
     } 
 }
 
