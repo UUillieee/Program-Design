@@ -2,12 +2,13 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import Model.Hotel;
+import java.util.HashMap;
+import java.util.Map;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -22,41 +23,57 @@ public class HotelFrame extends JFrame implements BookingListener {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private RoomSelectionPanel roomPanel;
-
+    
+    //store panels in Map<String, Jpanel> so can refernce them later from the action controller
+    private Map<String, JPanel> panels = new HashMap<>();
+    
     private BookingBuilder bookingBuilder = new BookingBuilder(); // shared booking state
 
     public HotelFrame() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
+
         ActionListener controller = new ActionController(this);
 
-        //Add Panels to the main panel
-        mainPanel.add(new WelcomePanel(this), "Welcome");// String is the name that you call to switch cards
-        mainPanel.add(new LoginPanel(this), "Login");
-        mainPanel.add(new BookingPanel(this), "Booking");
+        //welcome Panel
+        WelcomePanel welcomePanel = new WelcomePanel(this);
+        panels.put("Welcome", welcomePanel);
+        mainPanel.add(welcomePanel, "Welcome");
 
+        //login Panel
+        LoginPanel loginPanel = new LoginPanel(this);
+        panels.put("Login", loginPanel);
+        mainPanel.add(loginPanel, "Login");
+
+        //booking Panel
+        BookingPanel bookingPanel = new BookingPanel(this);
+        panels.put("Booking", bookingPanel);
+        mainPanel.add(bookingPanel, "Booking");
+
+        //room Selection Panel
         roomPanel = new RoomSelectionPanel(this);
         roomPanel.initUI(controller);
+        panels.put("RoomSelection", roomPanel);
         mainPanel.add(roomPanel, "RoomSelection");
 
-
-
+        //hotel Selection Panel
         HotelSelectionPanel hotelPanel = new HotelSelectionPanel(this);
         hotelPanel.initUI(controller);
-        //hotelPanel.setBookingListener(this);
+        panels.put("HotelSelection", hotelPanel);
         mainPanel.add(hotelPanel, "HotelSelection");
 
-        mainPanel.add(new UserDashboardPanel(this), "UserDashboard");
+        //user Dashboard Panel
+        UserDashboardPanel userDashboard = new UserDashboardPanel(this);
+        panels.put("UserDashboard", userDashboard);
+        mainPanel.add(userDashboard, "UserDashboard");
 
-        //Add the main panel to the frame
+        //add main panel to the frame
         add(mainPanel);
-        this.setTitle("Hotel Booking System");
-        this.setSize(800, 600);
-        this.setLocationRelativeTo(null);  //Place in middle of monitro   
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //this.pack();        //Pack paenl snug
-        this.setVisible(true);
-
+        setTitle("Hotel Booking System");
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     public void showPanel(String name) {
@@ -77,6 +94,10 @@ public class HotelFrame extends JFrame implements BookingListener {
 
     public RoomSelectionPanel getRoomSelectionPanel() {
         return roomPanel;
+    }
+    
+    public JPanel getPanel(String panelName) {
+            return panels.get(panelName); // assuming you use a Map<String, JPanel>
     }
 
     public void updateBookingPanels() {

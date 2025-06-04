@@ -4,6 +4,11 @@
  */
 package GUI;
 
+import static GUI.Command.CREATE_USER;
+import static GUI.Command.EXIT;
+import static GUI.Command.LOGIN;
+import static GUI.Command.LOGOUT;
+import static GUI.Command.SWITCH_PANEL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -50,7 +55,21 @@ public class ActionController implements ActionListener {
                 case CREATE_USER:
                     //Call Database logic 
                     //Create new user with username and password in login panel
-                    mainFrame.showPanel("BookingPanel"); //del this
+                    LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
+                    String username = loginPanel.getUsername();
+                    String password = loginPanel.getPassword();
+
+                    //check if fields are empty
+                    if (username.isEmpty() || password.isEmpty()) {
+                        System.out.println("Username or password cannot be empty.");
+                        return;
+                    }
+        
+                    //insert the username and password into the database
+                    new dbpackage.CustomerUpdateInfo().insertCustomer(username, password);
+
+                    //switch to the next panel
+                    mainFrame.showPanel("Booking");
                     break;
                 case EXIT:
                     System.exit(0);

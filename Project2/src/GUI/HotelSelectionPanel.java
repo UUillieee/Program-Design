@@ -49,7 +49,7 @@ public class HotelSelectionPanel extends JPanel {
         add(title, gbc);
 
 
-        // Hotel options retrieving from database
+        //hotel options retrieving from database
         String[][] hotels = new RetrieveHotels().getAllHotels();
 
 

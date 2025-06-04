@@ -27,6 +27,9 @@ public class LoginPanel extends JPanel {
 
     private HotelFrame mainFrame;
 
+    private JTextField username = new JTextField(15);
+    private JPasswordField password = new JPasswordField(15);
+    
     public LoginPanel(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
         ActionListener controller = new ActionController(mainFrame);
@@ -36,6 +39,16 @@ public class LoginPanel extends JPanel {
     public static void main(String[] args) {
         HotelFrame f = new HotelFrame();
         f.showPanel("Login");
+    }
+    
+    //return the username to what ever calls it
+    public String getUsername() {
+        return username.getText();
+    }
+
+    //return the password to what ever calls it
+    public String getPassword() {
+        return new String(password.getPassword());
     }
 
     private void createLoginPanel(ActionListener controller) {
@@ -65,7 +78,6 @@ public class LoginPanel extends JPanel {
         this.add(userLabel, gbc);
 
         // Username TextField
-        JTextField username = new JTextField(15);
         username.setFont(new Font("Arial", Font.PLAIN, 14));
         username.setPreferredSize(new Dimension(200, 30));
         gbc.gridx = 1;
@@ -75,7 +87,7 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 20);
         this.add(username, gbc);
 
-        // Password Label
+        //Password Label
         JLabel passLabel = new JLabel("Password:");
         passLabel.setFont(new Font("Arial", Font.BOLD, 16));
         gbc.gridx = 0;
@@ -85,8 +97,7 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(10, 20, 10, 10);
         this.add(passLabel, gbc);
 
-        // Password Field (using JPasswordField for security)
-        JPasswordField password = new JPasswordField(15);
+        //Password Field (using JPasswordField for security)
         password.setFont(new Font("Arial", Font.PLAIN, 14));
         password.setPreferredSize(new Dimension(200, 30));
         gbc.gridx = 1;
