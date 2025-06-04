@@ -12,9 +12,9 @@ import java.sql.*;
  */
 public class CustomerUpdateInfo {
 
-    public void insertBooking(int id, int time, int day, int month, int endMonth, int roomNumber,
+    public void insertBooking(int id, int day, int time, int month, int endMonth, int roomNumber,
                               int guests, int totalPrice, int hotelId, boolean isBooked) {
-        String sql = "INSERT INTO Bookings (id, time, day, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Bookings (id, time, day, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -23,10 +23,9 @@ public class CustomerUpdateInfo {
                 System.out.println("Error: No valid database connection.");
                 return;
             }
-
             pstmt.setInt(1, id);
-            pstmt.setInt(2, time);
-            pstmt.setInt(3, day);
+            pstmt.setInt(2, day);
+            pstmt.setInt(3, time);
             pstmt.setInt(4, month);
             pstmt.setInt(5, endMonth);
             pstmt.setInt(6, roomNumber);
@@ -47,9 +46,27 @@ public class CustomerUpdateInfo {
         }
     }
 
+    //get the latest ID put in the booking detail so it can plus 1
+    public int getNextBookingId() {
+        String query = "SELECT MAX(id) AS max_id FROM Bookings";
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            // id++
+            if (rs.next()) {
+                return rs.getInt("max_id") + 1;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving last booking ID: " + e.getMessage());
+        }
+        //use 1 if table is empty
+        return 1; 
+    }
+
     //test method
     public void insertUpdate(){
+        int nextId = getNextBookingId();
         CustomerUpdateInfo inserter = new CustomerUpdateInfo();
-        inserter.insertBooking(1, 3, 18, 9, 9, 6, 2, 300, 2, true);
+        inserter.insertBooking(nextId, 1, 18, 9, 9, 6, 2, 300, 2, true);
     }
 }
