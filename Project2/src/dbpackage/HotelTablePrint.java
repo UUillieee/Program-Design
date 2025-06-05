@@ -26,7 +26,7 @@ public class HotelTablePrint {
 
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("SELECT * FROM Hotels");
-            System.out.println("Hotels:");
+            System.out.println("=== Hotels Table ===");
             while (rs.next()) {
                 System.out.printf("ID: %d, Name: %s, Location: %s%n",
                     rs.getInt("id"), rs.getString("name"), rs.getString("location"));

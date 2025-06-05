@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
+import dbpackage.CustomerUpdateInfo;
 /**
  *
  * @author George
@@ -20,9 +22,12 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 //Class to monitor all the buttons on the GUI, shows next panel on press, provides login button actions etc etc
 public class ActionController implements ActionListener {
     private HotelFrame mainFrame;
+        
+    
     public ActionController(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -41,6 +46,19 @@ public class ActionController implements ActionListener {
                     break;
                 case LOGIN:
                     //Call database logic
+                    //check if fields are empty
+                    LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
+                    String loginUser = loginPanel.getUsername();
+                    String loginPassword = loginPanel.getPassword();
+                    
+                    if (loginUser.isEmpty() || loginPassword.isEmpty()) {
+                        System.out.println("Username or password cannot be empty.");
+                        return;
+                    }
+                    
+                    //check if the username and password match the same ID
+                    
+                    
                     mainFrame.showPanel("Booking"); // del this
                     break;
                 case LOGOUT:
@@ -49,18 +67,17 @@ public class ActionController implements ActionListener {
                 case CREATE_USER:
                     //Call Database logic 
                     //Create new user with username and password in login panel
-                    LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
-                    String username = loginPanel.getUsername();
-                    String password = loginPanel.getPassword();
-
+                    LoginPanel createPanel = (LoginPanel) mainFrame.getPanel("Login");
+                    String newUser = createPanel.getUsername();
+                    String newPassword = createPanel.getPassword();
                     //check if fields are empty
-                    if (username.isEmpty() || password.isEmpty()) {
+                    if (newUser.isEmpty() || newPassword.isEmpty()) {
                         System.out.println("Username or password cannot be empty.");
                         return;
                     }
 
                     //insert the username and password into the database
-                    new dbpackage.CustomerUpdateInfo().insertCustomer(username, password);
+                    new dbpackage.CustomerUpdateInfo().insertCustomer(newUser, newPassword);
 
                     //switch to the next panel
                     mainFrame.showPanel("Booking");
