@@ -101,11 +101,13 @@ public class HotelSelectionPanel extends JPanel {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = hotelTable.getSelectedRow();
                     if (selectedRow != -1) {
+                        int hotelId = Integer.parseInt(hotelTable.getValueAt(selectedRow, 0).toString());
                         String hotelName = (String) hotelTable.getValueAt(selectedRow, 1);
                         String hotelLocation = (String) hotelTable.getValueAt(selectedRow, 2);
-                        Hotel selectedHotel = new Hotel(hotelName, hotelLocation); // create your Hotel object
+                        Hotel selectedHotel = new Hotel(hotelId, hotelName, hotelLocation); // create your Hotel object
                         mainFrame.getBookingBuilder().setHotel(selectedHotel);
-                        System.out.println("Hotel: set" + mainFrame.getBookingBuilder().getHotel().getName());
+                        //show hotel choosen and id choosen 
+                        System.out.println("Hotel: set " + selectedHotel.getName() + " (ID: " + selectedHotel.getId() + ")");
                         nextButton.setEnabled(true); // enable navigation after valid selection
                         //Notify listeners
                         if (bookingListener != null) {

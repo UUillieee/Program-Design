@@ -1,5 +1,9 @@
 package GUI;
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 import Model.Hotel;
 import javax.swing.*;
 import java.awt.*;
@@ -7,88 +11,95 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author George
+ */
+
 public class RoomSelectionPanel extends JPanel implements BookingListener {
 
     private HotelFrame mainFrame;
-    NavigationPanel navigationPanel;
-
-    private String hotelName;
-    private JLabel title; // <-- Add this line so we can update it later
+    private JLabel title;
+    private DefaultTableModel tableModel;
+    private JTable table;
 
     public RoomSelectionPanel(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.hotelName = "No hotel selected";
     }
 
     protected void initUI(ActionListener controller) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
-        this.setBackground(Color.WHITE);
+        setBackground(Color.WHITE);
 
-        //Update label to include selected hotel
-        title = new JLabel("Please Select from Rooms in Hotel: " + hotelName);
+        // Title label
+        title = new JLabel("Please Select from Rooms in Hotel:");
         title.setFont(new Font("Arial", Font.BOLD, 18));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         add(title, gbc);
 
-        // Room options - Need to load from database based on selected hotel
-        //Each sub-array has: {hotelName, roomType, cost, maxGuests, quantity availible} 
-        String[][] rooms = {
-            {"Azure", "Penthouse", "500", "5", "1"},
-            {"Azure", "Suite", "300", "4", "3"},
-            {"Azure", "Single", "150", "5", "30"},
-            {"SkyCity", "Penthouse", "500", "5", "10"}
-        };
-        String[] columnNames = {"Hotel", "Room Type", "Cost", "MaxGuests", "Availability"};
-
-        //Create table that displays hotels and location
-        DefaultTableModel tableModel = new DefaultTableModel(rooms, columnNames) {
-            @Override
+        // Table model (start empty)
+        String[] columnNames = {"Hotel", "Room Type", "Cost", "Max Guests", "Availability"};
+        tableModel = new DefaultTableModel(columnNames, 0) {
             public boolean isCellEditable(int row, int column) {
-                return false; // Make table read-only
+                return false;
             }
         };
-        JTable table = new JTable(tableModel);
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Only select one at a time
+
+        table = new JTable(tableModel);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(table);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
-        gbc.weightx = 1.0; // controls extra space
+        gbc.weightx = 1.0;
         gbc.weighty = 0.5;
+        gbc.fill = GridBagConstraints.BOTH;
         scrollPane.setPreferredSize(new Dimension(600, 200));
-        gbc.fill = GridBagConstraints.BOTH; // expand horizontally not vertically- so no empty space
-        this.add(scrollPane, gbc);
+        add(scrollPane, gbc);
 
-        // settings for backnext panel
-        gbc.gridy = rooms.length + 1;
-        gbc.gridwidth = 1;
+        // Navigation panel
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.insets = new Insets(10, 5, 10, 5);
         gbc.anchor = GridBagConstraints.CENTER;
-        //Create booking proccess navigation buttons at bottom                          /Back       /Next           - make sure to change
+        gbc.insets = new Insets(20, 10, 10, 10);
         JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "HotelSelection", "RoomSelection");
-        gbc.gridwidth = 3;
         add(backNextPanel, gbc);
     }
-
+    
+    //when hotel is selected, call updateBookingInfo
+    public void onHotelSelected(Hotel hotel) {
+        updateBookingInfo();
+        System.out.println("updateBookingInfo triggered");
+    }
+    
     @Override
     public void updateBookingInfo() {
         Hotel selectedHotel = mainFrame.getBookingBuilder().getHotel();
-        if (selectedHotel != null && title != null) {
-            hotelName = selectedHotel.getName(); // update field (optional)
-            title.setText("Please Select from Rooms in Hotel: " + hotelName);
+
+        if (selectedHotel != null) {
+            title.setText("Please Select from Rooms in Hotel: " + selectedHotel.getName());
+
+            //clear existing rows
+            tableModel.setRowCount(0);
+
+            //fetch rooms from DB
+            java.util.List<String[]> roomList = dbpackage.RetrieveRooms.getRoomsByHotelId(selectedHotel.getId());
+            
+            
+            for (String[] row : roomList) {
+                tableModel.addRow(row);
+            }
+
             revalidate();
             repaint();
         }
     }
-
 }
