@@ -33,7 +33,7 @@ public class HotelFileReader {
                 //line has exactly two parts: name and location
                 if (data.length == 2) {
                     //create hotel object with name and location
-                    Hotel hotel = new Hotel(data[0], data[1]);
+                    Hotel hotel = new Hotel(1, data[0], data[1]);
                     //put in hashmap
                     hotels.put(data[0], hotel);
                 }

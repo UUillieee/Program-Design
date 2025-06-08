@@ -63,6 +63,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         hotelPanel.initUI(controller);
         panels.put("HotelSelection", hotelPanel);
         mainPanel.add(hotelPanel, "HotelSelection");
+        hotelPanel.setBookingListener(roomPanel);
 
         //user Dashboard Panel
         UserDashboardPanel userDashboard = new UserDashboardPanel(this);
@@ -76,6 +77,8 @@ public class HotelFrame extends JFrame implements BookingListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        
+        
     }
 
     public void showPanel(String name) {
@@ -115,7 +118,7 @@ public class HotelFrame extends JFrame implements BookingListener {
 
     @Override
     public void updateBookingInfo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //hotelframe may not need to do anything
     }
 
 }

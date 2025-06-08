@@ -15,6 +15,7 @@ public interface BookingListener {
 
     void updateBookingInfo();
 
-    default void onHotelSelected(Hotel hotel) {
-    }
+    // Make this abstract instead of default
+    void onHotelSelected(Hotel hotel);
 }
+

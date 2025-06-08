@@ -17,6 +17,8 @@ import java.util.ArrayList; // Import the ArrayList class for storing a list of 
  * @author George
  */
 public class Hotel {
+    //id of hotel
+    private int id;
     //name of the hotel
     private String name; 
     //location of the hotel
@@ -28,7 +30,8 @@ public class Hotel {
 
     
     //constructor, initialize a hotel with a name and location.
-    public Hotel(String n, String l) {
+    public Hotel(int id, String n, String l) {
+        this.id = id;
         this.name = n;
         this.location = l;
         this.roomsAvail = 0;
@@ -42,6 +45,12 @@ public class Hotel {
         //increase available room
         this.roomsAvail++; 
     }
+    
+    //return hotel id
+    public int getId() {
+        return id;
+    }
+     
     //returns the list of all rooms in the hotel.
     public ArrayList<Room> getRooms() {
         return this.rooms;
