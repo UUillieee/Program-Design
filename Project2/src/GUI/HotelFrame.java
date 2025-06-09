@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import Model.Hotel;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JLabel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /*
@@ -84,28 +85,17 @@ public class HotelFrame extends JFrame implements BookingListener {
         setVisible(true);
     }
     
-    private Customer currentCustomer;
-    
-    // At the top of your HotelFrame class
+     // At the top of your HotelFrame class
     private Customer loggedInCustomer;
-
-
+    
     public void setLoggedInCustomer(Customer customer) {
         this.loggedInCustomer = customer;
     }
-    
-    public void setCurrentCustomer(Customer customer) {
-        this.currentCustomer = customer;
-    }
-    
+    //return the customer that clicked login
     public Customer getLoggedInCustomer() {
         return this.loggedInCustomer;
     }
 
-    public Customer getCurrentCustomer() {
-        return currentCustomer;
-    }
-    
     public void showPanel(String name) {
         //Each panel can call this to go to a different panel
         cardLayout.show(mainPanel, name);
@@ -124,7 +114,8 @@ public class HotelFrame extends JFrame implements BookingListener {
     }
 
     public JPanel getPanel(String panelName) {
-            return panels.get(panelName); // assuming you use a Map<String, JPanel>
+        //get panel name stored in a map
+            return panels.get(panelName); 
     }
 
     public void updateBookingPanels() {

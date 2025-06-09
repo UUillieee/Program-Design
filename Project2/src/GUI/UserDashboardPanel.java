@@ -25,6 +25,7 @@ public class UserDashboardPanel extends JPanel {
     private JButton editBookingButton;
     private JButton cancelBookingButton;
     private JPanel navigationPanel;
+    private JLabel userInfoLabel;
     
     public UserDashboardPanel(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -48,13 +49,11 @@ public class UserDashboardPanel extends JPanel {
         this.add(welcomeTitle, gbc);
         
         // User info label (placeholder for database integration)
-        
-        Customer user = mainFrame.getLoggedInCustomer();
-        String displayName = user != null ? user.getUsername() : "Guest";
-        JLabel userInfoLabel = new JLabel("Welcome back, " + displayName);
+        //set text as place holder
+        userInfoLabel = new JLabel("Welcome back, Guest"); 
         userInfoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         userInfoLabel.setForeground(Color.GRAY);
-        gbc.gridy = 1; // one below the title
+        gbc.gridy = 1; 
         gbc.insets = new Insets(0, 20, 20, 20);
         this.add(userInfoLabel, gbc);
         
@@ -97,6 +96,13 @@ public class UserDashboardPanel extends JPanel {
         
         //load the bookings 
         loadBookingsFromDatabase();
+    }
+    
+    //update the customer username from guest to 
+    public void updateUserGreeting(Customer customer) {
+        //get username from Customer
+        String displayName = customer != null ? customer.getUsername() : "Guest";
+        userInfoLabel.setText("Welcome back, " + displayName);
     }
     
     private void createBookingsTable() {

@@ -107,13 +107,19 @@ public class LoginPanel extends JPanel {
 
             CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
             Model.Customer customer = customerDB.getCustomer(user, pass);
+            
 
             if (customer != null) {
                 System.out.println("Login successful! Welcome " + customer.getUsername());
-                mainFrame.setCurrentCustomer(customer); // Optional: store for session
+                mainFrame.setLoggedInCustomer(customer);
                 mainFrame.showPanel("UserDashboard");
+                
+                //update the greeting label dynamicall
+                UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+                dashboard.updateUserGreeting(customer);
             } 
             else {
+            //show a error message box
             JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
         });
