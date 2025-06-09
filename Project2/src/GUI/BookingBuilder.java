@@ -24,6 +24,9 @@ public class BookingBuilder {
     private int roomNumber;
     private int guests;
     private double totalPrice;
+    private int lengthOfStay;
+
+    
 
     //Setters
     public void setHotel(Hotel hot){ this.hotel = hot;}
@@ -36,6 +39,7 @@ public class BookingBuilder {
     public void setRoomNumber(int roomNumber) { this.roomNumber = roomNumber; }
     public void setGuests(int guests) { this.guests = guests; }
     public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+    public void setLengthOfStay(int nights) {this.lengthOfStay = nights;}
   
     //Getters
     public Hotel getHotel(){
@@ -46,6 +50,13 @@ public class BookingBuilder {
         return this.customer; 
     }
     
+    public int getLengthOfStay() {
+        return lengthOfStay;
+    }
+    //Test method
+    public String getBookingInfo(){
+         return "Start date: "+this.day+ " Length "+this.lengthOfStay+ " end day: "+this.endDay;
+    }
     // Final build method
     public Booking build() {
         return new Booking(time, day, month, endDay, endMonth, roomNumber, guests, totalPrice);

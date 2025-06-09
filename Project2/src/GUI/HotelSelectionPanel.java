@@ -27,13 +27,6 @@ public class HotelSelectionPanel extends JPanel {
         //this.navigationPanel = new NavigationPanel(mainFrame, controller);
     }
 
-    // test
-    private void createHotelSelectionPanel(ActionListener controller) {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-    }
-
     protected void initUI(ActionListener controller) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

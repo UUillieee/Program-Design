@@ -35,7 +35,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        ActionListener controller = new ActionController(this);
+        ActionListener controller = new ActionController(this); // Need to pass this 1 reference to all the panels. (Shared)
 
         //welcome Panel
         WelcomePanel welcomePanel = new WelcomePanel(this);
@@ -66,10 +66,11 @@ public class HotelFrame extends JFrame implements BookingListener {
         hotelPanel.setBookingListener(roomPanel);
         
         //date selection panel
-        DateSelectionPanel datePanel = new DateSelectionPanel(this);
+        DateSelectionPanel datePanel = new DateSelectionPanel(this,bookingBuilder,controller);
         panels.put("DateSelection", datePanel);
         mainPanel.add(datePanel, "DateSelection");
 
+        ConfirmPanel confPanel = new ConfirmPanel(this,bookingBuilder,controller);
 
         //user Dashboard Panel
         UserDashboardPanel userDashboard = new UserDashboardPanel(this);
