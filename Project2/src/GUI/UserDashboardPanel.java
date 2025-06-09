@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Model.Customer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -47,7 +48,10 @@ public class UserDashboardPanel extends JPanel {
         this.add(welcomeTitle, gbc);
         
         // User info label (placeholder for database integration)
-        JLabel userInfoLabel = new JLabel("Welcome back, [Username]"); // load User username 
+        
+        Customer user = mainFrame.getLoggedInCustomer();
+        String displayName = user != null ? user.getUsername() : "Guest";
+        JLabel userInfoLabel = new JLabel("Welcome back, " + displayName);
         userInfoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         userInfoLabel.setForeground(Color.GRAY);
         gbc.gridy = 1; // one below the title
@@ -195,7 +199,15 @@ public class UserDashboardPanel extends JPanel {
     private void loadBookingsFromDatabase() {
         tableModel.setRowCount(0); // Clear table
 
-        java.util.List<Object[]> bookings = dbpackage.RetrieveBookings.getAllBookings();
+        Customer user = mainFrame.getLoggedInCustomer();
+        if (user == null) {
+            System.out.println("No logged-in user.");
+            return;
+        }       
+
+        int customerId = user.getId();  // Make sure your Customer class has getId()
+
+        java.util.List<Object[]> bookings = dbpackage.RetrieveBookings.getBookingsByCustomerId(customerId);
         for (Object[] row : bookings) {
             tableModel.addRow(row);
         }

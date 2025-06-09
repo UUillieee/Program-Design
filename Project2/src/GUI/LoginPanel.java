@@ -1,19 +1,17 @@
 package GUI;
+import dbpackage.CustomerUpdateInfo;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 /**
  * Login Panel for Hotel Booking System
@@ -103,10 +101,22 @@ public class LoginPanel extends JPanel {
         this.add(password, gbc);
         // Login Button
         JButton loginButton = new JButton("Login");
-        styleButton(loginButton, new Color(70, 130, 180)); // Steel blue
-        loginButton.setActionCommand(Command.SWITCH_PANEL.name());
-        loginButton.addActionListener(controller);
-        loginButton.putClientProperty("targetPanel", "UserDashboard");
+        loginButton.addActionListener(e -> {
+            String user = username.getText();
+            String pass = new String(password.getPassword());
+
+            CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
+            Model.Customer customer = customerDB.getCustomer(user, pass);
+
+            if (customer != null) {
+                System.out.println("Login successful! Welcome " + customer.getUsername());
+                mainFrame.setCurrentCustomer(customer); // Optional: store for session
+                mainFrame.showPanel("UserDashboard");
+            } 
+            else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+            }
+        });
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.CENTER;
