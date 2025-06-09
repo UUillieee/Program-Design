@@ -70,8 +70,44 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(20, 10, 10, 10);
-        JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "HotelSelection", "RoomSelection");
+        JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "HotelSelection", "DateSelection");
+
+        JButton nextButton = getNextButtonFromBackNextPanel(backNextPanel);
+        if (nextButton != null) {
+            nextButton.setEnabled(false); // Disable BEFORE adding to layout
+        }
         add(backNextPanel, gbc);
+
+        table.getSelectionModel().addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                // Extract room number, cost, and guests from selected row
+                String roomType = (String) table.getValueAt(selectedRow, 1);
+                double cost = Double.parseDouble(table.getValueAt(selectedRow, 2).toString());
+                int guests = Integer.parseInt(table.getValueAt(selectedRow, 3).toString());
+                int roomNumber = selectedRow + 1; // or use actual room number from DB if provided
+
+                // Store room info into BookingBuilder
+                mainFrame.getBookingBuilder().setRoomNumber(roomNumber);
+                mainFrame.getBookingBuilder().setTotalPrice(cost);
+                mainFrame.getBookingBuilder().setGuests(guests);
+
+                System.out.println("Room Selected: #" + roomNumber + " | Type: " + roomType + " | Cost: " + cost + " | Guests: " + guests);
+
+                nextButton.setEnabled(true); // Enable the Next button
+                }
+            }   
+        });
+    }
+    
+    private JButton getNextButtonFromBackNextPanel(JPanel panel) {
+        for (Component comp : panel.getComponents()) {
+            if (comp instanceof JButton btn && "Next".equals(btn.getText())) {
+                return btn;
+            }
+        }
+        return null;
     }
     
     //when hotel is selected, call updateBookingInfo

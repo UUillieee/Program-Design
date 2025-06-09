@@ -12,9 +12,9 @@ import java.sql.*;
  */
 public class BookingUpdateInfo {
 
-    public void insertBooking(int id, int day, int time, int month, int endMonth, int roomNumber,
+    public void insertBooking(int id, int customerId, int day, int time, int month, int endMonth, int roomNumber,
                               int guests, int totalPrice, int hotelId, boolean isBooked) {
-        String sql = "INSERT INTO Bookings (id, time, day, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Bookings (id, customerId, time, day, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -24,15 +24,16 @@ public class BookingUpdateInfo {
                 return;
             }
             pstmt.setInt(1, id);
-            pstmt.setInt(2, day);
-            pstmt.setInt(3, time);
-            pstmt.setInt(4, month);
-            pstmt.setInt(5, endMonth);
-            pstmt.setInt(6, roomNumber);
-            pstmt.setInt(7, guests);
-            pstmt.setInt(8, totalPrice);
-            pstmt.setInt(9, hotelId);
-            pstmt.setBoolean(10, isBooked);
+            pstmt.setInt(2, customerId);
+            pstmt.setInt(3, day);
+            pstmt.setInt(4, time);
+            pstmt.setInt(5, month);
+            pstmt.setInt(6, endMonth);
+            pstmt.setInt(7, roomNumber);
+            pstmt.setInt(8, guests);
+            pstmt.setInt(9, totalPrice);
+            pstmt.setInt(10, hotelId);
+            pstmt.setBoolean(11, isBooked);
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -64,9 +65,22 @@ public class BookingUpdateInfo {
     }
 
     //test method
-    public void insertUpdate(){
+    public void insertUpdate(GUI.BookingBuilder bookingBuilder) {
         int nextId = getNextBookingId();
-        BookingUpdateInfo inserter = new BookingUpdateInfo();
-        inserter.insertBooking(nextId, 1, 18, 9, 9, 6, 2, 300, 2, true);
+
+        // Get customer ID
+        int customerId = bookingBuilder.getCustomer().getId();
+
+        // Extract booking details from builder
+        int day = bookingBuilder.build().getDay();
+        int time = bookingBuilder.build().getTime();
+        int month = bookingBuilder.build().getMonth();
+        int endMonth = bookingBuilder.build().getEndMonth();
+        int roomNumber = bookingBuilder.build().getRoomNumber();
+        int guests = bookingBuilder.build().getGuests();
+        int totalPrice = (int) bookingBuilder.build().getTotalPrice();  // cast if stored as double
+        int hotelId = bookingBuilder.getHotel().getId();
+
+        insertBooking(nextId, customerId, day, time, month, endMonth, roomNumber, guests, totalPrice, hotelId, true);
     }
 }

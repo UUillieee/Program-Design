@@ -4,7 +4,7 @@
  */
 package dbpackage;
 
-import java.sql.*;
+import Model.Customer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -41,6 +41,29 @@ public class CustomerUpdateInfo {
             System.out.println("Error inserting customer details: " + e.getMessage());
         }
     }
+    
+    public Customer getCustomer(String username, String password) {
+    String query = "SELECT * FROM Customers WHERE username = ? AND password = ?";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setString(1, username);
+        stmt.setString(2, password);
+
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("username");
+            return new Customer(id, name); // Assumes your Customer constructor takes id and username
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Error fetching customer: " + e.getMessage());
+    }
+
+    return null; // Login failed
+}
 
     private int getNextCustomerId(Connection conn) throws SQLException {
         String query = "SELECT MAX(id) AS max_id FROM Customers";

@@ -6,6 +6,7 @@ package GUI;
 
 
 import Model.Booking;
+import Model.Customer;
 import Model.Hotel;
 
 /**
@@ -14,6 +15,7 @@ import Model.Hotel;
  */
 public class BookingBuilder {
     private Hotel hotel; // not used in final booking. Just used to display rooms
+    private Customer customer;
     private int time;
     private int day;
     private int month;
@@ -24,7 +26,8 @@ public class BookingBuilder {
     private double totalPrice;
 
     //Setters
-    public void setHotel(Hotel hot){ this.hotel = hot;} // 
+    public void setHotel(Hotel hot){ this.hotel = hot;}
+    public void setCustomer(Customer customer) { this.customer = customer; }
     public void setTime(int time) { this.time = time; }
     public void setDay(int day) { this.day = day; }
     public void setMonth(int month) { this.month = month; }
@@ -35,7 +38,13 @@ public class BookingBuilder {
     public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
   
     //Getters
-    public Hotel getHotel(){return this.hotel;}
+    public Hotel getHotel(){
+        return this.hotel;
+    }
+    
+    public Customer getCustomer() {
+        return this.customer; 
+    }
     
     // Final build method
     public Booking build() {

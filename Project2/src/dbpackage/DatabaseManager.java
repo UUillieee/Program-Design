@@ -21,7 +21,11 @@ public class DatabaseManager {
         new HotelDataInserter().insert();
         new HotelTablePrint().printAllHotels();
         new RoomTablePrint().printAllRooms();
-        new BookingUpdateInfo().insertUpdate();
+        //call this from the gui
+        //when clicked confirmed booking
+//        UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+//        dashboard.refreshBookings();
+//        new BookingUpdateInfo().insertUpdate();
         new BookingsTablePrint().printBookings();
         new CustomerTablePrint().printCustomer();
     } 

@@ -91,14 +91,15 @@ public class UserDashboardPanel extends JPanel {
         gbc.insets = new Insets(10, 20, 20, 20);
         this.add(navigationPanel, gbc);
         
-        // Load sample data (replace with database call later)
-        loadSampleBookingData();
+        //load the bookings 
+        loadBookingsFromDatabase();
     }
     
     private void createBookingsTable() {
         // Define column names for the bookings table
         String[] columnNames = {
             "Booking ID", 
+            "Customer ID",
             "Hotel Name", 
             "Check-in Date", 
             "Check-out Date", 
@@ -191,16 +192,11 @@ public class UserDashboardPanel extends JPanel {
     /**
      * Load sample booking data for demonstration, replace with database call
      */
-    private void loadSampleBookingData() {
-        // Sample data for demonstration
-        Object[][] sampleData = {
-            {"BK001", "Grand Hotel Plaza", "2024-06-15", "2024-06-18", "Deluxe Suite", "$450.00", "Confirmed"},
-            {"BK002", "Seaside Resort", "2024-07-22", "2024-07-25", "Ocean View", "$320.00", "Confirmed"},
-            {"BK003", "Mountain Lodge", "2024-08-10", "2024-08-12", "Standard Room", "$180.00", "Pending"}
-        };
-        
-        // Add sample data to table
-        for (Object[] row : sampleData) {
+    private void loadBookingsFromDatabase() {
+        tableModel.setRowCount(0); // Clear table
+
+        java.util.List<Object[]> bookings = dbpackage.RetrieveBookings.getAllBookings();
+        for (Object[] row : bookings) {
             tableModel.addRow(row);
         }
     }
@@ -212,7 +208,7 @@ public class UserDashboardPanel extends JPanel {
         // Clear existing data
         tableModel.setRowCount(0);
         // Reload sample data
-        loadSampleBookingData();
+        loadBookingsFromDatabase();
     }
     
     //Methods for when selecting booking in table.

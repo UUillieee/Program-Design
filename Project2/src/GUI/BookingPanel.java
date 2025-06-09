@@ -29,6 +29,8 @@ public class BookingPanel extends JPanel {
     }
 
     private void createBookingPanel(ActionListener controller) {
+        setLayout(null);
+        
         JLabel bookingLabel = new JLabel("Booking");
         bookingLabel.setBounds(50,50,100,20);
         this.add(bookingLabel);
@@ -44,6 +46,7 @@ public class BookingPanel extends JPanel {
         nextBtn.setBounds(30, 130, 80, 20);
         nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
         nextBtn.addActionListener(controller);
+        nextBtn.putClientProperty("targetPanel", "DateSelection");
         this.add(nextBtn);
     }
 
