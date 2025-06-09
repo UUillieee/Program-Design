@@ -50,5 +50,37 @@ public class RetrieveBookings {
         //send object to UserDashboardPanel
         return bookings;
     }
+    
+    //return bookings of the customer ID
+    public static List<Object[]> getBookingsByCustomerId(int customerId) {
+    List<Object[]> bookings = new ArrayList<>();
+    String query = "SELECT * FROM Bookings WHERE customer_id = ?";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setInt(1, customerId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Object[] row = new Object[]{
+                rs.getInt("booking_id"),
+                rs.getInt("customer_id"),
+                rs.getString("hotel_name"),
+                rs.getString("check_in_date"),
+                rs.getString("check_out_date"),
+                rs.getString("room_type"),
+                rs.getDouble("total_cost"),
+                rs.getString("status")
+            };
+            bookings.add(row);
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Error retrieving bookings: " + e.getMessage());
+    }
+
+    return bookings;
+}
 }
 

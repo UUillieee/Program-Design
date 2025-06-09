@@ -12,7 +12,6 @@ import static GUI.Command.SWITCH_PANEL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 import dbpackage.CustomerUpdateInfo;
 /**
@@ -66,12 +65,9 @@ public class ActionController implements ActionListener {
                      }
 
                      //Save logged-in customer to BookingBuilder
+                    mainFrame.setLoggedInCustomer(loggedInCustomer);
                     mainFrame.getBookingBuilder().setCustomer(loggedInCustomer);
 
-                    System.out.println("Login success: Welcome " + loggedInCustomer.getName());
-
-                    //go to the dashboard
-                     mainFrame.showPanel("UserDashboard");
                     break;
                 case LOGOUT:
                     mainFrame.showPanel("Login");

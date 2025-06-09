@@ -1,9 +1,8 @@
 package GUI;
 
+import Model.Customer;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -85,7 +84,18 @@ public class HotelFrame extends JFrame implements BookingListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
+    
+    // At the top of your HotelFrame class
+    private Customer loggedInCustomer;
 
+    public void setLoggedInCustomer(Customer customer) {
+        this.loggedInCustomer = customer;
+    }
+    //return the customer that clicked login
+    public Customer getLoggedInCustomer() {
+        return this.loggedInCustomer;
+    }
+    
     public void showPanel(String name) {
         //Each panel can call this to go to a different panel
         cardLayout.show(mainPanel, name);
@@ -104,7 +114,8 @@ public class HotelFrame extends JFrame implements BookingListener {
     }
 
     public JPanel getPanel(String panelName) {
-            return panels.get(panelName); // assuming you use a Map<String, JPanel>
+            //get panel name stored in a map
+            return panels.get(panelName);
     }
 
     public void updateBookingPanels() {
@@ -115,6 +126,7 @@ public class HotelFrame extends JFrame implements BookingListener {
             }
         }
     }
+    
     @Override
     public void onHotelSelected(Hotel hotel) {
         bookingBuilder.setHotel(hotel);

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Model.Customer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class UserDashboardPanel extends JPanel {
     private JButton editBookingButton;
     private JButton cancelBookingButton;
     private JPanel navigationPanel;
+    private JLabel userInfoLabel;
     
     public UserDashboardPanel(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -47,10 +49,11 @@ public class UserDashboardPanel extends JPanel {
         this.add(welcomeTitle, gbc);
         
         // User info label (placeholder for database integration)
-        JLabel userInfoLabel = new JLabel("Welcome back, [Username]"); // load User username 
+         //set text as place holder
+        userInfoLabel = new JLabel("Welcome back, Guest");
         userInfoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         userInfoLabel.setForeground(Color.GRAY);
-        gbc.gridy = 1; // one below the title
+        gbc.gridy = 1;
         gbc.insets = new Insets(0, 20, 20, 20);
         this.add(userInfoLabel, gbc);
         
@@ -93,6 +96,13 @@ public class UserDashboardPanel extends JPanel {
         
         //load the bookings 
         loadBookingsFromDatabase();
+    }
+    
+    //update the customer username from guest to 
+    public void updateUserGreeting(Customer customer) {
+        //get username from Customer
+        String displayName = customer != null ? customer.getUsername() : "Guest";
+        userInfoLabel.setText("Welcome back, " + displayName);
     }
     
     private void createBookingsTable() {
@@ -195,7 +205,16 @@ public class UserDashboardPanel extends JPanel {
     private void loadBookingsFromDatabase() {
         tableModel.setRowCount(0); // Clear table
 
-        java.util.List<Object[]> bookings = dbpackage.RetrieveBookings.getAllBookings();
+        Customer user = mainFrame.getLoggedInCustomer();
+        if (user == null) {
+            System.out.println("No logged-in user.");
+            return;
+        }       
+
+        int customerId = user.getId();  // Make sure your Customer class has getId()
+
+        java.util.List<Object[]> bookings = dbpackage.RetrieveBookings.getBookingsByCustomerId(customerId);        
+        
         for (Object[] row : bookings) {
             tableModel.addRow(row);
         }
