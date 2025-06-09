@@ -64,6 +64,12 @@ public class HotelFrame extends JFrame implements BookingListener {
         panels.put("HotelSelection", hotelPanel);
         mainPanel.add(hotelPanel, "HotelSelection");
         hotelPanel.setBookingListener(roomPanel);
+        
+        //date selection panel
+        DateSelectionPanel datePanel = new DateSelectionPanel(this);
+        panels.put("DateSelection", datePanel);
+        mainPanel.add(datePanel, "DateSelection");
+
 
         //user Dashboard Panel
         UserDashboardPanel userDashboard = new UserDashboardPanel(this);
@@ -77,8 +83,6 @@ public class HotelFrame extends JFrame implements BookingListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        
-        
     }
 
     public void showPanel(String name) {

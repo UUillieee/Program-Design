@@ -56,10 +56,22 @@ public class ActionController implements ActionListener {
                         return;
                     }
                     
-                    //check if the username and password match the same ID
-                    
-                    
-                    mainFrame.showPanel("Booking"); // del this
+                   //Get customer from database
+                    CustomerUpdateInfo customerDb = new CustomerUpdateInfo();
+                    Model.Customer loggedInCustomer = customerDb.getCustomer(loginUser, loginPassword);
+
+                    if (loggedInCustomer == null) {
+                        System.out.println("Login failed: Invalid credentials.");
+                        return;
+                     }
+
+                     //Save logged-in customer to BookingBuilder
+                    mainFrame.getBookingBuilder().setCustomer(loggedInCustomer);
+
+                    System.out.println("Login success: Welcome " + loggedInCustomer.getName());
+
+                    //go to the dashboard
+                     mainFrame.showPanel("UserDashboard");
                     break;
                 case LOGOUT:
                     mainFrame.showPanel("Login");

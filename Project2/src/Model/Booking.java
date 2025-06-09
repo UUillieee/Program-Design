@@ -61,10 +61,27 @@ public class Booking {
     public int getDay() {
         return day;
     }
-
+    
+    public int getTime(){
+        return time;
+    }
+    
+    public int getMonth(){
+        return month;
+    }
+    
     public int getEndDay() {
         return endDay;
     }
+    
+    public int getEndMonth(){
+        return endMonth;
+    }
+    
+    public int getGuests(){
+        return guests;
+    }
+
     //Returns a string suitable for saving to a file
 
     public String toFileString() {
