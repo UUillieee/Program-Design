@@ -46,11 +46,6 @@ public class HotelFrame extends JFrame implements BookingListener {
         panels.put("Login", loginPanel);
         mainPanel.add(loginPanel, "Login");
 
-        //booking Panel
-        BookingPanel bookingPanel = new BookingPanel(this);
-        panels.put("Booking", bookingPanel);
-        mainPanel.add(bookingPanel, "Booking");
-
         //room Selection Panel
         roomPanel = new RoomSelectionPanel(this);
         roomPanel.initUI(controller);

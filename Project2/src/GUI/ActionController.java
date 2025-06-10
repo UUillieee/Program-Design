@@ -43,8 +43,7 @@ public class ActionController implements ActionListener {
                     }
                     break;
                 case LOGIN:
-                    //Call database logic
-                    //check if fields are empty
+                    //get username & password
                     LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
                     String loginUser = loginPanel.getUsername();
                     String loginPassword = loginPanel.getPassword();
@@ -71,23 +70,39 @@ public class ActionController implements ActionListener {
                     mainFrame.showPanel("Login");
                     break;
                 case CREATE_USER:
-                    //Call Database logic 
-                    //Create new user with username and password in login panel
+                    //get username & password
                     LoginPanel createPanel = (LoginPanel) mainFrame.getPanel("Login");
                     String newUser = createPanel.getUsername();
                     String newPassword = createPanel.getPassword();
-                    //check if fields are empty
+                    //check if username or passwords fields are empty
                     if (newUser.isEmpty() || newPassword.isEmpty()) {
                         System.out.println("Username or password cannot be empty.");
                         return;
                     }
+                    //insert into DB
+                    CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
+                    customerDB.insertCustomer(newUser, newPassword);
 
-                    //insert the username and password into the database
-                    new dbpackage.CustomerUpdateInfo().insertCustomer(newUser, newPassword);
+                    //immediately fetch the newly created user
+                    Model.Customer newCustomer = customerDB.getCustomer(newUser, newPassword);
+                    if (newCustomer == null) {
+                        System.out.println("Error: newly created user not found!");
+                        return;
+                    }
 
-                    //switch to the next panel
-                    mainFrame.showPanel("Booking");
+                    //set new user as the logged-in customer
+                    mainFrame.setLoggedInCustomer(newCustomer);
+                    mainFrame.getBookingBuilder().setCustomer(newCustomer);
+
+                    //switch to dashboard panels
+                    mainFrame.showPanel("UserDashboard");
+                    
+                     //update greeting and reload bookings
+                    UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+                    dashboard.updateUserGreeting(newCustomer);
+                    dashboard.refreshBookings();
                     break;
+                    
                 case CONFIRM_BOOKING:
                     //Make booking object and save to database - with customer ID
                     
