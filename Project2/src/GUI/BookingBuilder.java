@@ -26,8 +26,6 @@ public class BookingBuilder {
     private double totalPrice;
     private int lengthOfStay;
 
-    
-
     //Setters
     public void setHotel(Hotel hot){ this.hotel = hot;}
     public void setCustomer(Customer customer) { this.customer = customer; }

@@ -21,7 +21,6 @@ import dbpackage.CustomerUpdateInfo;
 //Class to monitor all the buttons on the GUI, shows next panel on press, provides login button actions etc etc
 public class ActionController implements ActionListener {
     private HotelFrame mainFrame;
-        
     
     public ActionController(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;

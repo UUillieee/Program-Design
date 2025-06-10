@@ -25,7 +25,7 @@ public class DatabaseManager {
         //when clicked confirmed booking
 //        UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
 //        dashboard.refreshBookings();
-//        new BookingUpdateInfo().insertUpdate();
+//      new BookingUpdateInfo().insertUpdate();
         new BookingsTablePrint().printBookings();
         new CustomerTablePrint().printCustomer();
     } 
