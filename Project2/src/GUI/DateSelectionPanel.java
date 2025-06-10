@@ -98,7 +98,6 @@ public class DateSelectionPanel extends JPanel {
         add(timeCombo, gbc);
         row++;
 
-        
         //navigation Panel, back and next
         JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "RoomSelection", "ConfirmPanel");
         gbc.gridwidth = 3;
@@ -109,42 +108,25 @@ public class DateSelectionPanel extends JPanel {
         //saveDateInfo() only when next is clicked
         for (Component comp : backNextPanel.getComponents()) {
             if (comp instanceof JButton button && "ConfirmPanel".equals(button.getClientProperty("targetPanel"))) {
-                button.addActionListener(e -> saveDateInfo());
+                button.addActionListener(e -> {
+                    saveDateInfo();
+                    if (mainFrame.getLoggedInCustomer() == null) {
+                        button.putClientProperty("targetPanel", "Login");
+                    } else {
+                        button.putClientProperty("targetPanel", "ConfirmPanel");
+                    }
+                });
             }
         }
-     
+
     }
- 
+
     private GridBagConstraints setGbc(GridBagConstraints gbc, int x, int y) {
         gbc.gridx = x;
         gbc.gridy = y;
         return gbc;
     }
 
-    //DateSelectionPanel
-    public void initUI(ActionListener controller) {
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-
-        JLabel title = new JLabel("Select Booking Dates:");
-        title.setFont(new Font("Arial", Font.BOLD, 18));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        this.add(title, gbc);
-
-        //back button to return to room panel 
-        JButton nextButton = new JButton("Back");
-        nextButton.setActionCommand(Command.SWITCH_PANEL.name());
-        nextButton.putClientProperty("targetPanel", "RoomSelection");
-        nextButton.addActionListener(controller);
-
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        gbc.gridwidth = 2;
-        this.add(nextButton, gbc);
-    }
 
     //return the length of the customer stay end-start
     private Integer[] generateNumbers(int start, int end) {
@@ -182,7 +164,7 @@ public class DateSelectionPanel extends JPanel {
         builder.setEndMonth(endMonth);
         builder.setLengthOfStay(lengthOfStay);
         builder.setTime(time);
-        
+
         System.out.println("Date info saved to BookingBuilder:");
 
     }

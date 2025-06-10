@@ -62,7 +62,6 @@ public class ActionController implements ActionListener {
                         System.out.println("Login failed: Invalid credentials.");
                         return;
                      }
-
                      //Save logged-in customer to BookingBuilder
                     mainFrame.setLoggedInCustomer(loggedInCustomer);
                     mainFrame.getBookingBuilder().setCustomer(loggedInCustomer);

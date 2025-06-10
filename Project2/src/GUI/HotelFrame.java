@@ -23,7 +23,7 @@ public class HotelFrame extends JFrame implements BookingListener {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private RoomSelectionPanel roomPanel;
-
+    private Customer loggedInCustomer;
 
     //store panels in Map<String, Jpanel> so can refernce them later from the action controller
     private Map<String, JPanel> panels = new HashMap<>();
@@ -93,9 +93,6 @@ public class HotelFrame extends JFrame implements BookingListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
-    
-    // At the top of your HotelFrame class
-    private Customer loggedInCustomer;
 
     public void setLoggedInCustomer(Customer customer) {
         this.loggedInCustomer = customer;
