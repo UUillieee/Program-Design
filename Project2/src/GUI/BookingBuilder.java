@@ -14,6 +14,9 @@ import Model.Hotel;
  * @author George
  */
 public class BookingBuilder {
+
+    
+ 
     private Hotel hotel; // not used in final booking. Just used to display rooms
     private Customer customer;
     private int time;
@@ -40,24 +43,24 @@ public class BookingBuilder {
     public void setLengthOfStay(int nights) {this.lengthOfStay = nights;}
   
     //Getters
-    public Hotel getHotel(){
-        return this.hotel;
-    }
+    public Hotel getHotel(){return this.hotel;}
     
-    public Customer getCustomer() {
-        return this.customer; 
-    }
+    public Customer getCustomer() {return this.customer;}
     
-    public int getLengthOfStay() {
-        return lengthOfStay;
-    }
-    //Test method
-    public String getBookingInfo(){
-         return "Start date: "+this.day+ " Length "+this.lengthOfStay+ " end day: "+this.endDay;
-    }
+    public int getLengthOfStay() {return lengthOfStay;}
+    
+    public int getTime() {return time;}
+    public int getDay() {return day;}
+    public int getMonth() {return month; }
+    public int getEndDay() {return endDay;}
+    public int getEndMonth() {return endMonth;}
+    public int getRoomNumber() {return roomNumber;}
+    public int getGuests() {return guests; }
+    public double getTotalPrice() {return totalPrice;}
+
     // Final build method
     public Booking build() {
-        return new Booking(time, day, month, endDay, endMonth, roomNumber, guests, totalPrice);
+        return new Booking(getTime(), getDay(), getMonth(), getEndDay(), getEndMonth(), getRoomNumber(), getGuests(), getTotalPrice());
     }
     
 }

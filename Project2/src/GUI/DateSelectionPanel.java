@@ -97,6 +97,7 @@ public class DateSelectionPanel extends JPanel {
         timeCombo = new JComboBox<>(timeOptions);
         add(timeCombo, gbc);
         row++;
+
         
         //navigation Panel, back and next
         JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "RoomSelection", "ConfirmPanel");
@@ -109,6 +110,32 @@ public class DateSelectionPanel extends JPanel {
         for (Component comp : backNextPanel.getComponents()) {
             if (comp instanceof JButton button && "ConfirmPanel".equals(button.getClientProperty("targetPanel"))) {
                 button.addActionListener(e -> saveDateInfo());
+            }
+        }
+
+        //next button
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        JButton nextBtn = new JButton("Next");
+        nextBtn.putClientProperty("targetPanel", "RoomSelection");
+        nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
+        nextBtn.addActionListener(e -> saveDateInfo());
+        nextBtn.addActionListener(controller);
+        row++;
+        add(nextBtn, gbc);
+
+        //Confirm Button
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        JButton confBtn = new JButton("Confirm");
+        confBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nextBtn.setEnabled(true);
+                saveDateInfo();
+
             }
         }
         

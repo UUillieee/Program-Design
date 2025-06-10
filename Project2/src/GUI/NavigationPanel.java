@@ -58,28 +58,30 @@ public class NavigationPanel {
         return navigationPanel;
     }
 
-    public static JPanel createBookingProccessButtons(ActionListener controller,String backTarget,String nextTarget)
-    {
+    public static JPanel createBookingProccessButtons(ActionListener controller, String backTarget, String nextTarget) {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         panel.setBackground(Color.WHITE);
 
         // Back Button
-        JButton backBtn = new JButton("Back");
-        backBtn.setActionCommand(Command.SWITCH_PANEL.name());
-        backBtn.addActionListener(controller);
-        backBtn.putClientProperty("targetPanel", backTarget);
-        StyleButtons.styleNavigationButton(backBtn,new Color(255, 102, 102)); //  red
-        panel.add(backBtn);
-
+        if (backTarget != null) { // So user can choose which buttons they want to add by just passing null to either one
+            JButton backBtn = new JButton("Back");
+            backBtn.setActionCommand(Command.SWITCH_PANEL.name());
+            backBtn.addActionListener(controller);
+            backBtn.putClientProperty("targetPanel", backTarget);
+            StyleButtons.styleNavigationButton(backBtn, new Color(255, 102, 102)); //  red
+            panel.add(backBtn);
+        }
         // Next Button
-        JButton nextBtn = new JButton("Next");
-        nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
-        nextBtn.addActionListener(controller);
-        nextBtn.setEnabled(true); // disable initially so user has to select something before moving on
-        nextBtn.putClientProperty("targetPanel", nextTarget);
-        StyleButtons.styleNavigationButton(nextBtn, new Color(30, 144, 255)); // Blue 
-        panel.add(nextBtn);
-        
+        if (nextTarget != null) {
+            JButton nextBtn = new JButton("Next");
+            nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
+            nextBtn.addActionListener(controller);
+            nextBtn.setEnabled(true); // disable initially so user has to select something before moving on
+            nextBtn.putClientProperty("targetPanel", nextTarget);
+            StyleButtons.styleNavigationButton(nextBtn, new Color(30, 144, 255)); // Blue 
+            panel.add(nextBtn);
+        }
+
         // Return to Main Menu Button
         JButton mainMenuButton = new JButton("Return to Main Menu");
         StyleButtons.styleNavigationButton(mainMenuButton, new Color(60, 179, 113)); // green

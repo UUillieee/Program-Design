@@ -16,14 +16,15 @@ public class HotelSelectionPanel extends JPanel {
     //private NavigationPanel navigationPanel;
     // Hotel selectedHotel;
     private BookingListener bookingListener;
+    private ActionListener controller;
 
     public void setBookingListener(BookingListener listener) {
         this.bookingListener = listener;
     }
 
-    public HotelSelectionPanel(HotelFrame mainFrame) {
+    public HotelSelectionPanel(HotelFrame mainFrame,ActionListener controller) {
         this.mainFrame = mainFrame;
-        ActionListener controller = new ActionController(mainFrame);
+        this.controller = controller;
         //this.navigationPanel = new NavigationPanel(mainFrame, controller);
     }
 

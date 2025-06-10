@@ -58,7 +58,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         mainPanel.add(roomPanel, "RoomSelection");
 
         //hotel Selection Panel
-        HotelSelectionPanel hotelPanel = new HotelSelectionPanel(this);
+        HotelSelectionPanel hotelPanel = new HotelSelectionPanel(this,controller);
         hotelPanel.initUI(controller);
         panels.put("HotelSelection", hotelPanel);
         mainPanel.add(hotelPanel, "HotelSelection");
@@ -69,8 +69,17 @@ public class HotelFrame extends JFrame implements BookingListener {
         panels.put("DateSelection", datePanel);
         mainPanel.add(datePanel, "DateSelection");
 
+        //Booking Confirmation panel
         ConfirmPanel confPanel = new ConfirmPanel(this,bookingBuilder,controller);
-
+        panels.put("ConfirmPanel", confPanel);
+        mainPanel.add(confPanel, "ConfirmPanel");
+        
+        
+        //Booking Confirmation panel
+        BookingConfirmedPanel bookingConfirmed = new BookingConfirmedPanel(this,controller);
+        panels.put("BookingConfirmed", bookingConfirmed);
+        mainPanel.add(bookingConfirmed, "BookingConfirmed");
+        
         //user Dashboard Panel
         UserDashboardPanel userDashboard = new UserDashboardPanel(this);
         panels.put("UserDashboard", userDashboard);

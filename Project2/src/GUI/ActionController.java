@@ -89,6 +89,10 @@ public class ActionController implements ActionListener {
                     //switch to the next panel
                     mainFrame.showPanel("Booking");
                     break;
+                case CONFIRM_BOOKING:
+                    //Make booking object and save to database - with customer ID
+                    
+                    break;
                 case EXIT:
                     System.exit(0);
                     break;

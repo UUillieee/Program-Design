@@ -13,5 +13,6 @@ public enum Command {
     LOGOUT,
     CREATE_USER,
     SWITCH_PANEL,
+    CONFIRM_BOOKING,
     EXIT
 }
