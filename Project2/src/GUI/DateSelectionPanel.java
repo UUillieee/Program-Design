@@ -19,8 +19,8 @@ import java.time.LocalDate;
 public class DateSelectionPanel extends JPanel {
 
     private final HotelFrame mainFrame;
-    private JComboBox<Integer> dayCombo, endDayCombo;
-    private JComboBox<String> monthCombo, endMonthCombo, timeCombo;
+    private JComboBox<Integer> dayCombo, endDayCombo, timeCombo;
+    private JComboBox<String> monthCombo, endMonthCombo;
     private final BookingBuilder builder;
     private final ActionListener controller;
     private JSpinner lengthOfStaySpinner;
@@ -59,7 +59,7 @@ public class DateSelectionPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.EAST;
 
-        //Check-in Month
+        //check-in month
         gbc.gridx = 0;
         gbc.gridy = row;
         add(new JLabel("Check-in Month:"), gbc);
@@ -69,7 +69,7 @@ public class DateSelectionPanel extends JPanel {
         monthCombo.addActionListener(e -> updateDaysForSelectedMonth()); // Listener to update the available days 
         row++;
 
-        //Check-in Day
+        //check-in day
         gbc.gridx = 0;
         gbc.gridy = row;
         add(new JLabel("Check-in Day:"), gbc);
@@ -78,7 +78,7 @@ public class DateSelectionPanel extends JPanel {
         add(dayCombo, gbc);
         row++;
 
-        // Length of Stay
+        //length of stay
         gbc.gridx = 0;
         gbc.gridy = row;
         add(new JLabel("Length of Stay (nights):"), gbc);
@@ -90,50 +90,37 @@ public class DateSelectionPanel extends JPanel {
         //time
         gbc.gridx = 0;
         gbc.gridy = row;
-        add(new JLabel("Check in time:"), gbc);
+        add(new JLabel("Check-in Time:"), gbc);
+
         gbc.gridx = 1;
-        timeCombo = new JComboBox<>(new String[]{"Morning", "Afternoon", "Evening"});
+        Integer[] timeOptions = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}; // 8 AM – 7 PM
+        timeCombo = new JComboBox<>(timeOptions);
         add(timeCombo, gbc);
         row++;
-
-        //next button
-        gbc.gridx = 1;
-        gbc.gridy = row;
-        gbc.anchor = GridBagConstraints.SOUTHEAST;
-        JButton nextBtn = new JButton("Next");
-        nextBtn.putClientProperty("targetPanel", "RoomSelection");
-        nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
-        nextBtn.addActionListener(e -> saveDateInfo());
-        nextBtn.addActionListener(controller);
-        row++;
-        add(nextBtn, gbc);
-
-        //Confirm Button
-        gbc.gridx = 1;
-        gbc.gridy = row;
-        gbc.anchor = GridBagConstraints.SOUTHEAST;
-        JButton confBtn = new JButton("Confirm");
-        confBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nextBtn.setEnabled(true);
-                saveDateInfo();
-                System.out.println(builder.getBookingInfo());
+        
+        //navigation Panel, back and next
+        JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "RoomSelection", "ConfirmPanel");
+        gbc.gridwidth = 3;
+        gbc.gridy = ++row;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(backNextPanel, gbc);
+        //saveDateInfo() only when next is clicked
+        for (Component comp : backNextPanel.getComponents()) {
+            if (comp instanceof JButton button && "ConfirmPanel".equals(button.getClientProperty("targetPanel"))) {
+                button.addActionListener(e -> saveDateInfo());
             }
-        });
-
-        confBtn.addActionListener(controller);
-        add(confBtn, gbc);
-
+        }
+        
     }
-
+ 
     private GridBagConstraints setGbc(GridBagConstraints gbc, int x, int y) {
         gbc.gridx = x;
         gbc.gridy = y;
         return gbc;
     }
 
-    // In DateSelectionPanel
+    //DateSelectionPanel
     public void initUI(ActionListener controller) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -146,7 +133,7 @@ public class DateSelectionPanel extends JPanel {
         gbc.gridwidth = 2;
         this.add(title, gbc);
 
-        //Back button to return to room panel 
+        //back button to return to room panel 
         JButton nextButton = new JButton("Back");
         nextButton.setActionCommand(Command.SWITCH_PANEL.name());
         nextButton.putClientProperty("targetPanel", "RoomSelection");
@@ -158,6 +145,7 @@ public class DateSelectionPanel extends JPanel {
         this.add(nextButton, gbc);
     }
 
+    //return the length of the customer stay end-start
     private Integer[] generateNumbers(int start, int end) {
         Integer[] nums = new Integer[end - start + 1];
         for (int i = 0; i < nums.length; i++) {
@@ -166,16 +154,18 @@ public class DateSelectionPanel extends JPanel {
         return nums;
     }
 
+    //array of months
     private String[] getMonths() {
         return new String[]{"January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"};
     }
 
+    //save date info to the booking builder 
     private void saveDateInfo() {
 
         int day = (int) dayCombo.getSelectedItem();
         int month = monthCombo.getSelectedIndex() + 1;
-        int time = timeCombo.getSelectedIndex(); // 0 = Morning, 1 = Afternoon, 2 = Evening
+        int time = (int) timeCombo.getSelectedItem();
         int lengthOfStay = (int) lengthOfStaySpinner.getValue();
 
         int year = LocalDate.now().getYear();
@@ -191,10 +181,15 @@ public class DateSelectionPanel extends JPanel {
         builder.setEndMonth(endMonth);
         builder.setLengthOfStay(lengthOfStay);
         builder.setTime(time);
+        
         System.out.println("Date info saved to BookingBuilder:");
 
     }
 
+    //get days for each month 
+    //Feb - 28
+    //March... - 31
+    //November... - 30
     private void updateDaysForSelectedMonth() {
         int selectedMonth = monthCombo.getSelectedIndex() + 1;
         int daysInMonth;
@@ -211,7 +206,7 @@ public class DateSelectionPanel extends JPanel {
         Integer currentSelection = (Integer) dayCombo.getSelectedItem();
         dayCombo.setModel(new DefaultComboBoxModel<>(generateNumbers(1, daysInMonth)));
 
-        // Try to reselect previously selected day if valid
+        //try to reselect previously selected day if valid
         if (currentSelection != null && currentSelection <= daysInMonth) {
             dayCombo.setSelectedItem(currentSelection);
         }
