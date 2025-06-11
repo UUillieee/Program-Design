@@ -42,6 +42,24 @@ public class CustomerUpdateInfo {
         }
     }
     
+    public Customer getCustomerByUsername(String username) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                 "SELECT * FROM Customers WHERE username = ?")) {
+
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // You can customize how you build your Customer object here
+                return new Customer(rs.getInt("id"), rs.getString("username"));
+            }
+        } catch (SQLException e) {
+            System.out.println("DB Error: " + e.getMessage());
+        }
+        return null;
+    }   
+    
     public Customer getCustomer(String username, String password) {
     String query = "SELECT * FROM Customers WHERE username = ? AND password = ?";
 

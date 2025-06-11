@@ -88,8 +88,18 @@ public class ActionController implements ActionListener {
                         System.out.println("Username or password cannot be empty.");
                         return;
                     }
-                    //insert into DB
+                    
+                    //create customerDB object to pass to CustomerUpdateInfo
                     CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
+                    
+                    //check if the username already exists so no duplicate accounts can be created
+                    Model.Customer existingUser = customerDB.getCustomerByUsername(newUser);
+                    if (existingUser != null) {
+                        System.out.println("Error: Username already exists. Please choose another one.");
+                        return;
+                    }
+                    
+                    //pass the username and password to insertCustomer() to put in the database
                     customerDB.insertCustomer(newUser, newPassword);
 
                     //immediately fetch the newly created user
