@@ -55,6 +55,8 @@ public class RetrieveBookings {
     public static List<Object[]> getBookingsByCustomerId(int customerId) {
     List<Object[]> bookings = new ArrayList<>();
     
+    System.out.println("Fetching bookings for customerId: " + customerId);
+    
     String query = "SELECT B.id, B.customerId, H.name AS hotelName, B.time, B.day, B.month, B.endMonth, " +
                    "B.roomNumber, B.guests, B.totalPrice, B.isBooked " +
                    "FROM Bookings B " +
@@ -79,6 +81,8 @@ public class RetrieveBookings {
             row[7] = rs.getBoolean("isBooked") ? "Confirmed" : "Pending";
             bookings.add(row);
         }
+        
+        System.out.println("Bookings found: " + bookings.size());
 
     } catch (SQLException e) {
         System.out.println("Error retrieving bookings: " + e.getMessage());

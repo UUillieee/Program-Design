@@ -102,7 +102,7 @@ public class LoginPanel extends JPanel {
         // Login Button
         JButton loginButton = new JButton("Login");
         styleButton(loginButton, new Color(70, 130, 180)); // Steel blue
-        loginButton.setActionCommand(Command.SWITCH_PANEL.name());
+        loginButton.setActionCommand(Command.LOGIN.name());
         loginButton.addActionListener(controller);
         loginButton.putClientProperty("targetPanel", "UserDashboard");
         loginButton.addActionListener(e -> {

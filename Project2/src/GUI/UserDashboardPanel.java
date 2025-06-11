@@ -224,6 +224,7 @@ public class UserDashboardPanel extends JPanel {
      * Method to refresh the bookings display
      */
     public void refreshBookings() {
+        System.out.println("refreshbookngs");
         // Clear existing data
         tableModel.setRowCount(0);
         // Reload sample data

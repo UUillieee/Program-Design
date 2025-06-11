@@ -21,7 +21,7 @@ public class BookingsTablePrint {
                 System.out.printf(
                     "ID: %d, Customer ID: %d, Time: %d, Day: %d, Month: %d, EndMonth: %d, Room: %d, Guests: %d, Total Price: %d, Hotel ID: %d, Is Booked: %b%n",
                     rs.getInt("id"),
-                    rs.getInt("id"),
+                    rs.getInt("customerId"),
                     rs.getInt("time"),
                     rs.getInt("day"),
                     rs.getInt("month"),

@@ -65,6 +65,12 @@ public class ActionController implements ActionListener {
                      //Save logged-in customer to BookingBuilder
                     mainFrame.setLoggedInCustomer(loggedInCustomer);
                     mainFrame.getBookingBuilder().setCustomer(loggedInCustomer);
+                    
+                    UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+                    dashboard.updateUserGreeting(loggedInCustomer);
+                    dashboard.refreshBookings();
+
+                    mainFrame.showPanel("UserDashboard");
 
                     break;
                 case LOGOUT:
@@ -95,14 +101,14 @@ public class ActionController implements ActionListener {
                     //set new user as the logged-in customer
                     mainFrame.setLoggedInCustomer(newCustomer);
                     mainFrame.getBookingBuilder().setCustomer(newCustomer);
-
-                    //switch to dashboard panels
-                    mainFrame.showPanel("UserDashboard");
                     
                      //update greeting and reload bookings
-                    UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
-                    dashboard.updateUserGreeting(newCustomer);
-                    dashboard.refreshBookings();
+                    UserDashboardPanel db = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+                    db.updateUserGreeting(newCustomer);
+                    db.refreshBookings();
+                    
+                    //switch to dashboard panels
+                    mainFrame.showPanel("UserDashboard");
                     break;
                     
                 case CONFIRM_BOOKING:

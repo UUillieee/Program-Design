@@ -13,7 +13,7 @@ package Model;
  */
 public class Booking {
 
-    private final int customer;
+    private final int customerId;
     private final int time; //time of check-in (24hr time)
     private final int day;//start day of booking
     private final int month;//Start month of booking
@@ -25,7 +25,7 @@ public class Booking {
 
     //constructor to initialize all details
     public Booking(int customer, int time, int day, int month, int endDay, int endMonth, int roomNumber, int guests,double totalPrice) {
-        this.customer = customer;
+        this.customerId = customer;
         this.time = time;
         this.day = day;
         this.month = month;
@@ -58,8 +58,8 @@ public class Booking {
         this.totalPrice = totalPrice;
     }
   
-    public int getCustomer(){
-        return customer;
+    public int getCustomerId(){
+        return customerId;
     }
     public int getDay() {
         return day;
