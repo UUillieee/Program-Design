@@ -143,6 +143,16 @@ public class UserDashboardPanel extends JPanel {
         bookingsTable.getColumnModel().getColumn(6).setPreferredWidth(80);  // Status
     }
     
+    //get the selected from from the panels table
+    public int getSelectedRow() {
+        return bookingsTable.getSelectedRow();
+    }
+    
+    //return table
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
+    
     private JPanel createBookingActionsPanel(ActionListener controller) {
         JPanel actionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         actionsPanel.setBackground(Color.WHITE);
@@ -173,7 +183,7 @@ public class UserDashboardPanel extends JPanel {
         // Cancel Booking Button
         cancelBookingButton = new JButton("Cancel Booking");
          StyleButtons.styleActionButton(cancelBookingButton, new Color(220, 20, 60)); // Crimson
-        //cancelBookingButton.setActionCommand(Command.CANCEL.name());
+        cancelBookingButton.setActionCommand(Command.CANCEL.name());
         cancelBookingButton.addActionListener(controller);
         actionsPanel.add(cancelBookingButton);
         

@@ -46,6 +46,27 @@ public class BookingUpdateInfo {
             System.out.println("Error inserting booking: " + e.getMessage());
         }
     }
+    
+    //delete the provided booking from the table,
+    public void deleteBookingById(int bookingId) {      
+        String sql = "DELETE FROM Bookings WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, bookingId);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Booking with ID " + bookingId + " has been cancelled.");
+            } else {
+                System.out.println("No booking found with ID: " + bookingId);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error cancelling booking: " + e.getMessage());
+        }
+    }
 
     //get the latest ID put in the booking detail so it can plus 1
     public int getNextBookingId() {

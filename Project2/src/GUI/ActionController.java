@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import dbpackage.CustomerUpdateInfo;
+import javax.swing.JOptionPane;
 /**
  *
  * @author George
@@ -62,7 +63,7 @@ public class ActionController implements ActionListener {
                         System.out.println("Login failed: Invalid credentials.");
                         return;
                      }
-                     //Save logged-in customer to BookingBuilder
+                     //save logged-in customer to BookingBuilder
                     mainFrame.setLoggedInCustomer(loggedInCustomer);
                     mainFrame.getBookingBuilder().setCustomer(loggedInCustomer);
                     
@@ -117,6 +118,27 @@ public class ActionController implements ActionListener {
                     bookingDb.insertUpdate(mainFrame.getBookingBuilder());
                     System.out.println("Booking is saved to database");
                     mainFrame.showPanel("BookingConfirmed");
+                    break;
+                case CANCEL:
+                    //remove the booking from the database bookings table
+                    UserDashboardPanel dashboardPanel = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+                    //selected row in the panels table
+                    int selectedRow = dashboardPanel.getSelectedRow(); 
+                    if (selectedRow == -1) {
+                        System.out.println("No booking selected to cancel.");
+                        return;
+                    }
+                    
+                    //confirmation panel to double check with the user if they want to delete the booking
+                    int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel this booking?", "Confirm Cancel", JOptionPane.YES_NO_OPTION);
+                    if (confirm != JOptionPane.YES_OPTION) return;
+
+                    int bookingId = (int) dashboardPanel.getTableModel().getValueAt(selectedRow, 0);
+                    BookingUpdateInfo cancelDb = new BookingUpdateInfo();
+                    //pass the bookingId to deleteBookingById() to delete
+                    cancelDb.deleteBookingById(bookingId);
+                    //refresh bookings within the userpanel
+                    dashboardPanel.refreshBookings();
                     break;
                 case EXIT:
                     System.exit(0);
