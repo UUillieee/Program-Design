@@ -1,12 +1,12 @@
 ----------------------------------------------------------------
-Wed Jun 11 14:51:08 NZST 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0197-5ce6-0650-00001f10d000 
-on database directory C:\Users\billw\2025\Program Design and Constuction\Program-Design\Project2\myDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
-Loaded from file:/C:/Users/billw/2025/Program%20Design%20and%20Constuction/Program-Design/Project2/lib/derby.jar
+Wed Jun 11 21:09:00 NZST 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0197-5e3f-f95f-00000f2ed950 
+on database directory C:\Users\George\Documents\GitHub\Program-Design\Project2\myDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
+Loaded from file:/C:/Users/George/Documents/GitHub/Program-Design/Project2/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=23.0.2+7-58
-user.dir=C:\Users\billw\2025\Program Design and Constuction\Program-Design\Project2
-os.name=Windows 11
+java.runtime.version=22.0.2+9-70
+user.dir=C:\Users\George\Documents\GitHub\Program-Design\Project2
+os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null

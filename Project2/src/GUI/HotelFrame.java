@@ -20,7 +20,9 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
  * @author George
  */
 public class HotelFrame extends JFrame implements BookingListener {
+
     private CardLayout cardLayout;
+    private ActionListener controller;
     private JPanel mainPanel;
     private RoomSelectionPanel roomPanel;
     private Customer loggedInCustomer;
@@ -34,7 +36,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        ActionListener controller = new ActionController(this); // Need to pass this 1 reference to all the panels. (Shared)
+        controller = new ActionController(this); // Need to pass this 1 reference to all the panels. (Shared)
 
         //welcome Panel
         WelcomePanel welcomePanel = new WelcomePanel(this);
@@ -53,28 +55,27 @@ public class HotelFrame extends JFrame implements BookingListener {
         mainPanel.add(roomPanel, "RoomSelection");
 
         //hotel Selection Panel
-        HotelSelectionPanel hotelPanel = new HotelSelectionPanel(this,controller);
+        HotelSelectionPanel hotelPanel = new HotelSelectionPanel(this, controller);
         hotelPanel.initUI(controller);
         panels.put("HotelSelection", hotelPanel);
         mainPanel.add(hotelPanel, "HotelSelection");
         hotelPanel.setBookingListener(roomPanel);
-        
+
         //date selection panel
-        DateSelectionPanel datePanel = new DateSelectionPanel(this,bookingBuilder,controller);
+        DateSelectionPanel datePanel = new DateSelectionPanel(this, bookingBuilder, controller);
         panels.put("DateSelection", datePanel);
         mainPanel.add(datePanel, "DateSelection");
 
         //Booking Confirmation panel
-        ConfirmPanel confPanel = new ConfirmPanel(this,bookingBuilder,controller);
+        ConfirmPanel confPanel = new ConfirmPanel(this, bookingBuilder, controller);
         panels.put("ConfirmPanel", confPanel);
         mainPanel.add(confPanel, "ConfirmPanel");
-        
-        
+
         //Booking Confirmation panel
-        BookingConfirmedPanel bookingConfirmed = new BookingConfirmedPanel(this,controller);
+        BookingConfirmedPanel bookingConfirmed = new BookingConfirmedPanel(this, bookingBuilder, controller);
         panels.put("BookingConfirmed", bookingConfirmed);
         mainPanel.add(bookingConfirmed, "BookingConfirmed");
-        
+
         //user Dashboard Panel
         UserDashboardPanel userDashboard = new UserDashboardPanel(this);
         panels.put("UserDashboard", userDashboard);
@@ -92,31 +93,35 @@ public class HotelFrame extends JFrame implements BookingListener {
     public void setLoggedInCustomer(Customer customer) {
         this.loggedInCustomer = customer;
     }
+
     //return the customer that clicked login
     public Customer getLoggedInCustomer() {
         return this.loggedInCustomer;
     }
-    
+
     public void showPanel(String name) {
         //Each panel can call this to go to a different panel
         cardLayout.show(mainPanel, name);
         mainPanel.revalidate(); // refresh layout
         mainPanel.repaint();    // force redraw
     }
+
     public BookingBuilder getBookingBuilder() {
         return bookingBuilder;
     }
+
     // Add a reset if needed
     public void resetBookingBuilder() {
         bookingBuilder = new BookingBuilder();
     }
+
     public RoomSelectionPanel getRoomSelectionPanel() {
         return roomPanel;
     }
 
     public JPanel getPanel(String panelName) {
-            //get panel name stored in a map
-            return panels.get(panelName);
+        //get panel name stored in a map
+        return panels.get(panelName);
     }
 
     public void updateBookingPanels() {
@@ -127,7 +132,7 @@ public class HotelFrame extends JFrame implements BookingListener {
             }
         }
     }
-    
+
     @Override
     public void onHotelSelected(Hotel hotel) {
         bookingBuilder.setHotel(hotel);
@@ -137,6 +142,14 @@ public class HotelFrame extends JFrame implements BookingListener {
     @Override
     public void updateBookingInfo() {
         //hotelframe may not need to do anything
+    }
+
+    public void showUpdatedConfirmPanel() {
+        ConfirmPanel confirmPanel = (ConfirmPanel) panels.get("ConfirmPanel");
+        if (confirmPanel != null) {
+            confirmPanel.refresh(); // Update booking data display
+        }
+        showPanel("ConfirmPanel");
     }
 
 }

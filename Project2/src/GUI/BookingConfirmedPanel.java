@@ -20,11 +20,14 @@ public class BookingConfirmedPanel extends JPanel {
     private final HotelFrame mainFrame;
     private final ActionListener controller;
     private final Customer customer;
+    private final BookingBuilder builder;
+    
 
-    public BookingConfirmedPanel(HotelFrame mainFrame, ActionListener controller) {
+    public BookingConfirmedPanel(HotelFrame mainFrame, BookingBuilder builder,ActionListener controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         this.customer = mainFrame.getLoggedInCustomer();
+        this.builder = builder;
         createConfirmedPanel();
     }
 

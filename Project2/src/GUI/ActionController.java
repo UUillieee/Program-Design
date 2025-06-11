@@ -110,7 +110,7 @@ public class ActionController implements ActionListener {
                     BookingUpdateInfo bookingDb = new BookingUpdateInfo();
                     bookingDb.insertUpdate(mainFrame.getBookingBuilder());
                     System.out.println("Booking is saved to database");
-                    
+                    mainFrame.showPanel("BookingConfirmed");
                     break;
                 case EXIT:
                     System.exit(0);

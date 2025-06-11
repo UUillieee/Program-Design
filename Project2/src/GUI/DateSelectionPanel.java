@@ -91,7 +91,7 @@ public class DateSelectionPanel extends JPanel {
         //time
         gbc.gridx = 0;
         gbc.gridy = row;
-        add(new JLabel("Check-in Time:"), gbc);
+        add(new JLabel("Check-in Time: (am/pm)"), gbc);
 
         gbc.gridx = 1;
         Integer[] timeOptions = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}; // 8 AM – 7 PM
@@ -112,9 +112,11 @@ public class DateSelectionPanel extends JPanel {
                 button.addActionListener(e -> {
                     saveDateInfo();
                     if (mainFrame.getLoggedInCustomer() == null) {
-                        button.putClientProperty("targetPanel", "Login");
+                        JOptionPane.showMessageDialog(mainFrame, "Please login before confirming your booking.", "Login Required", JOptionPane.WARNING_MESSAGE);
+                        mainFrame.showPanel("Login");
                     } else {
-                        button.putClientProperty("targetPanel", "ConfirmPanel");
+                        mainFrame.showUpdatedConfirmPanel();
+                        return;
                     }
                 });
             }
@@ -159,19 +161,24 @@ public class DateSelectionPanel extends JPanel {
         int endDay = endDate.getDayOfMonth();
         int endMonth = endDate.getMonthValue();
         
-        Customer user = mainFrame.getLoggedInCustomer();
-        if (user == null) {
+        Customer customer = mainFrame.getLoggedInCustomer();
+        if (customer == null) {
             System.out.println("No logged-in user.");
-        }  
+        }else {
+            System.out.println("Logged in as: "+customer.getUsername()+" e.g Booking Date: "+builder.getDay());
+        }
+        
 
         builder.setDay(day);
-        builder.setCustomer(user);
+        builder.setCustomer(customer);
         builder.setMonth(month);
         builder.setEndDay(endDay);
         builder.setEndMonth(endMonth);
         builder.setLengthOfStay(lengthOfStay);
         builder.setTime(time);
-
+        
+        mainFrame.showUpdatedConfirmPanel();
+        
         System.out.println("Date info saved to BookingBuilder:");
 
     }

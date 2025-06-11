@@ -43,8 +43,8 @@ public class BookingBuilder {
     public void setEndMonth(int endMonth) { this.endMonth = endMonth; }
     public void setRoomNumber(int roomNumber) { this.roomNumber = roomNumber; }
     public void setGuests(int guests) { this.guests = guests; }
-    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
     public void setLengthOfStay(int nights) {this.lengthOfStay = nights;}
+    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice * lengthOfStay; }
   
     //Getters
     public Hotel getHotel(){return this.hotel;}
