@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.Command.CONFIRM_BOOKING;
 import Model.Customer;
 import java.awt.Color;
 import java.awt.Font;
@@ -66,7 +67,7 @@ public class ConfirmPanel extends JPanel {
         
         // Add confirm button
         JButton confirmButton = new JButton("Confirm Booking");
-        confirmButton.setActionCommand(Command.SWITCH_PANEL.name());
+        confirmButton.setActionCommand(Command.CONFIRM_BOOKING.name());
         confirmButton.addActionListener(controller);
         confirmButton.putClientProperty("targetPanel", "BookingConfirmed");
         StyleButtons.styleNavigationButton(confirmButton, new Color(30, 144, 255)); // Blue 
@@ -141,6 +142,6 @@ public class ConfirmPanel extends JPanel {
 
     public static void main(String[] args) {
         HotelFrame f = new HotelFrame();
-        f.showPanel("ConfirmPanel");
+        f.showPanel("DateSelectionPanel");
     }
 }

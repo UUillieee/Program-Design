@@ -13,12 +13,11 @@ import Model.Hotel;
  *
  * @author George
  */
-public class BookingBuilder {
-
-    
+public class BookingBuilder { 
  
     private Hotel hotel; // not used in final booking. Just used to display rooms
     private Customer customer;
+    private int customerId;
     private int time;
     private int day;
     private int month;
@@ -28,11 +27,15 @@ public class BookingBuilder {
     private int guests;
     private double totalPrice;
     private int lengthOfStay;
-    
 
     //Setters
     public void setHotel(Hotel hot){ this.hotel = hot;}
-    public void setCustomer(Customer customer) { this.customer = customer; }
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+        if (customer != null) {
+            this.customerId = customer.getId();
+        }
+    }
     public void setTime(int time) { this.time = time; }
     public void setDay(int day) { this.day = day; }
     public void setMonth(int month) { this.month = month; }
@@ -46,9 +49,11 @@ public class BookingBuilder {
     //Getters
     public Hotel getHotel(){return this.hotel;}
     
-    public Customer getCustomer() {return this.customer;}
+    public int getCustomerId() {return customerId;}
     
     public int getLengthOfStay() {return lengthOfStay;}
+    
+    public Customer getCustomer() {return customer;}
     
     public int getTime() {return time;}
     public int getDay() {return day;}
@@ -61,7 +66,9 @@ public class BookingBuilder {
 
     // Final build method
     public Booking build() {
-        return new Booking(getTime(), getDay(), getMonth(), getEndDay(), getEndMonth(), getRoomNumber(), getGuests(), getTotalPrice());
+        return new Booking(getTime(), getCustomerId(), getDay(), getMonth(), getEndDay(), getEndMonth(), getRoomNumber(), getGuests(), getTotalPrice());
     }
+
+    
     
 }

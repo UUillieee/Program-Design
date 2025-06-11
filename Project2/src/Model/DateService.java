@@ -22,18 +22,18 @@ public class DateService {
 
 
     //main method to collect all booking details from the user
-    public Booking collectBookingDetails(Scanner scanner,Map<String, Hotel> hotels) throws BookingCancelledException{
-        int roomNumber = getValidRoomNumber(scanner,hotels);//Validate room selection
-        int month = getValidMonth(scanner);//Validate month
-        int day = getValidDay(scanner, month);//Validate day in the selected month
-        int duration = getValidDuration(scanner);//Validate duration of stay
-        int time = getValidArrivalTime(scanner);//Validate arrival time
-        int guests = getValidGuests(scanner, roomNumber);//Validate number of guests
-        int[] endDate = calculateEndDate(day, month, duration);//Calculate checkout date
-        //return a new Booking object with collected data
-        return new Booking(time, day, month, endDate[0], endDate[1], roomNumber, guests,0);
-
-    }
+//    public Booking collectBookingDetails(Scanner scanner,Map<String, Hotel> hotels) throws BookingCancelledException{
+//        int roomNumber = getValidRoomNumber(scanner,hotels);//Validate room selection
+//        int month = getValidMonth(scanner);//Validate month
+//        int day = getValidDay(scanner, month);//Validate day in the selected month
+//        int duration = getValidDuration(scanner);//Validate duration of stay
+//        int time = getValidArrivalTime(scanner);//Validate arrival time
+//        int guests = getValidGuests(scanner, roomNumber);//Validate number of guests
+//        int[] endDate = calculateEndDate(day, month, duration);//Calculate checkout date
+//        //return a new Booking object with collected data
+//        return new Booking(time, day, month, endDate[0], endDate[1], roomNumber, guests,0);
+//
+//    }
 
     //returns a correct room number
     private int getValidRoomNumber(Scanner scanner,Map<String, Hotel> hotels) {

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Model.Customer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -157,8 +158,14 @@ public class DateSelectionPanel extends JPanel {
 
         int endDay = endDate.getDayOfMonth();
         int endMonth = endDate.getMonthValue();
+        
+        Customer user = mainFrame.getLoggedInCustomer();
+        if (user == null) {
+            System.out.println("No logged-in user.");
+        }  
 
         builder.setDay(day);
+        builder.setCustomer(user);
         builder.setMonth(month);
         builder.setEndDay(endDay);
         builder.setEndMonth(endMonth);

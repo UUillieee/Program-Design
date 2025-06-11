@@ -88,6 +88,7 @@ public class CreateTables {
         stmt.executeUpdate("""
             CREATE TABLE Bookings (
                 id INT PRIMARY KEY,
+                customerId INT,
                 time INT,
                 day INT,
                 month INT,

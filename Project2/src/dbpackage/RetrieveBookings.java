@@ -24,7 +24,7 @@ public class RetrieveBookings {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Object[] row = new Object[7];
+                Object[] row = new Object[8];
                 //hotel ID
                 row[0] = rs.getInt("id");
                 //customer ID
@@ -54,7 +54,12 @@ public class RetrieveBookings {
     //return bookings of the customer ID
     public static List<Object[]> getBookingsByCustomerId(int customerId) {
     List<Object[]> bookings = new ArrayList<>();
-    String query = "SELECT * FROM Bookings WHERE customer_id = ?";
+    
+    String query = "SELECT B.id, B.customerId, H.name AS hotelName, B.time, B.day, B.month, B.endMonth, " +
+                   "B.roomNumber, B.guests, B.totalPrice, B.isBooked " +
+                   "FROM Bookings B " +
+                   "JOIN Hotels H ON B.hotelId = H.id " +
+                   "WHERE B.customerId = ?";
 
     try (Connection conn = DatabaseConnection.getConnection();
          PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -63,16 +68,15 @@ public class RetrieveBookings {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            Object[] row = new Object[]{
-                rs.getInt("booking_id"),
-                rs.getInt("customer_id"),
-                rs.getString("hotel_name"),
-                rs.getString("check_in_date"),
-                rs.getString("check_out_date"),
-                rs.getString("room_type"),
-                rs.getDouble("total_cost"),
-                rs.getString("status")
-            };
+            Object[] row = new Object[8];
+            row[0] = rs.getInt("id");
+            row[1] = rs.getInt("customerId");
+            row[2] = rs.getString("hotelName");
+            row[3] = rs.getInt("day") + "/" + rs.getInt("month");
+            row[4] = rs.getInt("day") + "/" + rs.getInt("endMonth");
+            row[5] = "Room #" + rs.getInt("roomNumber");
+            row[6] = "$" + rs.getInt("totalPrice");
+            row[7] = rs.getBoolean("isBooked") ? "Confirmed" : "Pending";
             bookings.add(row);
         }
 

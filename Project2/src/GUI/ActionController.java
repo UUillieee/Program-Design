@@ -9,6 +9,7 @@ import static GUI.Command.EXIT;
 import static GUI.Command.LOGIN;
 import static GUI.Command.LOGOUT;
 import static GUI.Command.SWITCH_PANEL;
+import dbpackage.BookingUpdateInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -68,6 +69,7 @@ public class ActionController implements ActionListener {
                     break;
                 case LOGOUT:
                     mainFrame.showPanel("Login");
+                    mainFrame.setLoggedInCustomer(null);
                     break;
                 case CREATE_USER:
                     //get username & password
@@ -105,6 +107,9 @@ public class ActionController implements ActionListener {
                     
                 case CONFIRM_BOOKING:
                     //Make booking object and save to database - with customer ID
+                    BookingUpdateInfo bookingDb = new BookingUpdateInfo();
+                    bookingDb.insertUpdate(mainFrame.getBookingBuilder());
+                    System.out.println("Booking is saved to database");
                     
                     break;
                 case EXIT:

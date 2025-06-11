@@ -64,23 +64,46 @@ public class BookingUpdateInfo {
         return 1; 
     }
 
-    //test method
+   
     public void insertUpdate(GUI.BookingBuilder bookingBuilder) {
-        int nextId = getNextBookingId();
+    int nextId = getNextBookingId();
+    Model.Booking booking = bookingBuilder.build(); //Build once
 
-        // Get customer ID
-        int customerId = bookingBuilder.getCustomer().getId();
-
-        // Extract booking details from builder
-        int day = bookingBuilder.build().getDay();
-        int time = bookingBuilder.build().getTime();
-        int month = bookingBuilder.build().getMonth();
-        int endMonth = bookingBuilder.build().getEndMonth();
-        int roomNumber = bookingBuilder.build().getRoomNumber();
-        int guests = bookingBuilder.build().getGuests();
-        int totalPrice = (int) bookingBuilder.build().getTotalPrice();  // cast if stored as double
-        int hotelId = bookingBuilder.getHotel().getId();
-
-        insertBooking(nextId, customerId, day, time, month, endMonth, roomNumber, guests, totalPrice, hotelId, true);
+    int customerId = bookingBuilder.getCustomerId(); // More reliable
+    int hotelId = bookingBuilder.getHotel().getId();
+    int day = booking.getDay();
+    int time = booking.getTime();
+    int month = booking.getMonth();
+    int endMonth = booking.getEndMonth();
+    int roomNumber = booking.getRoomNumber();
+    int guests = booking.getGuests();
+    int totalPrice = (int) booking.getTotalPrice(); // casting double to int
+    boolean isBooked = true;
+    
+    insertBooking(
+        nextId,
+        customerId,
+        booking.getDay(),
+        booking.getTime(),
+        booking.getMonth(),
+        booking.getEndMonth(),
+        booking.getRoomNumber(),
+        booking.getGuests(),
+        (int) booking.getTotalPrice(), // You can store as double in DB if needed
+        hotelId,
+        true);
+    
+    System.out.println("Inserting Booking:");
+    System.out.println("ID: " + nextId +
+                       ", CustomerID: " + customerId +
+                       ", Day: " + day +
+                       ", Time: " + time +
+                       ", Month: " + month +
+                       ", EndMonth: " + endMonth +
+                       ", RoomNumber: " + roomNumber +
+                       ", Guests: " + guests +
+                       ", TotalPrice: " + totalPrice +
+                       ", HotelID: " + hotelId +
+                       ", isBooked: " + isBooked);
     }
 }

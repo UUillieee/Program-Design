@@ -48,7 +48,8 @@ public class BookingManager {
                                 Integer.parseInt(data[0]), Integer.parseInt(data[1]),
                                 Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                                 Integer.parseInt(data[4]), Integer.parseInt(data[5]),
-                                Integer.parseInt(data[6]), Double.parseDouble(data[7])
+                                Integer.parseInt(data[6]), Integer.parseInt(data[7]),
+                                Double.parseDouble(data[8])
                         );
                         //Add booking to map
                         bookings.put(customerName, booking);
