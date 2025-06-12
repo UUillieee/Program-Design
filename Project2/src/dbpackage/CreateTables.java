@@ -68,15 +68,16 @@ public class CreateTables {
     }
 
     private void createRoomsTable(Statement stmt) throws SQLException {
-        //SQL statement to create room table with rows
+        // SQL statement to create Rooms table with a composite primary key (id, hotelId)
         stmt.executeUpdate("""
             CREATE TABLE Rooms (
-                id INT PRIMARY KEY,
+                id INT,
                 hotelId INT,
                 type VARCHAR(50),
                 cost INT,
                 maxGuests INT,
                 isBooked BOOLEAN,
+                PRIMARY KEY (id, hotelId),
                 FOREIGN KEY (hotelId) REFERENCES Hotels(id)
             )
         """);
