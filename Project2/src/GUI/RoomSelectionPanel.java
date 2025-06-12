@@ -42,7 +42,7 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
         add(title, gbc);
 
         // Table model (start empty)
-        String[] columnNames = {"Hotel", "Room Type", "Cost", "Max Guests", "Availability"};
+        String[] columnNames = {"Hotel", "Room Type", "Cost Per Night", "Max Guests", "Availability"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -90,7 +90,7 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
 
                 // Store room info into BookingBuilder
                 mainFrame.getBookingBuilder().setRoomNumber(roomNumber);
-                mainFrame.getBookingBuilder().setTotalPrice(cost);
+                mainFrame.getBookingBuilder().setRoomPrice(cost);
                 mainFrame.getBookingBuilder().setGuests(guests);
 
                 System.out.println("Room Selected: #" + roomNumber + " | Type: " + roomType + " | Cost: " + cost + " | Guests: " + guests);

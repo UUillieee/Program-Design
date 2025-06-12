@@ -25,6 +25,7 @@ public class BookingBuilder {
     private int endMonth;
     private int roomNumber;
     private int guests;
+    private double roomPrice;
     private double totalPrice;
     private int lengthOfStay;
 
@@ -43,8 +44,9 @@ public class BookingBuilder {
     public void setEndMonth(int endMonth) { this.endMonth = endMonth; }
     public void setRoomNumber(int roomNumber) { this.roomNumber = roomNumber; }
     public void setGuests(int guests) { this.guests = guests; }
+    public void setRoomPrice(double roomPrice){ this.roomPrice = roomPrice; }
     public void setLengthOfStay(int nights) {this.lengthOfStay = nights;}
-    public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice * lengthOfStay; }
+    public void setTotalPrice() { this.totalPrice = roomPrice * lengthOfStay; }
   
     //Getters
     public Hotel getHotel(){return this.hotel;}

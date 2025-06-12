@@ -175,6 +175,7 @@ public class DateSelectionPanel extends JPanel {
         builder.setEndMonth(endMonth);
         builder.setLengthOfStay(lengthOfStay);
         builder.setTime(time);
+        builder.setTotalPrice(); // No need to pass anything, just makes sure this method is called to calculate total price based on the new length of stay.
 
        // mainFrame.showUpdatedConfirmPanel();
 
