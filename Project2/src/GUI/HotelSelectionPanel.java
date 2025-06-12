@@ -54,6 +54,7 @@ public class HotelSelectionPanel extends JPanel {
             }
         };
         JTable hotelTable = new JTable(tableModel);
+        hotelTable.getTableHeader().setResizingAllowed(false); // Cant resize the columns
 
         hotelTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         hotelTable.getColumnModel().getColumn(1).setPreferredWidth(100);
