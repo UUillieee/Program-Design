@@ -125,7 +125,7 @@ public class ActionController implements ActionListener {
                     //check if the username already exists so no duplicate accounts can be created
                     Model.Customer existingUser = customerDB.getCustomerByUsername(newUser);
                     if (existingUser != null) {
-                        System.out.println("Error: Username already exists. Please choose another one.");
+                        JOptionPane.showMessageDialog(createPanel, "Username taken, choose another.", "New User CreationFailed", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
