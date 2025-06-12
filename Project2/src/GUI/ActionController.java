@@ -50,6 +50,7 @@ public class ActionController implements ActionListener {
                     String loginUser = loginPanel.getUsername();
                     String loginPassword = loginPanel.getPassword();
                     
+                    //check if username or password fields are empty
                     if (loginUser.isEmpty() || loginPassword.isEmpty()) {
                         System.out.println("Username or password cannot be empty.");
                         return;
@@ -57,22 +58,23 @@ public class ActionController implements ActionListener {
                     
                    //Get customer from database
                     CustomerUpdateInfo customerDb = new CustomerUpdateInfo();
-                    Model.Customer loggedInCustomer = customerDb.getCustomer(loginUser, loginPassword);
+                    Model.Customer customer = customerDb.getCustomer(loginUser, loginPassword);
 
-                    if (loggedInCustomer == null) {
-                        System.out.println("Login failed: Invalid credentials.");
-                        return;
-                     }
-                     //save logged-in customer to BookingBuilder
-                    mainFrame.setLoggedInCustomer(loggedInCustomer);
-                    mainFrame.getBookingBuilder().setCustomer(loggedInCustomer);
+                    if (customer != null) {
+                        System.out.println("Login successful! Welcome " + customer.getUsername());
+
+                        mainFrame.setLoggedInCustomer(customer);
+                        mainFrame.getBookingBuilder().setCustomer(customer);
+                        mainFrame.showPanel("UserDashboard");
+
+                        UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+                        dashboard.updateUserGreeting(customer);
+                        dashboard.refreshBookings();
+                    } 
+                    else {
+                        JOptionPane.showMessageDialog(loginPanel, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                    }
                     
-                    UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
-                    dashboard.updateUserGreeting(loggedInCustomer);
-                    dashboard.refreshBookings();
-
-                    mainFrame.showPanel("UserDashboard");
-
                     break;
                 case LOGOUT:
                     mainFrame.showPanel("Login");
