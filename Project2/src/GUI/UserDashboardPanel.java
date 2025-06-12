@@ -113,7 +113,7 @@ public class UserDashboardPanel extends JPanel {
             "Hotel Name", 
             "Check-in Date", 
             "Check-out Date", 
-            "Room Type", 
+            "Room Number",
             "Total Cost",
             "Status"
         };
