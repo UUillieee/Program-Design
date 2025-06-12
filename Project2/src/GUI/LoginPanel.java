@@ -50,6 +50,7 @@ public class LoginPanel extends JPanel {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         this.setBackground(Color.WHITE);
+        
         // Title
         JLabel titleLabel = new JLabel("User Login");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
@@ -60,6 +61,7 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(20, 20, 30, 20);
         gbc.anchor = GridBagConstraints.CENTER;
         this.add(titleLabel, gbc);
+        
         // Username Label
         JLabel userLabel = new JLabel("Username:");
         userLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -99,40 +101,20 @@ public class LoginPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 20);
         this.add(password, gbc);
+        
         // Login Button
         JButton loginButton = new JButton("Login");
         styleButton(loginButton, new Color(70, 130, 180)); // Steel blue
         loginButton.setActionCommand(Command.LOGIN.name());
-        loginButton.addActionListener(controller);
         loginButton.putClientProperty("targetPanel", "UserDashboard");
-        loginButton.addActionListener(e -> {
-            String user = username.getText();
-            String pass = new String(password.getPassword());
-
-            CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
-            Model.Customer customer = customerDB.getCustomer(user, pass);
-
-
-            if (customer != null) {
-                System.out.println("Login successful! Welcome " + customer.getUsername());
-                mainFrame.setLoggedInCustomer(customer);
-                mainFrame.showPanel("UserDashboard");
-
-                //update the greeting label dynamicall
-                UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
-                dashboard.updateUserGreeting(customer);
-            } 
-            else {
-            //show a error message box
-            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        loginButton.addActionListener(controller);
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(20, 10, 10, 20);
         this.add(loginButton, gbc);
+        
         // Create User Button
         JButton createUserButton = new JButton("Create New User");
         styleButton(createUserButton, new Color(255, 127, 80)); // Medium sea green
@@ -143,6 +125,7 @@ public class LoginPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(20, 20, 10, 10);
         this.add(createUserButton, gbc);
+        
         // Back Button
         JButton backBtn = new JButton("Back to Main Menu");
         styleButton(backBtn, new Color(60, 179, 113)); // Green
@@ -154,19 +137,6 @@ public class LoginPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 20, 10, 10);
         this.add(backBtn, gbc);
-        //Decided not to put an exit button
-        
-        /*/ Exit Button 
-        JButton exitButton = new JButton("Exit Application");
-        styleButton(exitButton, new Color(220, 20, 60)); // Crimson
-        exitButton.setActionCommand(Command.EXIT.name());
-        exitButton.addActionListener(controller);
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(10, 10, 10, 20);
-        this.add(exitButton, gbc);
-        */
     }
     /**
      * Styles buttons with consistent appearance

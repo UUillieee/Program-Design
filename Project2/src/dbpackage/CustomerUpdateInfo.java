@@ -96,8 +96,9 @@ public class CustomerUpdateInfo {
         //use 1 if empty
         return 1; 
     }
-
-    public static void main(String[] args) {
-        new CustomerUpdateInfo().insertCustomer("newuser", "password123");
-    }
+    
+//    Test method to inser customer
+//    public static void main(String[] args) {
+//        new CustomerUpdateInfo().insertCustomer("newuser", "password123");
+//    }
 }

@@ -17,7 +17,7 @@ import java.util.Map;
 //inserts data into the tables if the tables are empty 
 public class HotelDataInserter {
     
-    //inserts data into the data base
+    //inserts data for the tables to setup the database
     //connects to the data base to check if data exists in the tables
     //inserts data if empty
     public void insert() {
@@ -71,7 +71,7 @@ public class HotelDataInserter {
         
         int roomId = 1;
         
-        //Each sub-array has: {hotelName, roomType, cost, maxGuests, quantity availible} 
+        //Each sub-array has: {hotelName, roomType, cost, maxGuests, amount availible ,availibilty} 
         String[][] roomData = {
             {"Azure", "Penthouse", "500", "5", "1", "false"},
             {"Azure", "Suite", "300", "4", "3", "false"},

@@ -46,13 +46,13 @@ public class RetrieveHotels {
         }
     }
 
-    // Optional test
-    public static void main(String[] args) {
-        RetrieveHotels hotelTable = new RetrieveHotels();
-        String[][] hotels = hotelTable.getAllHotels();
-
-        for (String[] row : hotels) {
-            System.out.printf("ID: %s, Name: %s, Location: %s%n", row[0], row[1], row[2]);
-        }
-    }
+//    Optional test
+//    public static void main(String[] args) {
+//        RetrieveHotels hotelTable = new RetrieveHotels();
+//        String[][] hotels = hotelTable.getAllHotels();
+//
+//        for (String[] row : hotels) {
+//            System.out.printf("ID: %s, Name: %s, Location: %s%n", row[0], row[1], row[2]);
+//        }
+//    }
 }
