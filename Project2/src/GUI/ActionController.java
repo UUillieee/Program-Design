@@ -50,10 +50,17 @@ public class ActionController implements ActionListener {
                     //get username & password
                     LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
                     String loginUser = loginPanel.getUsername();
-                    String loginPassword = loginPanel.getPassword();               
+                    String loginPassword = loginPanel.getPassword();
                     //check if username or password fields are empty
-                    if (loginUser.isEmpty() || loginPassword.isEmpty()) {
-                        System.out.println("Username or password cannot be empty.");
+                    if (loginUser.isEmpty() && loginPassword.isEmpty()) {
+                        JOptionPane.showMessageDialog(loginPanel, "Empty Fields Try Again", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } 
+                    else if (loginUser.isEmpty()) {
+                        JOptionPane.showMessageDialog(loginPanel, "Username Field Must Not Be Empty", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } else if (loginPassword.isEmpty()) {
+                        JOptionPane.showMessageDialog(loginPanel, "Password Field Must Not Be Empty", "Login Failed", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -72,12 +79,11 @@ public class ActionController implements ActionListener {
                         dashboard.updateUserGreeting(customer);
                         dashboard.refreshBookings();
                         //mainFrame
-                    } 
-                    else {
+                    } else {
                         JOptionPane.showMessageDialog(loginPanel, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
                         return; // Keep showing login panel, dont allow switch to next panel till customer valid
                     }
-                    
+
                     //So login panel knows where to direct to next, e.g go to bookingconfirmed or userdashboard
                     //Based on where login panel is entered from, 1) if it is entered from booking proccess, go booking confirmed,2) entered from main menu, go user dashboard.
                     String postLogin = mainFrame.getPostLoginTarget();
@@ -85,7 +91,7 @@ public class ActionController implements ActionListener {
                         mainFrame.clearPostLoginTarget();
                         if (postLogin.equals("ConfirmPanel")) {
                             mainFrame.showUpdatedConfirmPanel();
-                            
+
                         } else {
                             mainFrame.showPanel(postLogin);
                         }
@@ -102,21 +108,27 @@ public class ActionController implements ActionListener {
                     String newUser = createPanel.getUsername();
                     String newPassword = createPanel.getPassword();
                     //check if username or passwords fields are empty
-                    if (newUser.isEmpty() || newPassword.isEmpty()) {
-                        System.out.println("Username or password cannot be empty.");
+                    if (newUser.isEmpty() && newPassword.isEmpty()) {
+                        JOptionPane.showMessageDialog(createPanel, "Empty Fields Try Again", "New User Creation Failed", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } else if (newUser.isEmpty()) {
+                        JOptionPane.showMessageDialog(createPanel, "Username Field Must Not Be Empty", "New User Creation Failed", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } else if (newPassword.isEmpty()) {
+                        JOptionPane.showMessageDialog(createPanel, "Password Field Must Not Be Empty", "New User CreationFailed", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    
+
                     //create customerDB object to pass to CustomerUpdateInfo
                     CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
-                    
+
                     //check if the username already exists so no duplicate accounts can be created
                     Model.Customer existingUser = customerDB.getCustomerByUsername(newUser);
                     if (existingUser != null) {
                         System.out.println("Error: Username already exists. Please choose another one.");
                         return;
                     }
-                    
+
                     //pass the username and password to insertCustomer() to put in the database
                     customerDB.insertCustomer(newUser, newPassword);
 
@@ -167,15 +179,17 @@ public class ActionController implements ActionListener {
                     //remove the booking from the database bookings table
                     UserDashboardPanel dashboardPanel = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
                     //selected row in the panels table
-                    int selectedRow = dashboardPanel.getSelectedRow(); 
+                    int selectedRow = dashboardPanel.getSelectedRow();
                     if (selectedRow == -1) {
                         System.out.println("No booking selected to cancel.");
                         return;
                     }
-                    
+
                     //confirmation panel to double check with the user if they want to delete the booking
                     int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel this booking?", "Confirm Cancel", JOptionPane.YES_NO_OPTION);
-                    if (confirm != JOptionPane.YES_OPTION) return;
+                    if (confirm != JOptionPane.YES_OPTION) {
+                        return;
+                    }
 
                     int bookingId = (int) dashboardPanel.getTableModel().getValueAt(selectedRow, 0);
                     BookingUpdateInfo cancelDb = new BookingUpdateInfo();
