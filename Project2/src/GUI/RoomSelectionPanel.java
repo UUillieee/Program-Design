@@ -50,6 +50,7 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
         };
 
         table = new JTable(tableModel);
+        table.getTableHeader().setResizingAllowed(false); // Cant resize the columns
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(table);
 

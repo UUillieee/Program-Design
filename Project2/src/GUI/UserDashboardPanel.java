@@ -128,6 +128,7 @@ public class UserDashboardPanel extends JPanel {
         
         // Create table
         bookingsTable = new JTable(tableModel);
+        bookingsTable.getTableHeader().setResizingAllowed(false); // Cant resize the columns
         bookingsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         bookingsTable.setRowHeight(25);
         bookingsTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
@@ -135,7 +136,7 @@ public class UserDashboardPanel extends JPanel {
         
         // Set column widths
         bookingsTable.getColumnModel().getColumn(0).setPreferredWidth(80);  // Booking ID
-        bookingsTable.getColumnModel().getColumn(1).setPreferredWidth(150); // Hotel Name
+        bookingsTable.getColumnModel().getColumn(1).setPreferredWidth(80); // Hotel Name
         bookingsTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Check-in
         bookingsTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Check-out
         bookingsTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Room Type
@@ -209,9 +210,7 @@ public class UserDashboardPanel extends JPanel {
         cancelBookingButton.setEnabled(enabled);
     }
     
-    /**
-     * Load sample booking data for demonstration, replace with database call
-     */
+  
     private void loadBookingsFromDatabase() {
         tableModel.setRowCount(0); // Clear table
 
@@ -221,7 +220,7 @@ public class UserDashboardPanel extends JPanel {
             return;
         }       
 
-        int customerId = user.getId();  // Make sure your Customer class has getId()
+        int customerId = user.getId();  
 
         java.util.List<Object[]> bookings = dbpackage.RetrieveBookings.getBookingsByCustomerId(customerId);        
         
@@ -245,7 +244,7 @@ public class UserDashboardPanel extends JPanel {
     
     /**
      * Get the currently selected booking ID
-     * @return Selected booking ID or null if none selected
+     * return Selected booking ID or null if none selected
      */
     public String getSelectedBookingId() {
         int selectedRow = bookingsTable.getSelectedRow();
@@ -257,7 +256,7 @@ public class UserDashboardPanel extends JPanel {
     
     /**
      * Get the currently selected booking data
-     * @return Array of selected booking data or null if none selected
+     * return Array of selected booking data or null if none selected
      */
     public Object[] getSelectedBookingData() {
         int selectedRow = bookingsTable.getSelectedRow();
