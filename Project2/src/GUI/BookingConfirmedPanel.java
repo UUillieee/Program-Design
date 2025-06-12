@@ -16,18 +16,14 @@ import javax.swing.JPanel;
  * Panel to show after successful booking confirmation
  */
 public class BookingConfirmedPanel extends JPanel {
-    
+
     private final HotelFrame mainFrame;
     private final ActionListener controller;
-    private final Customer customer;
-    private final BookingBuilder builder;
-    
+    private JLabel titleLabel;
 
-    public BookingConfirmedPanel(HotelFrame mainFrame, BookingBuilder builder,ActionListener controller) {
+    public BookingConfirmedPanel(HotelFrame mainFrame, ActionListener controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
-        this.customer = mainFrame.getLoggedInCustomer();
-        this.builder = builder;
         createConfirmedPanel();
     }
 
@@ -39,31 +35,21 @@ public class BookingConfirmedPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Success message
-        String displayName = customer != null ? customer.getUsername() : "Guest";
-        JLabel successLabel = new JLabel("Booking Confirmed for " + displayName + "!");
-        successLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        successLabel.setForeground(new Color(0, 100, 0)); // Dark green
-        
+        titleLabel = new JLabel();
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        titleLabel.setText("Confirmed your booking! Thank you!");
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        add(successLabel, gbc);
-
-        // Thank you message
-        JLabel thankYouLabel = new JLabel("Thank you for your booking!");
-        thankYouLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        
-        gbc.gridy = 1;
-        add(thankYouLabel, gbc);
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(titleLabel, gbc);
 
         // Add navigation buttons - just the main menu button
-        JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller,null,null);
-       
-
+        JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, null, null);
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         add(backNextPanel, gbc);
     }
-    
- 
+
+  
 }

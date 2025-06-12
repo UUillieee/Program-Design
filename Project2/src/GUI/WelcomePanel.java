@@ -55,6 +55,7 @@ public class WelcomePanel extends JPanel {
         loginButton.setActionCommand(Command.SWITCH_PANEL.name());
         loginButton.addActionListener(controller);
         loginButton.putClientProperty("targetPanel", "Login");
+        mainFrame.clearPostLoginTarget(); // only happens once , not every time
         gbc.gridy = 3; // Row position 3rd row
         this.add(loginButton, gbc);
 

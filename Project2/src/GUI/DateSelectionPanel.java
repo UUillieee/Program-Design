@@ -91,7 +91,7 @@ public class DateSelectionPanel extends JPanel {
         //time
         gbc.gridx = 0;
         gbc.gridy = row;
-        add(new JLabel("Check-in Time: (am/pm)"), gbc);
+        add(new JLabel("Check-in Time: (24hr)"), gbc);
 
         gbc.gridx = 1;
         Integer[] timeOptions = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}; // 8 AM – 7 PM
@@ -100,7 +100,7 @@ public class DateSelectionPanel extends JPanel {
         row++;
 
         //navigation Panel, back and next
-        JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "RoomSelection", "ConfirmPanel");
+        JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "RoomSelection", "null"); // Null so panel is made, but doesnt set a default target
         gbc.gridwidth = 3;
         gbc.gridy = ++row;
         gbc.gridx = 0;
@@ -108,11 +108,12 @@ public class DateSelectionPanel extends JPanel {
         add(backNextPanel, gbc);
         //saveDateInfo() only when next is clicked
         for (Component comp : backNextPanel.getComponents()) {
-            if (comp instanceof JButton button && "ConfirmPanel".equals(button.getClientProperty("targetPanel"))) {
+            if (comp instanceof JButton button && "Next".equals(button.getText())) {
                 button.addActionListener(e -> {
                     saveDateInfo();
+                    System.out.println("Logged in customer: " + mainFrame.getLoggedInCustomer());
                     if (mainFrame.getLoggedInCustomer() == null) {
-                        JOptionPane.showMessageDialog(mainFrame, "Please login before confirming your booking.", "Login Required", JOptionPane.WARNING_MESSAGE);
+                        mainFrame.setPostLoginTarget("ConfirmPanel"); //  tell app to go to ConfirmPanel after login
                         mainFrame.showPanel("Login");
                     } else {
                         mainFrame.showUpdatedConfirmPanel();
@@ -129,7 +130,6 @@ public class DateSelectionPanel extends JPanel {
         gbc.gridy = y;
         return gbc;
     }
-
 
     //return the length of the customer stay end-start
     private Integer[] generateNumbers(int start, int end) {
@@ -160,14 +160,13 @@ public class DateSelectionPanel extends JPanel {
 
         int endDay = endDate.getDayOfMonth();
         int endMonth = endDate.getMonthValue();
-        
+
         Customer customer = mainFrame.getLoggedInCustomer();
         if (customer == null) {
             System.out.println("No logged-in user.");
-        }else {
-            System.out.println("Logged in as: "+customer.getUsername()+" e.g Booking Date: "+builder.getDay());
+        } else {
+            System.out.println("Logged in as: " + customer.getUsername() + " e.g Booking Date: " + builder.getDay());
         }
-        
 
         builder.setDay(day);
         builder.setCustomer(customer);
@@ -176,9 +175,9 @@ public class DateSelectionPanel extends JPanel {
         builder.setEndMonth(endMonth);
         builder.setLengthOfStay(lengthOfStay);
         builder.setTime(time);
-        
-        mainFrame.showUpdatedConfirmPanel();
-        
+
+       // mainFrame.showUpdatedConfirmPanel();
+
         System.out.println("Date info saved to BookingBuilder:");
 
     }

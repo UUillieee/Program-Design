@@ -82,6 +82,8 @@ public class ConfirmPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = row++;
         add(backNextPanel, gbc);
+        
+       
     }
 
     //panel for showing all booking details

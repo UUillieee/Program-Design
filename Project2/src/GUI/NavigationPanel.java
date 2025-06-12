@@ -63,7 +63,7 @@ public class NavigationPanel {
         panel.setBackground(Color.WHITE);
 
         // Back Button
-        if (backTarget != null) { // So user can choose which buttons they want to add by just passing null to either one
+        if (backTarget != null) { // So user can choose which buttons they want to add by just passing null to either one . e.g if null then dont create the button
             JButton backBtn = new JButton("Back");
             backBtn.setActionCommand(Command.SWITCH_PANEL.name());
             backBtn.addActionListener(controller);
@@ -72,12 +72,14 @@ public class NavigationPanel {
             panel.add(backBtn);
         }
         // Next Button
-        if (nextTarget != null) {
+        if (nextTarget != null) { // So user can choose which buttons they want to add by just passing null to either one . e.g if null then dont create the button
             JButton nextBtn = new JButton("Next");
             nextBtn.setActionCommand(Command.SWITCH_PANEL.name());
             nextBtn.addActionListener(controller);
             nextBtn.setEnabled(true); // disable initially so user has to select something before moving on
-            nextBtn.putClientProperty("targetPanel", nextTarget);
+            if (!nextTarget.equals("null")) { // Set target if target not equal to null , cant use actuall null because check already used 
+                nextBtn.putClientProperty("targetPanel", nextTarget);
+            }
             StyleButtons.styleNavigationButton(nextBtn, new Color(30, 144, 255)); // Blue 
             panel.add(nextBtn);
         }

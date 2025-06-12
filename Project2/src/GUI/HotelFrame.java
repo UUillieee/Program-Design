@@ -26,6 +26,7 @@ public class HotelFrame extends JFrame implements BookingListener {
     private JPanel mainPanel;
     private RoomSelectionPanel roomPanel;
     private Customer loggedInCustomer;
+    private String postLoginTarget = null;
 
     //store panels in Map<String, Jpanel> so can refernce them later from the action controller
     private Map<String, JPanel> panels = new HashMap<>();
@@ -72,7 +73,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         mainPanel.add(confPanel, "ConfirmPanel");
 
         //Booking Confirmation panel
-        BookingConfirmedPanel bookingConfirmed = new BookingConfirmedPanel(this, bookingBuilder, controller);
+        BookingConfirmedPanel bookingConfirmed = new BookingConfirmedPanel(this, controller);
         panels.put("BookingConfirmed", bookingConfirmed);
         mainPanel.add(bookingConfirmed, "BookingConfirmed");
 
@@ -90,15 +91,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         setVisible(true);
     }
 
-    public void setLoggedInCustomer(Customer customer) {
-        this.loggedInCustomer = customer;
-    }
-
-    //return the customer that clicked login
-    public Customer getLoggedInCustomer() {
-        return this.loggedInCustomer;
-    }
-
+    //Method to switch between panels
     public void showPanel(String name) {
         //Each panel can call this to go to a different panel
         cardLayout.show(mainPanel, name);
@@ -115,6 +108,15 @@ public class HotelFrame extends JFrame implements BookingListener {
         bookingBuilder = new BookingBuilder();
     }
 
+    public void setLoggedInCustomer(Customer customer) {
+        this.loggedInCustomer = customer;
+    }
+
+    //return the customer that clicked login
+    public Customer getLoggedInCustomer() {
+        return this.loggedInCustomer;
+    }
+
     public RoomSelectionPanel getRoomSelectionPanel() {
         return roomPanel;
     }
@@ -125,7 +127,6 @@ public class HotelFrame extends JFrame implements BookingListener {
     }
 
     public void updateBookingPanels() {
-        // For example, you can do:
         for (Component comp : mainPanel.getComponents()) {
             if (comp instanceof BookingListener updatable) {
                 updatable.updateBookingInfo();
@@ -150,6 +151,18 @@ public class HotelFrame extends JFrame implements BookingListener {
             confirmPanel.refresh(); // Update booking data display
         }
         showPanel("ConfirmPanel");
+    }
+
+    public void setPostLoginTarget(String panelName) {
+        this.postLoginTarget = panelName;
+    }
+
+    public String getPostLoginTarget() {
+        return postLoginTarget;
+    }
+
+    public void clearPostLoginTarget() {
+        this.postLoginTarget = null;
     }
 
 }
