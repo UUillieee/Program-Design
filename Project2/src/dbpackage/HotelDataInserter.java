@@ -15,7 +15,7 @@ import java.util.Map;
  */
 
 //inserts data into the tables if the tables are empty 
-public class HotelDataInserter {
+public class HotelDataInserter {  
     
     //inserts data for the tables to setup the database
     //connects to the data base to check if data exists in the tables
@@ -69,8 +69,6 @@ public class HotelDataInserter {
             hotelMap.put(rs.getString("name"), rs.getInt("id"));
         }
         
-        int roomId = 1;
-        
         //Each sub-array has: {hotelName, roomType, cost, maxGuests, amount availible ,availibilty} 
         String[][] roomData = {
             {"Azure", "Penthouse", "500", "5", "1", "false"},
@@ -87,9 +85,19 @@ public class HotelDataInserter {
             {"Celestial", "Single", "150", "5", "7", "false"}
         };
         
+            
+        String currentHotel = "";
+        int roomId = 1;   
+        
         //insert each room into the rooms table 
         for (String[] row : roomData) {
             String hotel = row[0];
+            
+            //reset room Id if new hotel is set
+            if (!hotel.equals(currentHotel)) {
+                roomId = 1;
+                currentHotel = hotel;
+            }
             //gt hotel ID using the map
             int hotelId = hotelMap.get(hotel);
             String type = row[1];
@@ -102,8 +110,8 @@ public class HotelDataInserter {
             //insert "amount" of rooms of each type into the table
             for (int i = 0; i < amount; i++) {
                 stmt.executeUpdate(String.format(
-                "INSERT INTO Rooms VALUES (%d, %d, '%s', %d, %d, %s)",
-                roomId, hotelId, type, cost, maxGuests, isBooked));
+                    "INSERT INTO Rooms VALUES (%d, %d, '%s', %d, %d, %s)",
+                    roomId, hotelId, type, cost, maxGuests, isBooked));
                 roomId++;
             }
         }
