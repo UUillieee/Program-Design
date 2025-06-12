@@ -42,7 +42,7 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
         add(title, gbc);
 
         // Table model (start empty)
-        String[] columnNames = {"Hotel", "Room Type", "Cost Per Night", "Max Guests", "Availability"};
+        String[] columnNames = {"Hotel", "Room ID","Room Type", "Cost Per Night", "Max Guests", "Availability"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -83,9 +83,9 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
                 // Extract room number, cost, and guests from selected row
-                String roomType = (String) table.getValueAt(selectedRow, 1);
-                double cost = Double.parseDouble(table.getValueAt(selectedRow, 2).toString());
-                int guests = Integer.parseInt(table.getValueAt(selectedRow, 3).toString());
+                String roomType = (String) table.getValueAt(selectedRow, 2);
+                double cost = Double.parseDouble(table.getValueAt(selectedRow, 3).toString());
+                int guests = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
                 int roomNumber = selectedRow + 1; // or use actual room number from DB if provided
 
                 // Store room info into BookingBuilder

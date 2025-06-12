@@ -97,12 +97,14 @@ public class HotelDataInserter {
             int maxGuests = Integer.parseInt(row[3]);
             //insert this number of rooms into the table
             int amount = Integer.parseInt(row[4]); 
-            boolean availible = false;
+            boolean isBooked = Boolean.parseBoolean(row[5]);
             
             //insert "amount" of rooms of each type into the table
             for (int i = 0; i < amount; i++) {
                 stmt.executeUpdate(String.format(
-                    "INSERT INTO Rooms VALUES (%d, %d, '%s', %d, %d, %s)", roomId++, hotelId, type, cost, maxGuests, availible));
+                "INSERT INTO Rooms VALUES (%d, %d, '%s', %d, %d, %s)",
+                roomId, hotelId, type, cost, maxGuests, isBooked));
+                roomId++;
             }
         }
         System.out.println("Rooms inserted.");

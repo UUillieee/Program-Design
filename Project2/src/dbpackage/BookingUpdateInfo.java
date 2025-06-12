@@ -12,9 +12,9 @@ import java.sql.*;
  */
 public class BookingUpdateInfo {
 
-    public void insertBooking(int id, int customerId, int day, int time, int month, int endMonth, int roomNumber,
+    public void insertBooking(int id, int customerId, int day, int time, int month,int endDay, int endMonth, int roomNumber,
                               int guests, int totalPrice, int hotelId, boolean isBooked) {
-        String sql = "INSERT INTO Bookings (id, customerId, time, day, month, endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Bookings (id, customerId, time, day, month, endDay ,endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -28,12 +28,13 @@ public class BookingUpdateInfo {
             pstmt.setInt(3, day);
             pstmt.setInt(4, time);
             pstmt.setInt(5, month);
-            pstmt.setInt(6, endMonth);
-            pstmt.setInt(7, roomNumber);
-            pstmt.setInt(8, guests);
-            pstmt.setInt(9, totalPrice);
-            pstmt.setInt(10, hotelId);
-            pstmt.setBoolean(11, isBooked);
+            pstmt.setInt(6, endDay);
+            pstmt.setInt(7, endMonth);
+            pstmt.setInt(8, roomNumber);
+            pstmt.setInt(9, guests);
+            pstmt.setInt(10, totalPrice);
+            pstmt.setInt(11, hotelId);
+            pstmt.setBoolean(12, isBooked);
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -95,6 +96,7 @@ public class BookingUpdateInfo {
     int day = booking.getDay();
     int time = booking.getTime();
     int month = booking.getMonth();
+    int endDay = booking.getEndDay();
     int endMonth = booking.getEndMonth();
     int roomNumber = booking.getRoomNumber();
     int guests = booking.getGuests();
@@ -107,6 +109,7 @@ public class BookingUpdateInfo {
         booking.getDay(),
         booking.getTime(),
         booking.getMonth(),
+        booking.getEndDay(),
         booking.getEndMonth(),
         booking.getRoomNumber(),
         booking.getGuests(),
@@ -120,6 +123,7 @@ public class BookingUpdateInfo {
                        ", Day: " + day +
                        ", Time: " + time +
                        ", Month: " + month +
+                       ", EndDay: " + endDay +
                        ", EndMonth: " + endMonth +
                        ", RoomNumber: " + roomNumber +
                        ", Guests: " + guests +

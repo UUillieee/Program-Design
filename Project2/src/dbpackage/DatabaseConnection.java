@@ -19,9 +19,9 @@ import java.sql.SQLException;
 public class DatabaseConnection {
     
     //database login details and url
-    private static final String USER_NAME = "gc1";//DB username
-    private static final String PASSWORD = "gc1";//DB password
-    private static final String DB_URL = "jdbc:derby:myDB;create=true";//url of DB host
+    private static final String USER_NAME = "hotel1";//DB username
+    private static final String PASSWORD = "hotel1";//DB password
+    private static final String DB_URL = "jdbc:derby:HotelsDataBase;create=true";//url of DB host
     
     //static connection objeect to ensure singleton 
     private static Connection conn;

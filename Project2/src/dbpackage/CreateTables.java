@@ -92,6 +92,7 @@ public class CreateTables {
                 time INT,
                 day INT,
                 month INT,
+                endDay INT,
                 endMonth INT,
                 roomNumber INT,
                 guests INT,

@@ -14,7 +14,7 @@ public class RetrieveBookings {
         List<Object[]> bookings = new ArrayList<>();
         
        //get the hotel name instead of ID, this is done by creating a join between the two tables
-       String sql = "SELECT B.id, B.customerId, H.name AS hotelName, B.time, B.day, B.month, B.endMonth, " +
+       String sql = "SELECT B.id, B.customerId, H.name AS hotelName, B.time, B.day, B.month, B.endDay, B.endMonth, " +
                  "B.roomNumber, B.guests, B.totalPrice, B.isBooked " +
                  "FROM Bookings B " +
                  "JOIN Hotels H ON B.hotelId = H.id";
@@ -32,9 +32,9 @@ public class RetrieveBookings {
                 //hotel Name
                 row[2] = rs.getString("hotelName");
                 //start day and start month (check in)
-                row[3] = rs.getInt("day") + "/" + rs.getInt("month");  
+                row[3] = rs.getInt("day") + "/" + rs.getInt("month"); 
                 //endday and end month (check out)
-                row[4] = rs.getInt("day") + "/" + rs.getInt("endMonth"); 
+                row[4] = rs.getInt("endDay") + "/" + rs.getInt("endMonth"); 
                 //room number
                 row[5] = "Room #" + rs.getInt("roomNumber");
                 //total price
@@ -57,7 +57,7 @@ public class RetrieveBookings {
     
     System.out.println("Fetching bookings for customerId: " + customerId);
     
-    String query = "SELECT B.id, B.customerId, H.name AS hotelName, B.time, B.day, B.month, B.endMonth, " +
+    String query = "SELECT B.id, B.customerId, H.name AS hotelName, B.time, B.day, B.month, B.endDay, B.endMonth, " +
                    "B.roomNumber, B.guests, B.totalPrice, B.isBooked " +
                    "FROM Bookings B " +
                    "JOIN Hotels H ON B.hotelId = H.id " +
@@ -75,7 +75,7 @@ public class RetrieveBookings {
             row[1] = rs.getInt("customerId");
             row[2] = rs.getString("hotelName");
             row[3] = rs.getInt("day") + "/" + rs.getInt("month");
-            row[4] = rs.getInt("day") + "/" + rs.getInt("endMonth");
+            row[4] = rs.getInt("endDay") + "/" + rs.getInt("endMonth");
             row[5] = "Room #" + rs.getInt("roomNumber");
             row[6] = "$" + rs.getInt("totalPrice");
             row[7] = rs.getBoolean("isBooked") ? "Confirmed" : "Pending";

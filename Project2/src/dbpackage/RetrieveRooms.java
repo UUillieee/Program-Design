@@ -16,7 +16,7 @@ public class RetrieveRooms {
     public static List<String[]> getRoomsByHotelId(int hotelId) {
         List<String[]> rooms = new ArrayList<>();
         //prepared statement to retrive the rooms
-        String sql = "SELECT Hotels.name, Rooms.type, Rooms.cost, Rooms.maxGuests, Rooms.isBooked " +
+        String sql = "SELECT Hotels.name, Rooms.id ,Rooms.type, Rooms.cost, Rooms.maxGuests, Rooms.isBooked " +
                      "FROM Rooms JOIN Hotels ON Rooms.hotelId = Hotels.id " +
                      "WHERE hotelId = ?";
 
@@ -26,17 +26,19 @@ public class RetrieveRooms {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String[] row = new String[5];
+                String[] row = new String[6];
                 //hotel name
                 row[0] = rs.getString("name"); 
+                //room number
+                row[1] = rs.getString("id");
                 //room type
-                row[1] = rs.getString("type");
+                row[2] = rs.getString("type");
                 //cost
-                row[2] = String.valueOf(rs.getInt("cost"));
+                row[3] = String.valueOf(rs.getInt("cost"));
                 //max guests
-                row[3] = String.valueOf(rs.getInt("maxGuests"));
+                row[4] = String.valueOf(rs.getInt("maxGuests"));
                 //status
-                row[4] = rs.getBoolean("isBooked") ? "Booked" : "Available"; 
+                row[5] = rs.getBoolean("isBooked") ? "Booked" : "Available"; 
                 rooms.add(row);
             }
 
