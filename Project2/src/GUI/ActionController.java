@@ -239,8 +239,8 @@ public class ActionController implements ActionListener {
         cancelDb.deleteBookingById(bookingId);
 
         JOptionPane.showMessageDialog(mainFrame, "Booking cancelled successfully.", "Cancellation Confirmed", JOptionPane.INFORMATION_MESSAGE);
-        mainFrame.updateBookingPanels(); // This might be redundant if refreshBookings does it fully
         dashboardPanel.refreshBookings(); // This will refresh the table display
+        mainFrame.updateBookingPanels(); 
     }
 
     private void handleProceedToConfirmation() {
