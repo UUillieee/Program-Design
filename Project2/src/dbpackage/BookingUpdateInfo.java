@@ -62,22 +62,53 @@ public class BookingUpdateInfo {
     }
     
     //delete the provided booking from the table,
-    public void deleteBookingById(int bookingId) {      
-        String sql = "DELETE FROM Bookings WHERE id = ?";
+    public void deleteBookingById(int bookingId) {
+    //SQL statements
+    String selectSQL = "SELECT roomNumber, hotelId FROM Bookings WHERE id = ?";
+    String deleteSQL = "DELETE FROM Bookings WHERE id = ?";
+    String updateRoomSQL = "UPDATE Rooms SET isBooked = false WHERE id = ? AND hotelId = ?";
+    
+    //db connection error
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        if (conn == null) {
+            System.out.println("Error: No valid database connection.");
+            return;
+        }
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        //retrieve roomNumber and hotelId
+        int roomNumber = -1;
+        int hotelId = -1;
 
-            stmt.setInt(1, bookingId);
-            int rowsAffected = stmt.executeUpdate();
+        //find booking of the ID
+        try (PreparedStatement selectStmt = conn.prepareStatement(selectSQL)) {
+            selectStmt.setInt(1, bookingId);
+            ResultSet rs = selectStmt.executeQuery();
 
-            if (rowsAffected > 0) {
-                System.out.println("Booking with ID " + bookingId + " has been cancelled.");
+            if (rs.next()) {
+                roomNumber = rs.getInt("roomNumber");
+                hotelId = rs.getInt("hotelId");
             } else {
                 System.out.println("No booking found with ID: " + bookingId);
+                return;
             }
+        }
 
-        } catch (SQLException e) {
+        //delete the booking
+        try (PreparedStatement deleteStmt = conn.prepareStatement(deleteSQL)) {
+            deleteStmt.setInt(1, bookingId);
+            deleteStmt.executeUpdate();
+            System.out.println("Booking with ID " + bookingId + " has been cancelled.");
+        }
+
+        //update the room availability
+        try (PreparedStatement updateStmt = conn.prepareStatement(updateRoomSQL)) {
+            updateStmt.setInt(1, roomNumber);
+            updateStmt.setInt(2, hotelId);
+            updateStmt.executeUpdate();
+            System.out.println("Room availability updated to false.");
+        }
+    } 
+        catch (SQLException e) {
             System.out.println("Error cancelling booking: " + e.getMessage());
         }
     }

@@ -213,8 +213,8 @@ public class ActionController implements ActionListener {
                     //pass the bookingId to deleteBookingById() to delete
                     cancelDb.deleteBookingById(bookingId);
                     //refresh bookings within the userpanel
-                    mainFrame.updateBookingPanels();
                     dashboardPanel.refreshBookings();
+                    mainFrame.updateBookingPanels();
                     break;
                 case PROCEED_TO_CONFIRMATION:
                     DateSelectionPanel datePanel = (DateSelectionPanel) mainFrame.getPanel("DateSelection"); 

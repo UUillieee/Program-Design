@@ -1,4 +1,5 @@
 ----------------------------------------------------------------
+<<<<<<< Updated upstream
 Sat Jun 14 10:42:56 NZST 2025:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0197-6b75-dd71-00000f807380 
 on database directory C:\Users\George\Documents\GitHub\Program-Design\Project2\HotelsDataBase with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
@@ -9,5 +10,17 @@ user.dir=C:\Users\George\Documents\GitHub\Program-Design\Project2
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
+=======
+Sat Jun 14 10:53:14 NZST 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0197-6b7f-4e56-00000f7f0978 
+on database directory /Users/willbindon/2025/Programing Design/Program-Design/Project2/HotelsDataBase with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1369b299 
+Loaded from file:/Users/willbindon/2025/Programing%20Design/Program-Design/Project2/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=24+36-3646
+user.dir=/Users/willbindon/2025/Programing Design/Program-Design/Project2
+os.name=Mac OS X
+os.arch=aarch64
+os.version=15.5
+>>>>>>> Stashed changes
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
