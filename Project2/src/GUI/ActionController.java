@@ -35,8 +35,8 @@ public class ActionController implements ActionListener {
         try {
             Command command = Command.valueOf(e.getActionCommand()); //use enum to Get what action event e.g whether to exit, switch panel or login
             LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login"); //To update text fields when switching of panel - to clear the previous login information
-             WelcomePanel welcomePanel = (WelcomePanel) mainFrame.getPanel("Welcome"); // to update labels
-             
+            WelcomePanel welcomePanel = (WelcomePanel) mainFrame.getPanel("Welcome"); // to update labels
+
             switch (command) {
                 case SWITCH_PANEL: //To
                     //Target panel is passed to action controller - use that to switch to the desired panel
@@ -106,8 +106,8 @@ public class ActionController implements ActionListener {
                     break;
                 case LOGOUT:
                     if (mainFrame.getLoggedInCustomer() != null) { //if logged in , logout
-                        mainFrame.showPanel("WelcomePanel");
                         mainFrame.setLoggedInCustomer(null);
+                        mainFrame.showPanel("Welcome");
                         loginPanel.clearFields();
                         welcomePanel.updateUserLabel();
                     }
