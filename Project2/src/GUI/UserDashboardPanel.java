@@ -25,10 +25,9 @@ public class UserDashboardPanel extends JPanel {
     private DefaultTableModel tableModel;
     private JButton createNewBookingButton;
     private JButton cancelBookingButton;
-    private JPanel navigationPanel;
     private JLabel userInfoLabel;
 
-    public UserDashboardPanel(HotelFrame mainFrame,ActionListener controller) {
+    public UserDashboardPanel(HotelFrame mainFrame, ActionListener controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         createUserDashboardPanel(controller);
@@ -89,7 +88,7 @@ public class UserDashboardPanel extends JPanel {
         this.add(bookingActionsPanel, gbc);
 
         // Navigation buttons panel
-        navigationPanel = NavigationPanel.createMenuExitPanel(controller);
+        JPanel navigationPanel = NavigationPanel.createMenuExitPanel(controller);
         gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -97,14 +96,8 @@ public class UserDashboardPanel extends JPanel {
         this.add(navigationPanel, gbc);
 
         //load the bookings 
+        //mainFrame.getBookingService().getBookingsForCustomer(customerId);
         loadBookingsFromDatabase();
-    }
-
-    //update the customer username from guest to 
-    public void updateUserGreeting(Customer customer) {
-        //get username from Customer
-        String displayName = customer != null ? customer.getUsername() : "Guest";
-        userInfoLabel.setText("Welcome back, " + displayName);
     }
 
     private void createBookingsTable() {
@@ -132,7 +125,7 @@ public class UserDashboardPanel extends JPanel {
         bookingsTable = new JTable(tableModel);
         bookingsTable.getTableHeader().setResizingAllowed(false); // Cant resize the columns
         bookingsTable.getTableHeader().setReorderingAllowed(false); // no reorder of columns
-        
+
         bookingsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         bookingsTable.setRowHeight(25);
         bookingsTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
@@ -140,22 +133,13 @@ public class UserDashboardPanel extends JPanel {
 
         // Set column widths
         bookingsTable.getColumnModel().getColumn(0).setPreferredWidth(80);  // Booking ID
-        bookingsTable.getColumnModel().getColumn(1).setPreferredWidth(80); // Hotel Name
-        bookingsTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Check-in
-        bookingsTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Check-out
-        bookingsTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Room Type
-        bookingsTable.getColumnModel().getColumn(5).setPreferredWidth(80);  // Cost
-        bookingsTable.getColumnModel().getColumn(6).setPreferredWidth(80);  // Status
-    }
-
-    //get the selected from from the panels table
-    public int getSelectedRow() {
-        return bookingsTable.getSelectedRow();
-    }
-
-    //return table
-    public DefaultTableModel getTableModel() {
-        return tableModel;
+        bookingsTable.getColumnModel().getColumn(1).setPreferredWidth(80);  // Customer ID
+        bookingsTable.getColumnModel().getColumn(2).setPreferredWidth(80); // Hotel Name
+        bookingsTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Check-in
+        bookingsTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Check-out
+        bookingsTable.getColumnModel().getColumn(5).setPreferredWidth(100); // Room Type
+        bookingsTable.getColumnModel().getColumn(6).setPreferredWidth(80);  // Cost
+        bookingsTable.getColumnModel().getColumn(7).setPreferredWidth(80);  // Status
     }
 
     private JPanel createBookingActionsPanel(ActionListener controller) {
@@ -169,10 +153,11 @@ public class UserDashboardPanel extends JPanel {
                 new Font("Arial", Font.BOLD, 14)
         ));
 
+        //Create new booking
         createNewBookingButton = new JButton("Create New Booking");
         StyleButtons.styleActionButton(createNewBookingButton, new Color(70, 130, 180)); // Steel blue
         createNewBookingButton.setActionCommand(Command.SWITCH_PANEL.name()); // Use SWITCH_PANEL to navigate
-        createNewBookingButton.putClientProperty("targetPanel", "HotelSelection"); // Set the target to your booking panel
+        createNewBookingButton.putClientProperty("targetPanel", "HotelSelection"); // Set the target to booking panel
         createNewBookingButton.addActionListener(controller);
         createNewBookingButton.setEnabled(true);
         actionsPanel.add(createNewBookingButton);
@@ -184,22 +169,14 @@ public class UserDashboardPanel extends JPanel {
         cancelBookingButton.addActionListener(controller);
         actionsPanel.add(cancelBookingButton);
 
-        // Initially disable buttons until a booking is selected
-        enableBookingActions(false);
-
-        // Add selection listener to enable/disable buttons
+        // Add selection listener to enable cancel button when something is selected
         bookingsTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                enableBookingActions(bookingsTable.getSelectedRow() != -1);
+                cancelBookingButton.setEnabled(true);
             }
         });
 
         return actionsPanel;
-    }
-
-    //Enable cancel booking when user has a booking to cancel
-    private void enableBookingActions(boolean enabled) {
-        cancelBookingButton.setEnabled(enabled);
     }
 
     private void loadBookingsFromDatabase() {
@@ -219,10 +196,16 @@ public class UserDashboardPanel extends JPanel {
             tableModel.addRow(row);
         }
     }
+    //update the customer username from guest to 
 
-    /**
-     * Method to refresh the bookings display
-     */
+    //Update customer name in the greeting
+    public void updateUserGreeting(Customer customer) {
+        //get username from Customer
+        String displayName = customer != null ? customer.getUsername() : "Guest";
+        userInfoLabel.setText("Welcome back, " + displayName);
+    }
+
+    // Method to refresh the bookings display
     public void refreshBookings() {
         System.out.println("refreshbookngs");
         // Clear existing data
@@ -232,14 +215,10 @@ public class UserDashboardPanel extends JPanel {
     }
 
     //Methods for when selecting booking in table.
-    /**
-     * Get the currently selected booking ID return Selected booking ID or null
-     * if none selected
-     */
     public String getSelectedBookingId() {
         int selectedRow = bookingsTable.getSelectedRow();
         if (selectedRow != -1) {
-            return (String) tableModel.getValueAt(selectedRow, 0);
+            return String.valueOf(tableModel.getValueAt(selectedRow, 0));
         }
         return null;
     }
@@ -258,5 +237,15 @@ public class UserDashboardPanel extends JPanel {
             return bookingData;
         }
         return null;
+    }
+
+    //get the selected from from the panels table
+    public int getSelectedRow() {
+        return bookingsTable.getSelectedRow();
+    }
+
+    //return table
+    public DefaultTableModel getTableModel() {
+        return tableModel;
     }
 }

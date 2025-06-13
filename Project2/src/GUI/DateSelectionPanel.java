@@ -23,14 +23,12 @@ public class DateSelectionPanel extends JPanel implements ResettablePanel {
     private final HotelFrame mainFrame;
     private JComboBox<Integer> dayCombo, endDayCombo, timeCombo;
     private JComboBox<String> monthCombo, endMonthCombo;
-    private final BookingBuilder builder;
     private final ActionListener controller;
     private JSpinner lengthOfStaySpinner;
 
     //constructor initializes the panel with date selection UI
-    public DateSelectionPanel(HotelFrame mainFrame, BookingBuilder builder, ActionListener controller) {
+    public DateSelectionPanel(HotelFrame mainFrame, ActionListener controller) {
         this.mainFrame = mainFrame;
-        this.builder = builder;
         this.controller = controller;
         //build the UI
         createDateSelectionUI();
@@ -107,13 +105,12 @@ public class DateSelectionPanel extends JPanel implements ResettablePanel {
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         add(backNextPanel, gbc);
-        //saveDateInfo() only when next is clicked , get next button from backnextpanel creation class.
+        //Attatch 
         for (Component comp : backNextPanel.getComponents()) {
             if (comp instanceof JButton button && "Next".equals(button.getText())) {
                 button.addActionListener(e -> {
                     ActionEvent newEvent = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, Command.PROCEED_TO_CONFIRMATION.name());
                     controller.actionPerformed(newEvent);
-
                 });
             }
         }
@@ -177,6 +174,7 @@ public class DateSelectionPanel extends JPanel implements ResettablePanel {
     }
 
     //After booking proccess, reset the selected items.
+    @Override
     public void resetFields() {
         // Reset month to January (index 0)
         if (monthCombo != null) {

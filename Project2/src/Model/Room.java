@@ -14,16 +14,17 @@ package Model;
  */
 public class Room {
 
+    private int hotelId;
     // room number integer
     private int roomNumber; 
     //type of room (e.g., Single, Double, Suite)    
     private String type;
     //price per night for the room
     private double price;    
-    //availability status of the room
-    private boolean available;
     //maximum number of guests the room
     private int maxGuests;      
+    //availability status of the room
+    private boolean available;
     
     //constructor
     public Room(int roomNumber, String type, double price, boolean available, int maxGuests) {

@@ -104,7 +104,6 @@ public class HotelSelectionPanel extends JPanel implements ResettablePanel {
                         Hotel selectedHotel = new Hotel(hotelId, hotelName, hotelLocation); // create your Hotel object
                         mainFrame.getBookingBuilder().setHotel(selectedHotel);
                         //show hotel choosen and id choosen 
-                        System.out.println("Hotel: set " + selectedHotel.getName() + " (ID: " + selectedHotel.getId() + ")");
                         nextButton.setEnabled(true); // enable navigation after valid selection
                         //Notify listeners
                         if (bookingListener != null) {

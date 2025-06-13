@@ -10,12 +10,11 @@ import Model.Hotel;
  *
  * @author George
  */
-
+//Listener to update rooms panel based on hotel selected in hotel panel.
 public interface BookingListener {
 
     void updateBookingInfo();
 
-    // Make this abstract instead of default
     void onHotelSelected(Hotel hotel);
 }
 

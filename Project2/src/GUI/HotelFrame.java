@@ -69,7 +69,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         resettablePanels.add(hotelPanel);
 
         //date selection panel
-        DateSelectionPanel datePanel = new DateSelectionPanel(this, bookingBuilder, controller);
+        DateSelectionPanel datePanel = new DateSelectionPanel(this, controller);
         panels.put("DateSelection", datePanel);
         mainPanel.add(datePanel, "DateSelection");
         resettablePanels.add(datePanel);
@@ -80,7 +80,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         mainPanel.add(confPanel, "ConfirmPanel");
         
         
-        //Booking Confirmation panel
+        //Booking is confirmed (small text display panel)
         BookingConfirmedPanel bookingConfirmed = new BookingConfirmedPanel(this, controller);
         panels.put("BookingConfirmed", bookingConfirmed);
         mainPanel.add(bookingConfirmed, "BookingConfirmed");
@@ -150,7 +150,7 @@ public class HotelFrame extends JFrame implements BookingListener {
 
     @Override
     public void updateBookingInfo() {
-        //hotelframe may not need to do anything
+        //hotelframe doesnt need to do anything
     }
 
     public void showUpdatedConfirmPanel() {

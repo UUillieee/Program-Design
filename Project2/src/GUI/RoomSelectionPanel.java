@@ -7,7 +7,6 @@ package GUI;
 import Model.Hotel;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 
@@ -97,9 +96,6 @@ public class RoomSelectionPanel extends JPanel implements BookingListener, Reset
                     mainFrame.getBookingBuilder().setRoomNumber(roomNumber);
                     mainFrame.getBookingBuilder().setRoomPrice(cost);
                     mainFrame.getBookingBuilder().setGuests(guests);
-
-                    System.out.println("Room Selected: #" + roomNumber + " | Type: " + roomType + " | Cost: " + cost + " | Guests: " + guests);
-
                     nextButton.setEnabled(true); // Enable the Next button
                 }
             }
@@ -118,7 +114,6 @@ public class RoomSelectionPanel extends JPanel implements BookingListener, Reset
     //when hotel is selected, call updateBookingInfo
     public void onHotelSelected(Hotel hotel) {
         updateBookingInfo();
-        System.out.println("updateBookingInfo triggered");
     }
 
     @Override

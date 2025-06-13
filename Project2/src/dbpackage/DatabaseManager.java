@@ -15,8 +15,8 @@ public class DatabaseManager {
     public static void init() {
         new CreateTables().insertTables();
         new HotelDataInserter().insert();
-        new HotelTablePrint().printAllHotels();
-        new RoomTablePrint().printAllRooms();
+        //new HotelTablePrint().printAllHotels();
+       // new RoomTablePrint().printAllRooms();
         new BookingsTablePrint().printBookings();
         new CustomerTablePrint().printCustomer();
     }

@@ -161,11 +161,5 @@ public class ConfirmPanel extends JPanel {
         String displayName = (customer != null) ? customer.getUsername() : "Guest";
         titleLabel.setText("Confirm your booking: " + displayName);
     }
-
-    public static void main(String[] args) {
-        HotelFrame f = new HotelFrame();
-        f.showPanel("DateSelectionPanel");
-    }
-
   
 }
