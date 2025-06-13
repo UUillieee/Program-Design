@@ -14,11 +14,12 @@ import javax.swing.*;
 public class WelcomePanel extends JPanel {
 
     private HotelFrame mainFrame;
+    private ActionListener controller;
     private JLabel userLabel;
 
-    public WelcomePanel(HotelFrame mainFrame) {
+    public WelcomePanel(HotelFrame mainFrame,ActionListener controller) {
         this.mainFrame = mainFrame;
-        ActionListener controller = new ActionController(mainFrame);
+        this.controller = controller;
         createWelcomePanel(controller);
     }
 

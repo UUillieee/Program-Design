@@ -18,13 +18,15 @@ import javax.swing.table.DefaultTableModel;
 public class RoomSelectionPanel extends JPanel implements BookingListener, ResettablePanel {
 
     private HotelFrame mainFrame;
+    private ActionListener controller;
     private JLabel title;
     private DefaultTableModel tableModel;
     private JTable table;
     private JButton nextButton;
 
-    public RoomSelectionPanel(HotelFrame mainFrame) {
+    public RoomSelectionPanel(HotelFrame mainFrame,ActionListener controller) {
         this.mainFrame = mainFrame;
+        this.controller = controller;
     }
 
     protected void initUI(ActionListener controller) {
@@ -51,6 +53,7 @@ public class RoomSelectionPanel extends JPanel implements BookingListener, Reset
 
         table = new JTable(tableModel);
         table.getTableHeader().setResizingAllowed(false); // Cant resize the columns
+        table.getTableHeader().setReorderingAllowed(false);// cant reorder the columns
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(table);
 

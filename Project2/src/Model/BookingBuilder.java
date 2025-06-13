@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package GUI;
+package Model;
 
 
 import Model.Booking;
@@ -13,6 +13,7 @@ import Model.Hotel;
  *
  * @author George
  */
+//This class is used in the booking proccess to collect all relevant information for a booking.
 public class BookingBuilder { 
  
     private Hotel hotel; // not used in final booking. Just used to display rooms

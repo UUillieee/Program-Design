@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Model.BookingBuilder;
 import static GUI.Command.CONFIRM_BOOKING;
 import Model.Customer;
 import java.awt.Color;

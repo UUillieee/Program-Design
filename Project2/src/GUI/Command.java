@@ -15,5 +15,7 @@ public enum Command {
     SWITCH_PANEL,
     CONFIRM_BOOKING,
     CANCEL,
+    PROCEED_TO_CONFIRMATION,
+    NO_TARGET,
     EXIT
 }

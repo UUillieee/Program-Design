@@ -1,5 +1,6 @@
 package GUI;
 
+import Model.BookingBuilder;
 import Model.Customer;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -39,21 +40,21 @@ public class HotelFrame extends JFrame implements BookingListener {
     public HotelFrame() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        controller = new ActionController(this); // Need to pass this 1 reference to all the panels. (Shared)
+        controller = new ActionController(this,bookingBuilder); // Need to pass this 1 reference to all the panels. (Shared)
 
         resettablePanels = new ArrayList<>(); // 
         //welcome Panel
-        WelcomePanel welcomePanel = new WelcomePanel(this);
+        WelcomePanel welcomePanel = new WelcomePanel(this,controller);
         panels.put("Welcome", welcomePanel);
         mainPanel.add(welcomePanel, "Welcome");
 
         //login Panel
-        LoginPanel loginPanel = new LoginPanel(this);
+        LoginPanel loginPanel = new LoginPanel(this,controller);
         panels.put("Login", loginPanel);
         mainPanel.add(loginPanel, "Login");
 
         //room Selection Panel
-        roomPanel = new RoomSelectionPanel(this);
+        roomPanel = new RoomSelectionPanel(this,controller);
         roomPanel.initUI(controller);
         panels.put("RoomSelection", roomPanel);
         mainPanel.add(roomPanel, "RoomSelection");
@@ -85,7 +86,7 @@ public class HotelFrame extends JFrame implements BookingListener {
         mainPanel.add(bookingConfirmed, "BookingConfirmed");
 
         //user Dashboard Panel
-        UserDashboardPanel userDashboard = new UserDashboardPanel(this);
+        UserDashboardPanel userDashboard = new UserDashboardPanel(this,controller);
         panels.put("UserDashboard", userDashboard);
         mainPanel.add(userDashboard, "UserDashboard");
 

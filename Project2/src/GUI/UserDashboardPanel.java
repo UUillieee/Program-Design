@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class UserDashboardPanel extends JPanel {
 
     private final HotelFrame mainFrame;
+    private ActionListener controller;
     private JTable bookingsTable;
     private DefaultTableModel tableModel;
     private JButton createNewBookingButton;
@@ -27,9 +28,9 @@ public class UserDashboardPanel extends JPanel {
     private JPanel navigationPanel;
     private JLabel userInfoLabel;
 
-    public UserDashboardPanel(HotelFrame mainFrame) {
+    public UserDashboardPanel(HotelFrame mainFrame,ActionListener controller) {
         this.mainFrame = mainFrame;
-        ActionListener controller = new ActionController(mainFrame);
+        this.controller = controller;
         createUserDashboardPanel(controller);
     }
 
@@ -130,6 +131,8 @@ public class UserDashboardPanel extends JPanel {
         // Create table
         bookingsTable = new JTable(tableModel);
         bookingsTable.getTableHeader().setResizingAllowed(false); // Cant resize the columns
+        bookingsTable.getTableHeader().setReorderingAllowed(false); // no reorder of columns
+        
         bookingsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         bookingsTable.setRowHeight(25);
         bookingsTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));

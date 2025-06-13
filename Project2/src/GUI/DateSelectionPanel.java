@@ -4,7 +4,8 @@
  */
 package GUI;
 
-import Model.Customer;
+import Model.BookingBuilder;
+import Model.DateSelectionData;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
  */
 //date panel or the user to choose their check in dates
 //save input to the booking builder
-public class DateSelectionPanel extends JPanel implements ResettablePanel{
+public class DateSelectionPanel extends JPanel implements ResettablePanel {
 
     private final HotelFrame mainFrame;
     private JComboBox<Integer> dayCombo, endDayCombo, timeCombo;
@@ -106,32 +107,20 @@ public class DateSelectionPanel extends JPanel implements ResettablePanel{
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         add(backNextPanel, gbc);
-        //saveDateInfo() only when next is clicked
+        //saveDateInfo() only when next is clicked , get next button from backnextpanel creation class.
         for (Component comp : backNextPanel.getComponents()) {
             if (comp instanceof JButton button && "Next".equals(button.getText())) {
                 button.addActionListener(e -> {
-                    saveDateInfo();
-                    System.out.println("Logged in customer: " + mainFrame.getLoggedInCustomer());
-                    if (mainFrame.getLoggedInCustomer() == null) {
-                        mainFrame.setPostLoginTarget("ConfirmPanel"); //  tell app to go to ConfirmPanel after login
-                        mainFrame.showPanel("Login");
-                    } else {
-                        mainFrame.showUpdatedConfirmPanel();
-                        return;
-                    }
+                    ActionEvent newEvent = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, Command.PROCEED_TO_CONFIRMATION.name());
+                    controller.actionPerformed(newEvent);
+
                 });
             }
         }
 
     }
 
-    private GridBagConstraints setGbc(GridBagConstraints gbc, int x, int y) {
-        gbc.gridx = x;
-        gbc.gridy = y;
-        return gbc;
-    }
-
-    //return the length of the customer stay end-start
+    //return the length of the customer stay end-start - to populate the check in days
     private Integer[] generateNumbers(int start, int end) {
         Integer[] nums = new Integer[end - start + 1];
         for (int i = 0; i < nums.length; i++) {
@@ -147,45 +136,24 @@ public class DateSelectionPanel extends JPanel implements ResettablePanel{
     }
 
     //save date info to the booking builder 
-    private void saveDateInfo() {
+  public DateSelectionData getDateSelectionInput() {
+    int day = (int) dayCombo.getSelectedItem();
+    int month = monthCombo.getSelectedIndex() + 1;
+    int time = (int) timeCombo.getSelectedItem();
+    int lengthOfStay = (int) lengthOfStaySpinner.getValue();
 
-        int day = (int) dayCombo.getSelectedItem();
-        int month = monthCombo.getSelectedIndex() + 1;
-        int time = (int) timeCombo.getSelectedItem();
-        int lengthOfStay = (int) lengthOfStaySpinner.getValue();
+    int year = LocalDate.now().getYear();
+    LocalDate startDate = LocalDate.of(year, month, day);
+    LocalDate endDate = startDate.plusDays(lengthOfStay);
 
-        int year = LocalDate.now().getYear();
-        LocalDate startDate = LocalDate.of(year, month, day);
-        LocalDate endDate = startDate.plusDays(lengthOfStay);
+    int endDay = endDate.getDayOfMonth();
+    int endMonth = endDate.getMonthValue();
 
-        int endDay = endDate.getDayOfMonth();
-        int endMonth = endDate.getMonthValue();
+    // Return a new data object
+    return new DateSelectionData(day, month, time, lengthOfStay, endDay, endMonth);
+}
 
-        Customer customer = mainFrame.getLoggedInCustomer();
-        if (customer == null) {
-            System.out.println("No logged-in user.");
-        } else {
-            System.out.println("Logged in as: " + customer.getUsername() + " e.g Booking Date: " + builder.getDay());
-        }
-
-        builder.setDay(day);
-        builder.setCustomer(customer);
-        builder.setMonth(month);
-        builder.setEndDay(endDay);
-        builder.setEndMonth(endMonth);
-        builder.setLengthOfStay(lengthOfStay);
-        builder.setTime(time);
-        builder.setTotalPrice(); // No need to pass anything, just makes sure this method is called to calculate total price based on the new length of stay.
-
-        // mainFrame.showUpdatedConfirmPanel();
-        System.out.println("Date info saved to BookingBuilder:");
-
-    }
-
-    //get days for each month 
-    //Feb - 28
-    //March... - 31
-    //November... - 30
+    //get days for each month - when month in month combo selecetd, this method is called to update the days.
     private void updateDaysForSelectedMonth() {
         int selectedMonth = monthCombo.getSelectedIndex() + 1;
         int daysInMonth;
@@ -208,6 +176,7 @@ public class DateSelectionPanel extends JPanel implements ResettablePanel{
         }
     }
 
+    //After booking proccess, reset the selected items.
     public void resetFields() {
         // Reset month to January (index 0)
         if (monthCombo != null) {
@@ -227,10 +196,5 @@ public class DateSelectionPanel extends JPanel implements ResettablePanel{
         }
         // Ensure days are updated for the reset month
         updateDaysForSelectedMonth();
-    }
-
-    public static void main(String[] args) {
-        HotelFrame f = new HotelFrame();
-
     }
 }

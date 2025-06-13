@@ -9,6 +9,8 @@ import static GUI.Command.EXIT;
 import static GUI.Command.LOGIN;
 import static GUI.Command.LOGOUT;
 import static GUI.Command.SWITCH_PANEL;
+import Model.BookingBuilder;
+import Model.DateSelectionData;
 import dbpackage.BookingUpdateInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,9 +27,11 @@ import javax.swing.JOptionPane;
 public class ActionController implements ActionListener {
 
     private HotelFrame mainFrame;
+    private BookingBuilder builder;
 
-    public ActionController(HotelFrame mainFrame) {
+    public ActionController(HotelFrame mainFrame,BookingBuilder builder) {
         this.mainFrame = mainFrame;
+        this.builder = builder;
     }
 
     @Override
@@ -211,6 +215,28 @@ public class ActionController implements ActionListener {
                     //refresh bookings within the userpanel
                     mainFrame.updateBookingPanels();
                     dashboardPanel.refreshBookings();
+                    break;
+                case PROCEED_TO_CONFIRMATION:
+                    DateSelectionPanel datePanel = (DateSelectionPanel) mainFrame.getPanel("DateSelection"); 
+                    DateSelectionData dateData = datePanel.getDateSelectionInput();
+                    customer = mainFrame.getLoggedInCustomer();
+                    builder.setDay(dateData.getDay());
+                    builder.setCustomer(customer); 
+                    builder.setMonth(dateData.getMonth());
+                    builder.setEndDay(dateData.getEndDay());
+                    builder.setEndMonth(dateData.getEndMonth());
+                    builder.setLengthOfStay(dateData.getLengthOfStay());
+                    builder.setTime(dateData.getTime());
+                    builder.setTotalPrice(); // Recalculate price with new length of stay
+                    System.out.println("Date info collected and saved to BookingBuilder by ActionController.");
+
+                    
+                    if (customer == null) {
+                        mainFrame.setPostLoginTarget("ConfirmPanel"); // Tell app to go to ConfirmPanel after login
+                        mainFrame.showPanel("Login");
+                    } else {
+                        mainFrame.showUpdatedConfirmPanel();
+                    }
                     break;
                 case EXIT:
                     System.exit(0);

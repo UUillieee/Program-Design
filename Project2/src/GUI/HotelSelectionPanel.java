@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import Model.Hotel;
 
-public class HotelSelectionPanel extends JPanel implements ResettablePanel{
+public class HotelSelectionPanel extends JPanel implements ResettablePanel {
 
     private HotelFrame mainFrame;
     //private NavigationPanel navigationPanel;
@@ -24,7 +24,7 @@ public class HotelSelectionPanel extends JPanel implements ResettablePanel{
         this.bookingListener = listener;
     }
 
-    public HotelSelectionPanel(HotelFrame mainFrame,ActionListener controller) {
+    public HotelSelectionPanel(HotelFrame mainFrame, ActionListener controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         //this.navigationPanel = new NavigationPanel(mainFrame, controller);
@@ -57,7 +57,7 @@ public class HotelSelectionPanel extends JPanel implements ResettablePanel{
         };
         hotelTable = new JTable(tableModel);
         hotelTable.getTableHeader().setResizingAllowed(false); // Cant resize the columns
-
+        hotelTable.getTableHeader().setReorderingAllowed(false);
         hotelTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         hotelTable.getColumnModel().getColumn(1).setPreferredWidth(100);
         hotelTable.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -128,12 +128,12 @@ public class HotelSelectionPanel extends JPanel implements ResettablePanel{
     }
 
     @Override
-      public void resetFields() {
+    public void resetFields() {
         if (hotelTable != null) {
             hotelTable.clearSelection(); // Clear any row selection
         }
         // Reset next button to false
-        if(nextButton != null) {
+        if (nextButton != null) {
             nextButton.setEnabled(false);
         }
     }

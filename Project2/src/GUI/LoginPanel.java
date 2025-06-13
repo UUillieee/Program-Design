@@ -22,13 +22,13 @@ import javax.swing.JTextField;
 public class LoginPanel extends JPanel {
 
     private HotelFrame mainFrame;
-
+    private ActionListener controller;
     private JTextField username = new JTextField(15);
     private JPasswordField password = new JPasswordField(15);
 
-    public LoginPanel(HotelFrame mainFrame) {
+    public LoginPanel(HotelFrame mainFrame,ActionListener controller) {
         this.mainFrame = mainFrame;
-        ActionListener controller = new ActionController(mainFrame);
+        this.controller = controller;
         createLoginPanel(controller);
     }
     public static void main(String[] args) {

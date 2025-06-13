@@ -100,7 +100,7 @@ public class BookingUpdateInfo {
     }
 
    
-    public void insertUpdate(GUI.BookingBuilder bookingBuilder) {
+    public void insertUpdate(Model.BookingBuilder bookingBuilder) {
     int nextId = getNextBookingId();
     Model.Booking booking = bookingBuilder.build(); //Build once
 
