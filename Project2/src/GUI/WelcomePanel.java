@@ -67,15 +67,14 @@ public class WelcomePanel extends JPanel {
         logoutBtn.addActionListener(controller);
         gbc.gridy = 4;// Row position 4th row
         this.add(logoutBtn, gbc);
-        
+
         JButton exitButton = new JButton("Exit Application");
         styleButton(exitButton, new Color(220, 20, 60));
         exitButton.setActionCommand(Command.EXIT.name());
         exitButton.addActionListener(controller);
         gbc.gridy = 5;// Row position 4th row
         this.add(exitButton, gbc);
-        
-        
+
         userLabel = new JLabel();
         userLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         updateUserLabel();
@@ -84,7 +83,7 @@ public class WelcomePanel extends JPanel {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         add(userLabel, gbc);
-        
+
     }
 
     //Called by the buttons to set the color of them.
@@ -95,7 +94,8 @@ public class WelcomePanel extends JPanel {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
     }
-   public void updateUserLabel() {
+
+    public void updateUserLabel() {
         Customer customer = mainFrame.getLoggedInCustomer();
         String displayName = (customer != null) ? customer.getUsername() : "Guest";
         userLabel.setText("Logged in as: " + displayName);
