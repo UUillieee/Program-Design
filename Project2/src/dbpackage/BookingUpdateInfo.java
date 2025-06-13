@@ -14,35 +14,48 @@ public class BookingUpdateInfo {
 
     public void insertBooking(int id, int customerId, int day, int time, int month,int endDay, int endMonth, int roomNumber,
                               int guests, int totalPrice, int hotelId, boolean isBooked) {
-        String sql = "INSERT INTO Bookings (id, customerId, time, day, month, endDay ,endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        String insertSQL = "INSERT INTO Bookings (id, customerId, time, day, month, endDay ,endMonth, roomNumber, guests, totalPrice, hotelId, isBooked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        //change rooms availabilty to true 
+        String updateRoomSQL = "UPDATE Rooms SET isBooked = true WHERE id = ? AND hotelId = ?";
+                
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement insertStmt = conn.prepareStatement(insertSQL);
+            PreparedStatement updateStmt = conn.prepareStatement(updateRoomSQL)) {
 
             if (conn == null) {
                 System.out.println("Error: No valid database connection.");
                 return;
             }
-            pstmt.setInt(1, id);
-            pstmt.setInt(2, customerId);
-            pstmt.setInt(3, day);
-            pstmt.setInt(4, time);
-            pstmt.setInt(5, month);
-            pstmt.setInt(6, endDay);
-            pstmt.setInt(7, endMonth);
-            pstmt.setInt(8, roomNumber);
-            pstmt.setInt(9, guests);
-            pstmt.setInt(10, totalPrice);
-            pstmt.setInt(11, hotelId);
-            pstmt.setBoolean(12, isBooked);
+            insertStmt.setInt(1, id);
+            insertStmt.setInt(2, customerId);
+            insertStmt.setInt(3, time);
+            insertStmt.setInt(4, day);
+            insertStmt.setInt(5, month);
+            insertStmt.setInt(6, endDay);
+            insertStmt.setInt(7, endMonth);
+            insertStmt.setInt(8, roomNumber);
+            insertStmt.setInt(9, guests);
+            insertStmt.setInt(10, totalPrice);
+            insertStmt.setInt(11, hotelId);
+            insertStmt.setBoolean(12, isBooked);
+            
+            
 
-            int rowsAffected = pstmt.executeUpdate();
+            int rowsAffected = insertStmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Booking inserted successfully.");
             } else {
                 System.out.println("Booking insert failed.");
             }
+            
+            // Set room availability update parameters
+            updateStmt.setInt(1, roomNumber);
+            updateStmt.setInt(2, hotelId);
 
+            updateStmt.executeUpdate();
+            System.out.println("Room marked as booked");
+            
         } catch (SQLException e) {
             System.out.println("Error inserting booking: " + e.getMessage());
         }

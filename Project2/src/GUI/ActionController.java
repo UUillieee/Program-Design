@@ -183,8 +183,9 @@ public class ActionController implements ActionListener {
                         bookingDb.insertUpdate(mainFrame.getBookingBuilder());
                         System.out.println("Booking is saved to database");
                         mainFrame.showPanel("BookingConfirmed");
-                        mainFrame.resetBookingBuilder(); // Clear booking builder for new booking.
                         mainFrame.resetAllBookingPanels();
+                        mainFrame.updateBookingPanels(); //refresh RoomSelectionPanel
+                        mainFrame.resetBookingBuilder(); //clear booking builder for new booking.
                     }
                     break;
                 case CANCEL:
@@ -208,6 +209,7 @@ public class ActionController implements ActionListener {
                     //pass the bookingId to deleteBookingById() to delete
                     cancelDb.deleteBookingById(bookingId);
                     //refresh bookings within the userpanel
+                    mainFrame.updateBookingPanels();
                     dashboardPanel.refreshBookings();
                     break;
                 case EXIT:

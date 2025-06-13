@@ -18,7 +18,7 @@ public class RetrieveRooms {
         //prepared statement to retrive the rooms
         String sql = "SELECT Hotels.name, Rooms.id ,Rooms.type, Rooms.cost, Rooms.maxGuests, Rooms.isBooked " +
                      "FROM Rooms JOIN Hotels ON Rooms.hotelId = Hotels.id " +
-                     "WHERE hotelId = ?";
+                     "WHERE hotelId = ? AND Rooms.isBooked = false";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

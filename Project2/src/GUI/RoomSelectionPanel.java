@@ -80,14 +80,15 @@ public class RoomSelectionPanel extends JPanel implements BookingListener, Reset
         add(backNextPanel, gbc);
 
         table.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    // Extract room number, cost, and guests from selected row
-                    String roomType = (String) table.getValueAt(selectedRow, 2);
-                    double cost = Double.parseDouble(table.getValueAt(selectedRow, 3).toString());
-                    int guests = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
-                    int roomNumber = selectedRow + 1; // or use actual room number from DB if provided
+
+        if (!e.getValueIsAdjusting()) {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                // Extract room number, cost, and guests from selected row
+                String roomType = (String) table.getValueAt(selectedRow, 2);
+                double cost = Double.parseDouble(table.getValueAt(selectedRow, 3).toString());
+                int guests = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
+                int roomNumber = Integer.parseInt(table.getValueAt(selectedRow, 1).toString());
 
                     // Store room info into BookingBuilder
                     mainFrame.getBookingBuilder().setRoomNumber(roomNumber);
