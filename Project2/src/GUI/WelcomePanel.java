@@ -1,5 +1,6 @@
 package GUI;
 
+import Model.Customer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -13,6 +14,7 @@ import javax.swing.*;
 public class WelcomePanel extends JPanel {
 
     private HotelFrame mainFrame;
+    private JLabel userLabel;
 
     public WelcomePanel(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -56,15 +58,33 @@ public class WelcomePanel extends JPanel {
         loginButton.addActionListener(controller);
         loginButton.putClientProperty("targetPanel", "Login");
         mainFrame.clearPostLoginTarget(); // only happens once , not every time
-        gbc.gridy = 3; // Row position 3rd row
+        gbc.gridy = 3; // Row position 3rd row 
         this.add(loginButton, gbc);
 
+        JButton logoutBtn = new JButton("Logout");
+        styleButton(logoutBtn, new Color(112, 128, 144));
+        logoutBtn.setActionCommand(Command.LOGOUT.name());
+        logoutBtn.addActionListener(controller);
+        gbc.gridy = 4;// Row position 4th row
+        this.add(logoutBtn, gbc);
+        
         JButton exitButton = new JButton("Exit Application");
         styleButton(exitButton, new Color(220, 20, 60));
         exitButton.setActionCommand(Command.EXIT.name());
         exitButton.addActionListener(controller);
-        gbc.gridy = 4;// Row position 4th row
+        gbc.gridy = 5;// Row position 4th row
         this.add(exitButton, gbc);
+        
+        
+        userLabel = new JLabel();
+        userLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        updateUserLabel();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(userLabel, gbc);
+        
     }
 
     //Called by the buttons to set the color of them.
@@ -75,5 +95,9 @@ public class WelcomePanel extends JPanel {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
     }
-
+   public void updateUserLabel() {
+        Customer customer = mainFrame.getLoggedInCustomer();
+        String displayName = (customer != null) ? customer.getUsername() : "Guest";
+        userLabel.setText("Logged in as: " + displayName);
+    }
 }

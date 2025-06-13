@@ -150,4 +150,9 @@ public class LoginPanel extends JPanel {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
     }
+    
+    public void clearFields(){
+        username.setText("");
+        password.setText("");
+    }
 }

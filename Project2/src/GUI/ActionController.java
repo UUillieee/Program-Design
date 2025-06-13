@@ -34,13 +34,19 @@ public class ActionController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             Command command = Command.valueOf(e.getActionCommand()); //use enum to Get what action event e.g whether to exit, switch panel or login
+            LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login"); //To update text fields when switching of panel - to clear the previous login information
+             WelcomePanel welcomePanel = (WelcomePanel) mainFrame.getPanel("Welcome"); // to update labels
+             
             switch (command) {
                 case SWITCH_PANEL: //To
                     //Target panel is passed to action controller - use that to switch to the desired panel
                     if (e.getSource() instanceof JButton btn) { //if coming from button
                         Object panelName = btn.getClientProperty("targetPanel"); // get target panel from the value that is attatched to "taragetPanel" key.
                         if (panelName instanceof String) { //If the key is a string
-                            mainFrame.showPanel((String) panelName); // Switch to that panel
+                            if (panelName.equals("Login")) {
+                                loginPanel.clearFields();
+                            }
+                            mainFrame.showPanel((String) panelName); // Switch to that panel  
                         } else {
                             System.out.println("No target panel set for this button."); // error
                         }
@@ -48,15 +54,13 @@ public class ActionController implements ActionListener {
                     break;
                 case LOGIN:
                     //get username & password
-                    LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
                     String loginUser = loginPanel.getUsername();
                     String loginPassword = loginPanel.getPassword();
                     //check if username or password fields are empty
                     if (loginUser.isEmpty() && loginPassword.isEmpty()) {
                         JOptionPane.showMessageDialog(loginPanel, "Empty Fields Try Again", "Login Failed", JOptionPane.ERROR_MESSAGE);
                         return;
-                    } 
-                    else if (loginUser.isEmpty()) {
+                    } else if (loginUser.isEmpty()) {
                         JOptionPane.showMessageDialog(loginPanel, "Username Field Must Not Be Empty", "Login Failed", JOptionPane.ERROR_MESSAGE);
                         return;
                     } else if (loginPassword.isEmpty()) {
@@ -83,6 +87,8 @@ public class ActionController implements ActionListener {
                         JOptionPane.showMessageDialog(loginPanel, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
                         return; // Keep showing login panel, dont allow switch to next panel till customer valid
                     }
+                    //Update label on welcome page
+                    welcomePanel.updateUserLabel();
 
                     //So login panel knows where to direct to next, e.g go to bookingconfirmed or userdashboard
                     //Based on where login panel is entered from, 1) if it is entered from booking proccess, go booking confirmed,2) entered from main menu, go user dashboard.
@@ -96,11 +102,15 @@ public class ActionController implements ActionListener {
                             mainFrame.showPanel(postLogin);
                         }
                     }
-
+                    loginPanel.clearFields(); // remove password and username 
                     break;
                 case LOGOUT:
-                    mainFrame.showPanel("Login");
-                    mainFrame.setLoggedInCustomer(null);
+                    if (mainFrame.getLoggedInCustomer() != null) { //if logged in , logout
+                        mainFrame.showPanel("WelcomePanel");
+                        mainFrame.setLoggedInCustomer(null);
+                        loginPanel.clearFields();
+                        welcomePanel.updateUserLabel();
+                    }
                     break;
                 case CREATE_USER:
                     //get username & password
@@ -147,9 +157,10 @@ public class ActionController implements ActionListener {
                     UserDashboardPanel db = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
                     db.updateUserGreeting(newCustomer);
                     db.refreshBookings();
-
+                    welcomePanel.updateUserLabel();
                     //switch to dashboard panels
                     mainFrame.showPanel("UserDashboard");
+
                     //Same logic as login case.
                     postLogin = mainFrame.getPostLoginTarget();
                     if (postLogin != null) {
