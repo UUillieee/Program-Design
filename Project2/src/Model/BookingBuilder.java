@@ -5,10 +5,6 @@
 package Model;
 
 
-import Model.Booking;
-import Model.Customer;
-import Model.Hotel;
-
 /**
  *
  * @author George
@@ -72,6 +68,4 @@ public class BookingBuilder {
         return new Booking(getTime(), getCustomerId(), getDay(), getMonth(), getEndDay(), getEndMonth(), getRoomNumber(), getGuests(), getTotalPrice());
     }
 
-    
-    
 }
