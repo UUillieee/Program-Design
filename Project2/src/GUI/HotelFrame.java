@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import Model.Hotel;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -27,6 +29,7 @@ public class HotelFrame extends JFrame implements BookingListener {
     private RoomSelectionPanel roomPanel;
     private Customer loggedInCustomer;
     private String postLoginTarget = null;
+    private List<ResettablePanel> resettablePanels; // Keep track of all panels that can be reset in booking proccess.
 
     //store panels in Map<String, Jpanel> so can refernce them later from the action controller
     private Map<String, JPanel> panels = new HashMap<>();
@@ -36,9 +39,9 @@ public class HotelFrame extends JFrame implements BookingListener {
     public HotelFrame() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-
         controller = new ActionController(this); // Need to pass this 1 reference to all the panels. (Shared)
 
+        resettablePanels = new ArrayList<>(); // 
         //welcome Panel
         WelcomePanel welcomePanel = new WelcomePanel(this);
         panels.put("Welcome", welcomePanel);
@@ -54,24 +57,28 @@ public class HotelFrame extends JFrame implements BookingListener {
         roomPanel.initUI(controller);
         panels.put("RoomSelection", roomPanel);
         mainPanel.add(roomPanel, "RoomSelection");
-
+        resettablePanels.add(roomPanel);
+        
         //hotel Selection Panel
         HotelSelectionPanel hotelPanel = new HotelSelectionPanel(this, controller);
         hotelPanel.initUI(controller);
         panels.put("HotelSelection", hotelPanel);
         mainPanel.add(hotelPanel, "HotelSelection");
         hotelPanel.setBookingListener(roomPanel);
+        resettablePanels.add(hotelPanel);
 
         //date selection panel
         DateSelectionPanel datePanel = new DateSelectionPanel(this, bookingBuilder, controller);
         panels.put("DateSelection", datePanel);
         mainPanel.add(datePanel, "DateSelection");
+        resettablePanels.add(datePanel);
 
         //Booking Confirmation panel
         ConfirmPanel confPanel = new ConfirmPanel(this, bookingBuilder, controller);
         panels.put("ConfirmPanel", confPanel);
         mainPanel.add(confPanel, "ConfirmPanel");
-
+        
+        
         //Booking Confirmation panel
         BookingConfirmedPanel bookingConfirmed = new BookingConfirmedPanel(this, controller);
         panels.put("BookingConfirmed", bookingConfirmed);
@@ -163,6 +170,14 @@ public class HotelFrame extends JFrame implements BookingListener {
 
     public void clearPostLoginTarget() {
         this.postLoginTarget = null;
+    }
+
+    public void resetAllBookingPanels() {
+        for (ResettablePanel panel : resettablePanels) {
+            // Call the resetFields() method defined in the ResettablePanel interface
+            // Each specific panel's implementation of resetFields() will be executed.
+            panel.resetFields();
+        }
     }
 
 }

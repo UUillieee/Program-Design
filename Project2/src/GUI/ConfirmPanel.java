@@ -165,4 +165,6 @@ public class ConfirmPanel extends JPanel {
         HotelFrame f = new HotelFrame();
         f.showPanel("DateSelectionPanel");
     }
+
+  
 }

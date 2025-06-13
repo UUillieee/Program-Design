@@ -15,13 +15,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author George
  */
-
-public class RoomSelectionPanel extends JPanel implements BookingListener {
+public class RoomSelectionPanel extends JPanel implements BookingListener, ResettablePanel {
 
     private HotelFrame mainFrame;
     private JLabel title;
     private DefaultTableModel tableModel;
     private JTable table;
+    private JButton nextButton;
 
     public RoomSelectionPanel(HotelFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -42,7 +42,7 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
         add(title, gbc);
 
         // Table model (start empty)
-        String[] columnNames = {"Hotel", "Room ID","Room Type", "Cost Per Night", "Max Guests", "Availability"};
+        String[] columnNames = {"Hotel", "Room ID", "Room Type", "Cost Per Night", "Max Guests", "Availability"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -73,35 +73,35 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
         gbc.insets = new Insets(20, 10, 10, 10);
         JPanel backNextPanel = NavigationPanel.createBookingProccessButtons(controller, "HotelSelection", "DateSelection");
 
-        JButton nextButton = getNextButtonFromBackNextPanel(backNextPanel);
+        nextButton = getNextButtonFromBackNextPanel(backNextPanel);
         if (nextButton != null) {
             nextButton.setEnabled(false); // Disable BEFORE adding to layout
         }
         add(backNextPanel, gbc);
 
         table.getSelectionModel().addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) {
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow != -1) {
-                // Extract room number, cost, and guests from selected row
-                String roomType = (String) table.getValueAt(selectedRow, 2);
-                double cost = Double.parseDouble(table.getValueAt(selectedRow, 3).toString());
-                int guests = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
-                int roomNumber = selectedRow + 1; // or use actual room number from DB if provided
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Extract room number, cost, and guests from selected row
+                    String roomType = (String) table.getValueAt(selectedRow, 2);
+                    double cost = Double.parseDouble(table.getValueAt(selectedRow, 3).toString());
+                    int guests = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
+                    int roomNumber = selectedRow + 1; // or use actual room number from DB if provided
 
-                // Store room info into BookingBuilder
-                mainFrame.getBookingBuilder().setRoomNumber(roomNumber);
-                mainFrame.getBookingBuilder().setRoomPrice(cost);
-                mainFrame.getBookingBuilder().setGuests(guests);
+                    // Store room info into BookingBuilder
+                    mainFrame.getBookingBuilder().setRoomNumber(roomNumber);
+                    mainFrame.getBookingBuilder().setRoomPrice(cost);
+                    mainFrame.getBookingBuilder().setGuests(guests);
 
-                System.out.println("Room Selected: #" + roomNumber + " | Type: " + roomType + " | Cost: " + cost + " | Guests: " + guests);
+                    System.out.println("Room Selected: #" + roomNumber + " | Type: " + roomType + " | Cost: " + cost + " | Guests: " + guests);
 
-                nextButton.setEnabled(true); // Enable the Next button
+                    nextButton.setEnabled(true); // Enable the Next button
                 }
-            }   
+            }
         });
     }
-    
+
     private JButton getNextButtonFromBackNextPanel(JPanel panel) {
         for (Component comp : panel.getComponents()) {
             if (comp instanceof JButton btn && "Next".equals(btn.getText())) {
@@ -110,13 +110,13 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
         }
         return null;
     }
-    
+
     //when hotel is selected, call updateBookingInfo
     public void onHotelSelected(Hotel hotel) {
         updateBookingInfo();
         System.out.println("updateBookingInfo triggered");
     }
-    
+
     @Override
     public void updateBookingInfo() {
         Hotel selectedHotel = mainFrame.getBookingBuilder().getHotel();
@@ -129,8 +129,7 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
 
             //fetch rooms from DB
             java.util.List<String[]> roomList = dbpackage.RetrieveRooms.getRoomsByHotelId(selectedHotel.getId());
-            
-            
+
             for (String[] row : roomList) {
                 tableModel.addRow(row);
             }
@@ -138,5 +137,19 @@ public class RoomSelectionPanel extends JPanel implements BookingListener {
             revalidate();
             repaint();
         }
+    }
+
+    @Override
+    public void resetFields() {
+        tableModel.setRowCount(0); // Clear all rows from the table
+        if (table != null) {
+            table.clearSelection(); // Clear any selected row
+        }
+        if (nextButton != null) {
+            nextButton.setEnabled(false); // Disable the Next button
+        }
+        title.setText("Please Select from Rooms in Hotel:"); // Reset title
+        revalidate();
+        repaint();
     }
 }

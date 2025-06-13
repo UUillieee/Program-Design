@@ -184,6 +184,7 @@ public class ActionController implements ActionListener {
                         System.out.println("Booking is saved to database");
                         mainFrame.showPanel("BookingConfirmed");
                         mainFrame.resetBookingBuilder(); // Clear booking builder for new booking.
+                        mainFrame.resetAllBookingPanels();
                     }
                     break;
                 case CANCEL:

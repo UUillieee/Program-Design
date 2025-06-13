@@ -10,13 +10,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import Model.Hotel;
 
-public class HotelSelectionPanel extends JPanel {
+public class HotelSelectionPanel extends JPanel implements ResettablePanel{
 
     private HotelFrame mainFrame;
     //private NavigationPanel navigationPanel;
     // Hotel selectedHotel;
     private BookingListener bookingListener;
     private ActionListener controller;
+    private JTable hotelTable;
+    private JButton nextButton;
 
     public void setBookingListener(BookingListener listener) {
         this.bookingListener = listener;
@@ -53,7 +55,7 @@ public class HotelSelectionPanel extends JPanel {
                 return false; // Make table read-only
             }
         };
-        JTable hotelTable = new JTable(tableModel);
+        hotelTable = new JTable(tableModel);
         hotelTable.getTableHeader().setResizingAllowed(false); // Cant resize the columns
 
         hotelTable.getColumnModel().getColumn(0).setPreferredWidth(5);
@@ -85,7 +87,7 @@ public class HotelSelectionPanel extends JPanel {
         add(backNextPanel, gbc);
 
         //Get hotel from selected one and give to room selection to display rooms in that hotel.
-        JButton nextButton = getNextButtonFromBackNextPanel(backNextPanel);
+        nextButton = getNextButtonFromBackNextPanel(backNextPanel);
         nextButton.setEnabled(false); // initially disabled
 
         //Doesnt move on until valid hotel is selected - so room panel can display rooms in that hotel
@@ -125,8 +127,14 @@ public class HotelSelectionPanel extends JPanel {
         return null;
     }
 
-    public static void main(String[] args) {
-        HotelFrame f = new HotelFrame();
-
+    @Override
+      public void resetFields() {
+        if (hotelTable != null) {
+            hotelTable.clearSelection(); // Clear any row selection
+        }
+        // Reset next button to false
+        if(nextButton != null) {
+            nextButton.setEnabled(false);
+        }
     }
 }

@@ -44,7 +44,7 @@ public class WelcomePanel extends JPanel {
 
         // Buttons - new booking, login, and exit
         JButton newBookingButton = new JButton("Start New Booking");
-        styleButton(newBookingButton, new Color(70, 130, 180));
+        styleButton(newBookingButton, new Color(60, 179, 113));
         newBookingButton.setActionCommand(Command.SWITCH_PANEL.name());
         newBookingButton.addActionListener(controller);
         newBookingButton.putClientProperty("targetPanel", "HotelSelection");
@@ -53,7 +53,7 @@ public class WelcomePanel extends JPanel {
         this.add(newBookingButton, gbc);
 
         JButton loginButton = new JButton("Login to View Bookings");
-        styleButton(loginButton, new Color(60, 179, 113));
+        styleButton(loginButton, new Color(70, 130, 180)); 
         loginButton.setActionCommand(Command.SWITCH_PANEL.name());
         loginButton.addActionListener(controller);
         loginButton.putClientProperty("targetPanel", "Login");

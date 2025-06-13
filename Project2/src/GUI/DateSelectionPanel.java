@@ -17,7 +17,7 @@ import java.time.LocalDate;
  */
 //date panel or the user to choose their check in dates
 //save input to the booking builder
-public class DateSelectionPanel extends JPanel {
+public class DateSelectionPanel extends JPanel implements ResettablePanel{
 
     private final HotelFrame mainFrame;
     private JComboBox<Integer> dayCombo, endDayCombo, timeCombo;
@@ -177,8 +177,7 @@ public class DateSelectionPanel extends JPanel {
         builder.setTime(time);
         builder.setTotalPrice(); // No need to pass anything, just makes sure this method is called to calculate total price based on the new length of stay.
 
-       // mainFrame.showUpdatedConfirmPanel();
-
+        // mainFrame.showUpdatedConfirmPanel();
         System.out.println("Date info saved to BookingBuilder:");
 
     }
@@ -207,6 +206,27 @@ public class DateSelectionPanel extends JPanel {
         if (currentSelection != null && currentSelection <= daysInMonth) {
             dayCombo.setSelectedItem(currentSelection);
         }
+    }
+
+    public void resetFields() {
+        // Reset month to January (index 0)
+        if (monthCombo != null) {
+            monthCombo.setSelectedIndex(0);
+        }
+        // Reset day to 1 (will be updated by monthCombo's action listener)
+        if (dayCombo != null) {
+            dayCombo.setSelectedIndex(0);
+        }
+        // Reset length of stay spinner to 1
+        if (lengthOfStaySpinner != null) {
+            lengthOfStaySpinner.setValue(1);
+        }
+        // Reset time combo to its first option (e.g., 8 AM)
+        if (timeCombo != null) {
+            timeCombo.setSelectedIndex(0);
+        }
+        // Ensure days are updated for the reset month
+        updateDaysForSelectedMonth();
     }
 
     public static void main(String[] args) {
