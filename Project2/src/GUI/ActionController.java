@@ -1,252 +1,269 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI;
 
-import static GUI.Command.CREATE_USER;
-import static GUI.Command.EXIT;
-import static GUI.Command.LOGIN;
-import static GUI.Command.LOGOUT;
-import static GUI.Command.SWITCH_PANEL;
+import static GUI.Command.*;
 import Model.BookingBuilder;
 import Model.DateSelectionData;
 import dbpackage.BookingUpdateInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-
 import dbpackage.CustomerUpdateInfo;
 import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author George
  */
-//Class to monitor all the buttons on the GUI, shows next panel on press, provides login button actions etc etc
 public class ActionController implements ActionListener {
 
-    private HotelFrame mainFrame;
-    private BookingBuilder builder;
+    private final HotelFrame mainFrame; // Make final as it's set in constructor
+    private final BookingBuilder builder; // Make final as it's set in constructor
 
-    public ActionController(HotelFrame mainFrame,BookingBuilder builder) {
+    public ActionController(HotelFrame mainFrame, BookingBuilder builder) {
         this.mainFrame = mainFrame;
         this.builder = builder;
     }
 
+    //When buttons are interacted with, get the command assigned to the button to run the method for the button.
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Command command = Command.valueOf(e.getActionCommand()); //use enum to Get what action event e.g whether to exit, switch panel or login
-            LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login"); //To update text fields when switching of panel - to clear the previous login information
-            WelcomePanel welcomePanel = (WelcomePanel) mainFrame.getPanel("Welcome"); // to update labels
+            Command command = Command.valueOf(e.getActionCommand());
 
             switch (command) {
-                case SWITCH_PANEL: //To
-                    //Target panel is passed to action controller - use that to switch to the desired panel
-                    if (e.getSource() instanceof JButton btn) { //if coming from button
-                        Object panelName = btn.getClientProperty("targetPanel"); // get target panel from the value that is attatched to "taragetPanel" key.
-                        if (panelName instanceof String) { //If the key is a string
-                            if (panelName.equals("Login")) {
-                                loginPanel.clearFields();
-                            }
-                            mainFrame.showPanel((String) panelName); // Switch to that panel  
-                        } else {
-                            System.out.println("No target panel set for this button."); // error
-                        }
-                    }
+                case SWITCH_PANEL:
+                    handleSwitchPanel(e);
                     break;
                 case LOGIN:
-                    //get username & password
-                    String loginUser = loginPanel.getUsername();
-                    String loginPassword = loginPanel.getPassword();
-                    //check if username or password fields are empty
-                    if (loginUser.isEmpty() && loginPassword.isEmpty()) {
-                        JOptionPane.showMessageDialog(loginPanel, "Empty Fields Try Again", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } else if (loginUser.isEmpty()) {
-                        JOptionPane.showMessageDialog(loginPanel, "Username Field Must Not Be Empty", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } else if (loginPassword.isEmpty()) {
-                        JOptionPane.showMessageDialog(loginPanel, "Password Field Must Not Be Empty", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    //Get customer from database
-                    CustomerUpdateInfo customerDb = new CustomerUpdateInfo();
-                    Model.Customer customer = customerDb.getCustomer(loginUser, loginPassword);
-
-                    if (customer != null) {
-                        System.out.println("Login successful! Welcome " + customer.getUsername());
-
-                        mainFrame.setLoggedInCustomer(customer);
-                        mainFrame.getBookingBuilder().setCustomer(customer);
-                        mainFrame.showPanel("UserDashboard");
-
-                        UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
-                        dashboard.updateUserGreeting(customer);
-                        dashboard.refreshBookings();
-                        //mainFrame
-                    } else {
-                        JOptionPane.showMessageDialog(loginPanel, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                        return; // Keep showing login panel, dont allow switch to next panel till customer valid
-                    }
-                    //Update label on welcome page
-                    welcomePanel.updateUserLabel();
-
-                    //So login panel knows where to direct to next, e.g go to bookingconfirmed or userdashboard
-                    //Based on where login panel is entered from, 1) if it is entered from booking proccess, go booking confirmed,2) entered from main menu, go user dashboard.
-                    String postLogin = mainFrame.getPostLoginTarget();
-                    if (postLogin != null) {
-                        mainFrame.clearPostLoginTarget();
-                        if (postLogin.equals("ConfirmPanel")) {
-                            mainFrame.showUpdatedConfirmPanel();
-
-                        } else {
-                            mainFrame.showPanel(postLogin);
-                        }
-                    }
-                    loginPanel.clearFields(); // remove password and username 
+                    handleLogin();
                     break;
                 case LOGOUT:
-                    if (mainFrame.getLoggedInCustomer() != null) { //if logged in , logout
-                        mainFrame.setLoggedInCustomer(null);
-                        mainFrame.showPanel("Welcome");
-                        loginPanel.clearFields();
-                        welcomePanel.updateUserLabel();
-                    }
+                    handleLogout();
                     break;
                 case CREATE_USER:
-                    //get username & password
-                    LoginPanel createPanel = (LoginPanel) mainFrame.getPanel("Login");
-                    String newUser = createPanel.getUsername();
-                    String newPassword = createPanel.getPassword();
-                    //check if username or passwords fields are empty
-                    if (newUser.isEmpty() && newPassword.isEmpty()) {
-                        JOptionPane.showMessageDialog(createPanel, "Empty Fields Try Again", "New User Creation Failed", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } else if (newUser.isEmpty()) {
-                        JOptionPane.showMessageDialog(createPanel, "Username Field Must Not Be Empty", "New User Creation Failed", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } else if (newPassword.isEmpty()) {
-                        JOptionPane.showMessageDialog(createPanel, "Password Field Must Not Be Empty", "New User CreationFailed", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    //create customerDB object to pass to CustomerUpdateInfo
-                    CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
-
-                    //check if the username already exists so no duplicate accounts can be created
-                    Model.Customer existingUser = customerDB.getCustomerByUsername(newUser);
-                    if (existingUser != null) {
-                        JOptionPane.showMessageDialog(createPanel, "Username taken, choose another.", "New User CreationFailed", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    //pass the username and password to insertCustomer() to put in the database
-                    customerDB.insertCustomer(newUser, newPassword);
-
-                    //immediately fetch the newly created user
-                    Model.Customer newCustomer = customerDB.getCustomer(newUser, newPassword);
-                    if (newCustomer == null) {
-                        System.out.println("Error: newly created user not found!");
-                        return;
-                    }
-
-                    //set new user as the logged-in customer
-                    mainFrame.setLoggedInCustomer(newCustomer);
-                    mainFrame.getBookingBuilder().setCustomer(newCustomer);
-
-                    //update greeting and reload bookings
-                    UserDashboardPanel db = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
-                    db.updateUserGreeting(newCustomer);
-                    db.refreshBookings();
-                    welcomePanel.updateUserLabel();
-                    //switch to dashboard panels
-                    mainFrame.showPanel("UserDashboard");
-
-                    //Same logic as login case.
-                    postLogin = mainFrame.getPostLoginTarget();
-                    if (postLogin != null) {
-                        mainFrame.clearPostLoginTarget();
-                        if (postLogin.equals("ConfirmPanel")) {
-                            mainFrame.showUpdatedConfirmPanel();
-                        } else {
-                            mainFrame.showPanel(postLogin);
-                        }
-                    }
+                    handleCreateUser();
                     break;
-
                 case CONFIRM_BOOKING:
-                    Model.Customer currentCustomer = mainFrame.getLoggedInCustomer();
-                    if (currentCustomer == null) {
-                        javax.swing.JOptionPane.showMessageDialog(mainFrame, "You must be logged in to confirm a booking.", "Login Required", javax.swing.JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        mainFrame.getBookingBuilder().setCustomer(currentCustomer);
-                        BookingUpdateInfo bookingDb = new BookingUpdateInfo();
-                        bookingDb.insertUpdate(mainFrame.getBookingBuilder());
-                        System.out.println("Booking is saved to database");
-                        mainFrame.showPanel("BookingConfirmed");
-                        mainFrame.resetAllBookingPanels();
-                        mainFrame.updateBookingPanels(); //refresh RoomSelectionPanel
-                        mainFrame.resetBookingBuilder(); //clear booking builder for new booking.
-                    }
+                    handleConfirmBooking();
                     break;
                 case CANCEL:
-                    //remove the booking from the database bookings table
-                    UserDashboardPanel dashboardPanel = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
-                    //selected row in the panels table
-                    int selectedRow = dashboardPanel.getSelectedRow();
-                    if (selectedRow == -1) {
-                        System.out.println("No booking selected to cancel.");
-                        return;
-                    }
-
-                    //confirmation panel to double check with the user if they want to delete the booking
-                    int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel this booking?", "Confirm Cancel", JOptionPane.YES_NO_OPTION);
-                    if (confirm != JOptionPane.YES_OPTION) {
-                        return;
-                    }
-
-                    int bookingId = (int) dashboardPanel.getTableModel().getValueAt(selectedRow, 0);
-                    BookingUpdateInfo cancelDb = new BookingUpdateInfo();
-                    //pass the bookingId to deleteBookingById() to delete
-                    cancelDb.deleteBookingById(bookingId);
-                    //refresh bookings within the userpanel
-                    dashboardPanel.refreshBookings();
-                    mainFrame.updateBookingPanels();
+                    handleCancelBooking();
                     break;
                 case PROCEED_TO_CONFIRMATION:
-                    DateSelectionPanel datePanel = (DateSelectionPanel) mainFrame.getPanel("DateSelection"); 
-                    DateSelectionData dateData = datePanel.getDateSelectionInput();
-                    customer = mainFrame.getLoggedInCustomer();
-                    builder.setDay(dateData.getDay());
-                    builder.setCustomer(customer); 
-                    builder.setMonth(dateData.getMonth());
-                    builder.setEndDay(dateData.getEndDay());
-                    builder.setEndMonth(dateData.getEndMonth());
-                    builder.setLengthOfStay(dateData.getLengthOfStay());
-                    builder.setTime(dateData.getTime());
-                    builder.setTotalPrice(); // Recalculate price with new length of stay
-                    System.out.println("Date info collected and saved to BookingBuilder by ActionController.");
-
-                    
-                    if (customer == null) {
-                        mainFrame.setPostLoginTarget("ConfirmPanel"); // Tell app to go to ConfirmPanel after login
-                        mainFrame.showPanel("Login");
-                    } else {
-                        mainFrame.showUpdatedConfirmPanel();
-                    }
+                    handleProceedToConfirmation();
                     break;
                 case EXIT:
                     System.exit(0);
                     break;
-                // Add more cases as needed
                 default:
                     System.out.println("Unhandled command: " + command);
             }
         } catch (IllegalArgumentException ex) {
-            System.out.println("Unknown command: " + e.getActionCommand());
+            System.err.println("Unknown command received by ActionController: " + e.getActionCommand());
         }
     }
+
+    //Method to switch between panels
+    private void handleSwitchPanel(ActionEvent e) {
+        if (e.getSource() instanceof JButton btn) {
+            Object panelName = btn.getClientProperty("targetPanel");
+            if (panelName instanceof String targetPanelName) {
+                if (targetPanelName.equals("Login")) {
+                    LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
+                    loginPanel.clearFields();
+                }
+                mainFrame.showPanel(targetPanelName);
+            } else {
+                System.out.println("No target panel set for this button.");
+            }
+        }
+    }
+
+    //Method to manage the login procces, doing nessacary login checks, and make sure the correct panel is show after login.
+    private void handleLogin() {
+        LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login");
+        String loginUser = loginPanel.getUsername();
+        String loginPassword = loginPanel.getPassword();
+
+        if (loginUser.isEmpty() || loginPassword.isEmpty()) { // Combine checks
+            String message = "";
+            if (loginUser.isEmpty() && loginPassword.isEmpty()) {
+                message = "Username and password fields must not be empty.";
+            } else if (loginUser.isEmpty()) {
+                message = "Username field must not be empty.";
+            } else { // loginPassword.isEmpty()
+                message = "Password field must not be empty.";
+            }
+            JOptionPane.showMessageDialog(loginPanel, message, "Login Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        CustomerUpdateInfo customerDb = new CustomerUpdateInfo();
+        Model.Customer customer = customerDb.getCustomer(loginUser, loginPassword);
+
+        if (customer != null) {
+            System.out.println("Login successful! Welcome " + customer.getUsername());
+            mainFrame.setLoggedInCustomer(customer);
+            mainFrame.getBookingBuilder().setCustomer(customer); // This uses the builder from HotelFrame, consider if this is always desired or if this.builder should be used.
+            // Given this.builder is passed in, it should be the same instance.
+            UserDashboardPanel dashboard = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+            dashboard.updateUserGreeting(customer);
+            dashboard.refreshBookings();
+
+            WelcomePanel welcomePanel = (WelcomePanel) mainFrame.getPanel("Welcome");
+            welcomePanel.updateUserLabel();
+
+            //
+            String postLoginTarget = mainFrame.getPostLoginTarget();
+            if (postLoginTarget != null) {
+                mainFrame.clearPostLoginTarget();
+                if (postLoginTarget.equals("ConfirmPanel")) {
+                    mainFrame.showUpdatedConfirmPanel();
+                } else {
+                    mainFrame.showPanel(postLoginTarget);
+                }
+            } else { // If no specific target, go to UserDashboard by default
+                mainFrame.showPanel("UserDashboard");
+            }
+            loginPanel.clearFields();
+        } else {
+            JOptionPane.showMessageDialog(loginPanel, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void handleLogout() {
+        if (mainFrame.getLoggedInCustomer() != null) {
+            mainFrame.setLoggedInCustomer(null);
+            mainFrame.showPanel("Welcome");
+            LoginPanel loginPanel = (LoginPanel) mainFrame.getPanel("Login"); // Get here as needed
+            loginPanel.clearFields();
+            WelcomePanel welcomePanel = (WelcomePanel) mainFrame.getPanel("Welcome"); // Get here as needed
+            welcomePanel.updateUserLabel();
+        }
+    }
+
+    private void handleCreateUser() {
+        LoginPanel createPanel = (LoginPanel) mainFrame.getPanel("Login");
+        String newUser = createPanel.getUsername();
+        String newPassword = createPanel.getPassword();
+
+        if (newUser.isEmpty() || newPassword.isEmpty()) { // Combine checks
+            String message = "";
+            if (newUser.isEmpty() && newPassword.isEmpty()) {
+                message = "Username and password fields must not be empty.";
+            } else if (newUser.isEmpty()) {
+                message = "Username field must not be empty.";
+            } else { // newPassword.isEmpty()
+                message = "Password field must not be empty.";
+            }
+            JOptionPane.showMessageDialog(createPanel, message, "New User Creation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        CustomerUpdateInfo customerDB = new CustomerUpdateInfo();
+        Model.Customer existingUser = customerDB.getCustomerByUsername(newUser);
+        if (existingUser != null) {
+            JOptionPane.showMessageDialog(createPanel, "Username taken, choose another.", "New User Creation Failed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        customerDB.insertCustomer(newUser, newPassword);
+        Model.Customer newCustomer = customerDB.getCustomer(newUser, newPassword);
+
+        if (newCustomer == null) {
+            System.err.println("Error: newly created user not found after insertion!"); // Use err for errors
+            JOptionPane.showMessageDialog(createPanel, "An error occurred during user creation.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        mainFrame.setLoggedInCustomer(newCustomer);
+        mainFrame.getBookingBuilder().setCustomer(newCustomer);
+
+        UserDashboardPanel db = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+        db.updateUserGreeting(newCustomer);
+        db.refreshBookings();
+        WelcomePanel welcomePanel = (WelcomePanel) mainFrame.getPanel("Welcome"); // Get here as needed
+        welcomePanel.updateUserLabel();
+
+        String postLogin = mainFrame.getPostLoginTarget();
+        if (postLogin != null) {
+            mainFrame.clearPostLoginTarget();
+            if (postLogin.equals("ConfirmPanel")) {
+                mainFrame.showUpdatedConfirmPanel();
+            } else {
+                mainFrame.showPanel(postLogin);
+            }
+        } else { // If no specific target, go to UserDashboard by default
+            mainFrame.showPanel("UserDashboard");
+        }
+        createPanel.clearFields(); // clear fields after creation attempt
+    }
+
+    private void handleConfirmBooking() {
+        Model.Customer currentCustomer = mainFrame.getLoggedInCustomer();
+        if (currentCustomer == null) {
+            JOptionPane.showMessageDialog(mainFrame, "You must be logged in to confirm a booking.", "Login Required", JOptionPane.WARNING_MESSAGE);
+            return; // Exit early if not logged in
+        }
+
+        builder.setCustomer(currentCustomer);
+
+        BookingUpdateInfo bookingDb = new BookingUpdateInfo();
+        bookingDb.insertUpdate(builder);
+        System.out.println("Booking is saved to database");
+
+        mainFrame.showPanel("BookingConfirmed");
+        mainFrame.resetAllBookingPanels();
+        mainFrame.updateBookingPanels(); // refresh RoomSelectionPanel
+        mainFrame.resetBookingBuilder(); // clear booking builder for new booking.
+    }
+
+    private void handleCancelBooking() {
+        UserDashboardPanel dashboardPanel = (UserDashboardPanel) mainFrame.getPanel("UserDashboard");
+        int selectedRow = dashboardPanel.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(mainFrame, "Please select a booking to cancel.", "No Booking Selected", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(mainFrame, "Are you sure you want to cancel this booking?", "Confirm Cancel", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        int bookingId = (int) dashboardPanel.getTableModel().getValueAt(selectedRow, 0);
+
+        BookingUpdateInfo cancelDb = new BookingUpdateInfo();
+        cancelDb.deleteBookingById(bookingId);
+
+        JOptionPane.showMessageDialog(mainFrame, "Booking cancelled successfully.", "Cancellation Confirmed", JOptionPane.INFORMATION_MESSAGE);
+        mainFrame.updateBookingPanels(); // This might be redundant if refreshBookings does it fully
+        dashboardPanel.refreshBookings(); // This will refresh the table display
+    }
+
+    private void handleProceedToConfirmation() {
+        DateSelectionPanel datePanel = (DateSelectionPanel) mainFrame.getPanel("DateSelection");
+        DateSelectionData dateData = datePanel.getDateSelectionInput();
+        Model.Customer customer = mainFrame.getLoggedInCustomer();
+
+        // Populate the builder with date information
+        builder.setDay(dateData.getDay());
+        builder.setCustomer(customer);
+        builder.setMonth(dateData.getMonth());
+        builder.setEndDay(dateData.getEndDay());
+        builder.setEndMonth(dateData.getEndMonth());
+        builder.setLengthOfStay(dateData.getLengthOfStay());
+        builder.setTime(dateData.getTime());
+        builder.setTotalPrice();
+
+        if (customer == null) {
+            mainFrame.setPostLoginTarget("ConfirmPanel");
+            mainFrame.showPanel("Login");
+        } else {
+            mainFrame.showUpdatedConfirmPanel();
+        }
+    }
+
 }

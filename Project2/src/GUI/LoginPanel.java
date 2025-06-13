@@ -1,5 +1,5 @@
 package GUI;
-import dbpackage.CustomerUpdateInfo;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,14 +9,13 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
 /**
- * Login Panel for Hotel Booking System
- * Provides user authentication interface
- * 
+ * Login Panel for Hotel Booking System Provides user authentication interface
+ *
  * @author George - used
  */
 public class LoginPanel extends JPanel {
@@ -26,31 +25,17 @@ public class LoginPanel extends JPanel {
     private JTextField username = new JTextField(15);
     private JPasswordField password = new JPasswordField(15);
 
-    public LoginPanel(HotelFrame mainFrame,ActionListener controller) {
+    public LoginPanel(HotelFrame mainFrame, ActionListener controller) {
         this.mainFrame = mainFrame;
         this.controller = controller;
         createLoginPanel(controller);
-    }
-    public static void main(String[] args) {
-        HotelFrame f = new HotelFrame();
-        f.showPanel("Login");
-    }
-
-    //return the username to what ever calls it
-    public String getUsername() {
-        return username.getText();
-    }
-
-    //return the password to what ever calls it
-    public String getPassword() {
-        return new String(password.getPassword());
     }
 
     private void createLoginPanel(ActionListener controller) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         this.setBackground(Color.WHITE);
-        
+
         // Title
         JLabel titleLabel = new JLabel("User Login");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
@@ -61,7 +46,7 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(20, 20, 30, 20);
         gbc.anchor = GridBagConstraints.CENTER;
         this.add(titleLabel, gbc);
-        
+
         // Username Label
         JLabel userLabel = new JLabel("Username:");
         userLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -87,11 +72,11 @@ public class LoginPanel extends JPanel {
         passLabel.setFont(new Font("Arial", Font.BOLD, 16));
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.EAST; 
-        gbc.fill = GridBagConstraints.NONE; 
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(10, 20, 10, 10);
         this.add(passLabel, gbc);
-        
+
         //Password Field (using JPasswordField for security)
         password.setFont(new Font("Arial", Font.PLAIN, 14));
         password.setPreferredSize(new Dimension(200, 30));
@@ -101,7 +86,7 @@ public class LoginPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 20);
         this.add(password, gbc);
-        
+
         // Login Button
         JButton loginButton = new JButton("Login");
         styleButton(loginButton, new Color(70, 130, 180)); // Steel blue
@@ -114,7 +99,7 @@ public class LoginPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(20, 10, 10, 20);
         this.add(loginButton, gbc);
-        
+
         // Create User Button
         JButton createUserButton = new JButton("Create New User");
         styleButton(createUserButton, new Color(255, 127, 80)); // Medium sea green
@@ -125,7 +110,7 @@ public class LoginPanel extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(20, 20, 10, 10);
         this.add(createUserButton, gbc);
-        
+
         // Back Button
         JButton backBtn = new JButton("Back to Main Menu");
         styleButton(backBtn, new Color(60, 179, 113)); // Green
@@ -138,11 +123,18 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(10, 20, 10, 10);
         this.add(backBtn, gbc);
     }
-    /**
-     * Styles buttons with consistent appearance
-     * @param button The button to style
-     * @param bgColor Background color for the button
-     */
+
+    //return the username to what ever calls it
+    public String getUsername() {
+        return username.getText();
+    }
+
+    //return the password to what ever calls it
+    public String getPassword() {
+        return new String(password.getPassword());
+    }
+
+// Style buttons consistently
     private void styleButton(JButton button, Color bgColor) {
         button.setPreferredSize(new Dimension(180, 35));
         button.setFont(new Font("Arial", Font.BOLD, 12));
@@ -150,8 +142,8 @@ public class LoginPanel extends JPanel {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
     }
-    
-    public void clearFields(){
+
+    public void clearFields() {
         username.setText("");
         password.setText("");
     }
