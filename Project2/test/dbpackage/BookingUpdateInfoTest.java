@@ -29,6 +29,15 @@ public class BookingUpdateInfoTest {
     public void setUp() {
         bookingUpdateInfo = new BookingUpdateInfo();
     }
+    
+    //after each test delete the bookinhg under the ID
+    @After
+    public void tearDown() {
+        //delete bookingId
+        if (insertedBookingId > 0) {
+            bookingUpdateInfo.deleteBookingById(insertedBookingId);
+        }
+    }
 
     @Test
     public void testInsertUpdateAndDeleteBooking() {
@@ -37,7 +46,7 @@ public class BookingUpdateInfoTest {
         //set the hotel and location
         builder.setHotel(new Hotel(1, "testhotel", "testlocation"));
         //set ID and username
-        builder.setCustomer(new Customer(9999, "testname"));
+        builder.setCustomer(new Customer(1000, "testname"));
         builder.setTime(12);
         builder.setDay(10);
         builder.setMonth(6);
@@ -65,7 +74,7 @@ public class BookingUpdateInfoTest {
             assertTrue("Booking was not found", rs.next());
             //check the returned booking values
             assertEquals(9999, rs.getInt("customerId"));
-            assertEquals(101, rs.getInt("roomNumber"));
+            assertEquals(121, rs.getInt("roomNumber"));
             assertEquals(200, rs.getInt("totalPrice")); // 100 * 2
             assertTrue(rs.getBoolean("isBooked"));
 
@@ -74,14 +83,50 @@ public class BookingUpdateInfoTest {
             fail("Database error during test: " + e.getMessage());
         }
     }
-    
-    //after the test delete the bookinhg under the ID
-    @After
-    public void tearDown() {
-        //delete bookingId
-        if (insertedBookingId > 0) {
-            bookingUpdateInfo.deleteBookingById(insertedBookingId);
+ 
+    //this test case checks if the availabilty is set to true after creating a booking
+    @Test
+    public void testRoomAvailabilitySetToTrueAfterBooking() {
+        int roomId = 122;
+        int hotelId = 1;
+        
+        //set properties on builder
+        BookingBuilder builder = new BookingBuilder();
+        //hotel location and name
+        builder.setHotel(new Hotel(hotelId, "testhotel", "testlocation"));
+        //customer id and username
+        builder.setCustomer(new Customer(1001, "testname"));
+        builder.setTime(15);
+        builder.setDay(12);
+        builder.setMonth(6);
+        builder.setEndDay(13);
+        builder.setEndMonth(6);
+        builder.setRoomNumber(roomId);
+        builder.setGuests(1);
+        builder.setRoomPrice(120.0);
+        builder.setLengthOfStay(1);
+        builder.setTotalPrice();
+
+        //create a booking in the db
+        bookingUpdateInfo.insertUpdate(builder);
+        //get the booking from the last ID inserted, -1 because getNextBookingId() +1
+        insertedBookingId = bookingUpdateInfo.getNextBookingId() - 1;
+        
+        
+        //get booking from db
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("SELECT isBooked FROM Rooms WHERE id = ? AND hotelId = ?")) {
+            stmt.setInt(1, roomId);
+            stmt.setInt(2, hotelId);
+            ResultSet rs = stmt.executeQuery();
+            
+            //check the room availability  
+            assertTrue("Room not found", rs.next());
+            assertTrue("Room availability was not set to true", rs.getBoolean("isBooked"));
+        } catch (SQLException e) {
+            fail("Database error during test: " + e.getMessage());
         }
     }
+    
 }
 
