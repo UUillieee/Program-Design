@@ -46,7 +46,7 @@ public class BookingUpdateInfoTest {
         //set the hotel and location
         builder.setHotel(new Hotel(1, "testhotel", "testlocation"));
         //set ID and username
-        builder.setCustomer(new Customer(1000, "testname"));
+        builder.setCustomer(new Customer(9999, "testname"));
         builder.setTime(12);
         builder.setDay(10);
         builder.setMonth(6);
@@ -90,12 +90,15 @@ public class BookingUpdateInfoTest {
         int roomId = 122;
         int hotelId = 1;
         
+        
+        ensureRoomExists(roomId, hotelId);
+          
         //set properties on builder
         BookingBuilder builder = new BookingBuilder();
         //hotel location and name
         builder.setHotel(new Hotel(hotelId, "testhotel", "testlocation"));
         //customer id and username
-        builder.setCustomer(new Customer(1001, "testname"));
+        builder.setCustomer(new Customer(9999, "testname"));
         builder.setTime(15);
         builder.setDay(12);
         builder.setMonth(6);
@@ -125,6 +128,34 @@ public class BookingUpdateInfoTest {
             assertTrue("Room availability was not set to true", rs.getBoolean("isBooked"));
         } catch (SQLException e) {
             fail("Database error during test: " + e.getMessage());
+        }
+    }
+    
+    //ensures the test room exists in the database before running the test
+    //creates the test roon in the db
+    private void ensureRoomExists(int roomId, int hotelId) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement check = conn.prepareStatement("SELECT * FROM Rooms WHERE id = ? AND hotelId = ?");
+             PreparedStatement insert = conn.prepareStatement(
+                     "INSERT INTO Rooms (id, hotelId, type, cost, maxGuests, isBooked) VALUES (?, ?, ?, ?, ?, ?)")) {
+
+            check.setInt(1, roomId);
+            check.setInt(2, hotelId);
+            ResultSet rs = check.executeQuery();
+            
+            //insert room data
+            if (!rs.next()) {
+                insert.setInt(1, roomId);
+                insert.setInt(2, hotelId);
+                insert.setString(3, "TestType");
+                insert.setInt(4, 100);
+                insert.setInt(5, 2);
+                insert.setBoolean(6, false); // default to not booked
+                insert.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            fail("Failed to ensure test room exists: " + e.getMessage());
         }
     }
     
