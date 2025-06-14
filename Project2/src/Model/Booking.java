@@ -41,13 +41,6 @@ public class Booking {
         return roomNumber;
     }
 
-    //Returns a string of the booking details 
-    @Override
-    public String toString() {
-        return "Check-in Time: " + time + ":00, Start Date: " + getDay() + "/" + month
-                + ", End Date: " + getEndDay() + "/" + endMonth + ", Guests: " + guests + "\nTotal Price: $" + totalPrice;
-    }
-
     //Returns total price of the booking
     public double getTotalPrice() {
         return totalPrice;
@@ -83,11 +76,5 @@ public class Booking {
     
     public int getGuests(){
         return guests;
-    }
-
-    //Returns a string suitable for saving to a file
-
-    public String toFileString() {
-        return time + "," + getDay() + "," + month + "," + getEndDay() + "," + endMonth + "," + roomNumber + "," + guests + "," + totalPrice;
     }
 }

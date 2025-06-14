@@ -65,7 +65,7 @@ public class BookingBuilder {
 
     // Final build method
     public Booking build() {
-        return new Booking(getTime(), getCustomerId(), getDay(), getMonth(), getEndDay(), getEndMonth(), getRoomNumber(), getGuests(), getTotalPrice());
+        return new Booking(getCustomerId(), getTime(),  getDay(), getMonth(), getEndDay(), getEndMonth(), getRoomNumber(), getGuests(), getTotalPrice());
     }
 
 }
